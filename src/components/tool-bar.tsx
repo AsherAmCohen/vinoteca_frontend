@@ -3,9 +3,16 @@ import { MyToolBar } from "../theme/components/my-tool-bar"
 import { ScrollButton } from "./scroll-button"
 import { ToolBarProps } from "../types/tool-bar"
 import { UserCircle as UserCircleIcon } from "@phosphor-icons/react"
+import { ShoppingCart as ShoppingCartIcon } from "@phosphor-icons/react"
+import { useNavigate } from "react-router-dom"
 
 export const ToolBar = (props: ToolBarProps) => {
     const { homeRef, historyRef, winelistRef } = props;
+    const navigate = useNavigate()
+
+    const handleUser = () => {
+        navigate('/SignIn')
+    }
 
     return (
         <AppBar
@@ -67,9 +74,28 @@ export const ToolBar = (props: ToolBarProps) => {
 
                     <Box>
                         <IconButton
-                        
+                            sx={{
+                                color: 'var(--Vinoteca-Background-Light)',
+                                '&:hover': {
+                                    color: 'var(--Vinoteca-Background-Dark)',
+                                    background: 'var(--Vinoteca-Background-Light)'
+                                }
+                            }}
+                            onClick={handleUser}
                         >
                             <UserCircleIcon/>
+                        </IconButton>
+
+                        <IconButton
+                            sx={{
+                                color: 'var(--Vinoteca-Background-Light)',
+                                '&:hover': {
+                                    color: 'var(--Vinoteca-Background-Dark)',
+                                    background: 'var(--Vinoteca-Background-Light)'
+                                }
+                            }}
+                        >
+                            <ShoppingCartIcon/>
                         </IconButton>
                     </Box>
                 </MyToolBar>
