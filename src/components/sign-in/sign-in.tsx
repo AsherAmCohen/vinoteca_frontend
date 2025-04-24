@@ -8,22 +8,30 @@ import { validateSignIn } from "../../helpers/validate/validate-sign-in"
 import { useSignInMutation } from "../../store/api/api"
 
 export const SingIn = () => {
-    // Redireccionamiento
-    const navigate = useNavigate()
+    // Obtiene la cookie almacenada, si es que existe
+    const confirmCreateUser = localStorage.getItem('createCount')
 
     // Manejo de errores
     const [userErrors, setUserErrors] = useState<any>('')
     const [serverErrors, setServerErrors] = useState<any>('')
+    const [createUser, setCreateUser] = useState<boolean>(false)
+
+    // Redireccionamiento
+    const navigate = useNavigate()
 
     // Api
     const [SignIn, { isSuccess, error }]: any = useSignInMutation()
 
-    // Referencias para obtener los daots
+    // Referencias para obtener los datos
     const emailRef = useRef<HTMLInputElement>(null);
     const passwRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = () => {
+        // Evita que se recargue la pagina
+        event?.preventDefault()
+
         // Reinicia los errores
+        setCreateUser(false)
         setServerErrors('')
         setUserErrors('')
 
@@ -34,20 +42,25 @@ export const SingIn = () => {
 
         const { isOk, errors } = validateSignIn(userData)
 
+
         if (isOk) {
-            event?.preventDefault()
             SignIn(userData)
         } else {
-            event?.preventDefault()
             setUserErrors(errors)
         }
-
-
     }
+
+    // Comprobar si se ha creado recientemente una cuenta
+    useEffect(() => {
+        if (confirmCreateUser) {
+            setCreateUser(true)
+            localStorage.removeItem('createCount')
+        }
+    },[confirmCreateUser])
 
     useEffect(() => {
         if (error) {
-            setServerErrors(error.data.msg)
+            setServerErrors(error?.data?.msg || 'Error al iniciar sesión, intentalo más tarde')
         } else if (isSuccess) {
             navigate('/')
         }
@@ -84,6 +97,12 @@ export const SingIn = () => {
                         serverErrors.length > 1 &&
                         <Alert severity='warning'>
                             {serverErrors}
+                        </Alert>
+                    }
+                    {
+                        createUser &&
+                        <Alert severity='success'>
+                            La cuenta se ha creado con exito
                         </Alert>
                     }
 
@@ -136,7 +155,7 @@ export const SingIn = () => {
                                 color: 'black'
                             }}
                         >
-                            Registrarme
+                            Crear cuenta
                         </Link>
                     </Typography>
                 </Box>
