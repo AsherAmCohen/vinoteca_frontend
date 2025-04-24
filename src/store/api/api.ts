@@ -18,9 +18,18 @@ export const vinotecaApi = createApi({
                 body: data
             })
         }),
+
+        SignUp: builder.mutation({
+            query: (data) => ({
+                url: '/user/SignUp',
+                method: 'POST',
+                body: data
+            })
+        })
     })
 })
 
 export const {
-    useSignInMutation
+    useSignInMutation,
+    useSignUpMutation
 } = vinotecaApi

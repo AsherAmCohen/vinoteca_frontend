@@ -4,11 +4,14 @@ import { Alert, Autocomplete, Box, Button, Divider, FormLabel, TextField, Typogr
 import { FormControl } from "../../helpers/components/form-control"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
-import { validateSignIn } from "../../helpers/validate/validate-sign-in"
-import { useSignInMutation } from "../../store/api/api"
+import { useSignUpMutation } from "../../store/api/api"
 import { PhoneMask } from "../../helpers/mask/mask"
+import { validateSignUp } from "../../helpers/validate/validate-sign-up"
 
 export const SignUp = () => {
+    // Obtener cookie de creación de cuenta
+    const confirmCreateUser = localStorage.getItem('createCount')
+
     // Redireccionamiento
     const navigate = useNavigate()
 
@@ -17,40 +20,61 @@ export const SignUp = () => {
     const [serverErrors, setServerErrors] = useState<any>('')
 
     // Api
-    const [SignIn, { isSuccess, error }]: any = useSignInMutation()
+    const [SignUp, { isSuccess, error }]: any = useSignUpMutation()
 
-    // Referencias para obtener los daots
+    // Referencias para obtener los datos
+    const nameRef = useRef<HTMLInputElement>(null);
+    const lastnameRef = useRef<HTMLInputElement>(null);
+    const genderRef = useRef<HTMLInputElement>(null);
+    const birthdateRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
+    const phoneRef = useRef<HTMLInputElement>(null);
+    const addressRef = useRef<HTMLInputElement>(null);
     const passwRef = useRef<HTMLInputElement>(null);
+    const conf_passwordRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = () => {
+        // Evita que se recargue la pagina
+        event?.preventDefault()
+
         // Reinicia los errores
         setServerErrors('')
         setUserErrors('')
 
         const userData = {
+            name: nameRef.current?.value || '',
+            lastname: lastnameRef.current?.value || '',
+            gender: genderRef.current?.value || '',
+            birthdate: birthdateRef.current?.value || '',
             email: emailRef.current?.value || '',
-            password: passwRef.current?.value || ''
+            phone: phoneRef.current?.value || '',
+            address: addressRef.current?.value || '',
+            password: passwRef.current?.value || '',
+            confirm_password: conf_passwordRef.current?.value || ''
         }
 
-        const { isOk, errors } = validateSignIn(userData)
+        const { isOk, errors } = validateSignUp(userData)
 
         if (isOk) {
-            event?.preventDefault()
-            SignIn(userData)
+            SignUp(userData)
         } else {
-            event?.preventDefault()
             setUserErrors(errors)
         }
-
-
     }
+
+    // Si existe una cookie de creación de cuenta, la elimina
+    useEffect(() => {
+        if (confirmCreateUser) {
+            localStorage.removeItem('createCount')
+        }
+    }, [confirmCreateUser])
 
     useEffect(() => {
         if (error) {
-            setServerErrors(error.data.msg)
+            setServerErrors(error?.data?.msg || 'Error al crear la cuenta, intentalo más tarde')
         } else if (isSuccess) {
-            navigate('/')
+            localStorage.setItem('createCount', 'true')
+            navigate('/SignIn')
         }
     }, [isSuccess, error])
 
@@ -95,10 +119,10 @@ export const SignUp = () => {
                         type="text"
                         id='name'
                         placeholder="Tu nombre(s)"
-                        inputRef={emailRef}
+                        inputRef={nameRef}
                         autoFocus
-                        error={userErrors?.email?.error}
-                        helperText={userErrors?.email?.msg}
+                        error={userErrors?.name?.error}
+                        helperText={userErrors?.name?.msg}
                     />
 
                     {/* Apellido */}
@@ -107,9 +131,9 @@ export const SignUp = () => {
                         type="text"
                         id='lastname'
                         placeholder="Tu apellido(s)"
-                        inputRef={emailRef}
-                        error={userErrors?.email?.error}
-                        helperText={userErrors?.email?.msg}
+                        inputRef={lastnameRef}
+                        error={userErrors?.lastname?.error}
+                        helperText={userErrors?.lastname?.msg}
                     />
 
                     {/* Genero */}
@@ -122,12 +146,20 @@ export const SignUp = () => {
                         renderInput={
                             params => (
                                 <>
-                                    <FormLabel htmlFor="gender">Genero</FormLabel>
+                                    <FormLabel
+                                        htmlFor="gender"
+                                        error={userErrors?.gender?.error}
+                                    >
+                                        Genero
+                                    </FormLabel>
                                     <TextField
                                         {...params}
                                         type='text'
                                         id='gender'
                                         placeholder="Selecciona tu genero"
+                                        inputRef={genderRef}
+                                        error={userErrors?.gender?.error}
+                                        helperText={userErrors?.gender?.error && userErrors?.gender?.msg}
                                     />
                                 </>
                             )
@@ -140,9 +172,9 @@ export const SignUp = () => {
                         type="date"
                         id='password'
                         placeholder="dd/mm/aaaa"
-                        inputRef={passwRef}
-                        error={userErrors?.password?.error}
-                        helperText={userErrors?.password?.msg}
+                        inputRef={birthdateRef}
+                        error={userErrors?.birthdate?.error}
+                        helperText={userErrors?.birthdate?.msg}
                     />
 
                     {/* Correo Electronico */}
@@ -151,9 +183,9 @@ export const SignUp = () => {
                         type="email"
                         id='email'
                         placeholder="your@email.com"
-                        inputRef={passwRef}
-                        error={userErrors?.password?.error}
-                        helperText={userErrors?.password?.msg}
+                        inputRef={emailRef}
+                        error={userErrors?.email?.error}
+                        helperText={userErrors?.email?.msg}
                     />
 
                     {/* Número de telefono */}
@@ -162,9 +194,9 @@ export const SignUp = () => {
                         type="phone"
                         id='phone'
                         placeholder="000 00 00 00"
-                        inputRef={passwRef}
-                        error={userErrors?.password?.error}
-                        helperText={userErrors?.password?.msg}
+                        inputRef={phoneRef}
+                        error={userErrors?.phone?.error}
+                        helperText={userErrors?.phone?.msg}
                         inputComponent={PhoneMask}
                     />
 
@@ -174,10 +206,9 @@ export const SignUp = () => {
                         type="text"
                         id='address'
                         placeholder="Calle y número"
-                        inputRef={passwRef}
-                        error={userErrors?.password?.error}
-                        helperText={userErrors?.password?.msg}
-                        inputComponent={PhoneMask}
+                        inputRef={addressRef}
+                        error={userErrors?.address?.error}
+                        helperText={userErrors?.address?.msg}
                     />
 
                     {/* Contraseña */}
@@ -197,9 +228,9 @@ export const SignUp = () => {
                         type="password"
                         id='confirm_password'
                         placeholder="••••••••••••••••••"
-                        inputRef={passwRef}
-                        error={userErrors?.password?.error}
-                        helperText={userErrors?.password?.msg}
+                        inputRef={conf_passwordRef}
+                        error={userErrors?.confirm_password?.error}
+                        helperText={userErrors?.confirm_password?.msg}
                     />
 
                     <Button
@@ -208,7 +239,7 @@ export const SignUp = () => {
                         fullWidth
                         variant='contained'
                     >
-                        Iniciar
+                        Crear cuenta
                     </Button>
 
                     <Divider>o</Divider>
