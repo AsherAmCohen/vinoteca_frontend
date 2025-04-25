@@ -1,7 +1,7 @@
-import { AppBar, Box, Container, IconButton } from "@mui/material"
-import { MyToolBar } from "../theme/components/my-tool-bar"
+import { AppBar, Box, Container, IconButton, Tooltip } from "@mui/material"
+import { MyToolBar } from "../../theme/components/my-tool-bar"
 import { ScrollButton } from "./scroll-button"
-import { ToolBarProps } from "../types/tool-bar"
+import { ToolBarProps } from "../../types/tool-bar"
 import { UserCircle as UserCircleIcon } from "@phosphor-icons/react"
 import { ShoppingCart as ShoppingCartIcon } from "@phosphor-icons/react"
 import { useNavigate } from "react-router-dom"
@@ -73,30 +73,34 @@ export const ToolBar = (props: ToolBarProps) => {
                     </Box>
 
                     <Box>
-                        <IconButton
-                            sx={{
-                                color: 'var(--Vinoteca-Background-Light)',
-                                '&:hover': {
-                                    color: 'var(--Vinoteca-Background-Dark)',
-                                    background: 'var(--Vinoteca-Background-Light)'
-                                }
-                            }}
-                            onClick={handleUser}
-                        >
-                            <UserCircleIcon/>
-                        </IconButton>
+                        <Tooltip title='Usuario'>
+                            <IconButton
+                                sx={{
+                                    color: 'var(--Vinoteca-Background-Light)',
+                                    '&:hover': {
+                                        color: 'var(--Vinoteca-Background-Dark)',
+                                        background: 'var(--Vinoteca-Background-Light)'
+                                    }
+                                }}
+                                onClick={handleUser}
+                            >
+                                <UserCircleIcon />
+                            </IconButton>
+                        </Tooltip>
 
-                        <IconButton
-                            sx={{
-                                color: 'var(--Vinoteca-Background-Light)',
-                                '&:hover': {
-                                    color: 'var(--Vinoteca-Background-Dark)',
-                                    background: 'var(--Vinoteca-Background-Light)'
-                                }
-                            }}
-                        >
-                            <ShoppingCartIcon/>
-                        </IconButton>
+                        <Tooltip title='Carrito'>
+                            <IconButton
+                                sx={{
+                                    color: 'var(--Vinoteca-Background-Light)',
+                                    '&:hover': {
+                                        color: 'var(--Vinoteca-Background-Dark)',
+                                        background: 'var(--Vinoteca-Background-Light)'
+                                    }
+                                }}
+                            >
+                                <ShoppingCartIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Box>
                 </MyToolBar>
             </Container>

@@ -56,7 +56,9 @@ export const SignUp = () => {
         const { isOk, errors } = validateSignUp(userData)
 
         if (isOk) {
-            SignUp(userData)
+            // Se elimina el parametro confirmar contraseña
+            const {confirm_password, ...rest} = userData
+            SignUp(rest)
         } else {
             setUserErrors(errors)
         }

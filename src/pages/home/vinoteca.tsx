@@ -1,8 +1,8 @@
 import { CssBaseline } from "@mui/material"
-import { ToolBar } from "../components/tool-bar"
-import { Home } from "../components/home/home"
+import { ToolBar } from "../../components/home/tool-bar"
+import { Home } from "../../components/home/home"
 import { useRef, useEffect, useState } from "react"
-import { History } from "../components/home/history"
+import { History } from "../../components/home/history"
 
 export const Vinoteca = () => {
     const homeRef = useRef<HTMLDivElement | null>(null)
