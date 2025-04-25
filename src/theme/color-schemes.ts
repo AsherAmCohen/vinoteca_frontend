@@ -1,7 +1,7 @@
 import { alpha } from "@mui/material";
 import { gray, vinoteca } from "./color-palette";
 
-export const colorSchemes = {
+const colorSchemes = {
     light: {
         palette: {
             primary: {
@@ -15,3 +15,5 @@ export const colorSchemes = {
         }
     }
 }
+
+export default colorSchemes;

@@ -1,6 +1,6 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { AppThemeProps } from "../types/app-theme";
-import { colorSchemes } from "./color-schemes";
+import colorSchemes from "./color-schemes";
 import { typography } from "./typography";
 import { shadows } from "./shadows";
 import { shape } from "./shape";

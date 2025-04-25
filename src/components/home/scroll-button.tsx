@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
-import { ScrollButtonProps } from "../types/scroll-button";
 import { useEffect, useState } from "react";
-import { scrollToSection } from "../utils/scroll-to-section";
+import { ScrollButtonProps } from "../../types/scroll-button";
+import { scrollToSection } from "../../utils/scroll-to-section";
 
 export const ScrollButton = (props: ScrollButtonProps) => {
     const { label, section } = props;

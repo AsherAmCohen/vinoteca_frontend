@@ -25,11 +25,19 @@ export const vinotecaApi = createApi({
                 method: 'POST',
                 body: data
             })
+        }),
+
+        UserInformation: builder.query({
+            query: (email: string) => ({
+                url: `/user/Information?email=${email}`,
+                method: 'GET'
+            })
         })
     })
 })
 
 export const {
     useSignInMutation,
-    useSignUpMutation
+    useSignUpMutation,
+    useUserInformationQuery,
 } = vinotecaApi
