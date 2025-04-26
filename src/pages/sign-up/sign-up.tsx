@@ -39,7 +39,6 @@ export const SignUp = () => {
 
         // Reinicia los errores
         setServerErrors('')
-        setUserErrors('')
 
         const userData = {
             name: nameRef.current?.value || '',
@@ -53,14 +52,14 @@ export const SignUp = () => {
             confirm_password: conf_passwordRef.current?.value || ''
         }
 
+        // Comprobar datos
         const { isOk, errors } = validateSignUp(userData)
+        setUserErrors(errors)
 
         if (isOk) {
             // Se elimina el parametro confirmar contraseña
             const {confirm_password, ...rest} = userData
             SignUp(rest)
-        } else {
-            setUserErrors(errors)
         }
     }
 

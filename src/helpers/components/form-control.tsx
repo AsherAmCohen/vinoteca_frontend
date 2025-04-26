@@ -17,7 +17,7 @@ export const FormControl = (props: FormControlProps) => {
 
 
     return (
-        <MuiFormControl>
+        <MuiFormControl fullWidth>
             <FormLabel
                 htmlFor={id}
                 error={error}
@@ -30,7 +30,7 @@ export const FormControl = (props: FormControlProps) => {
                 inputRef={inputRef}
                 error={error}
                 helperText={error && helperText}
-                required
+                // required
                 InputProps={{
                     inputComponent: inputComponent
                 }}

@@ -47,7 +47,7 @@ export const AppTheme = (props: AppThemeProps) => {
 
     return (
         <ThemeProvider theme={theme} disableTransitionOnChange>
-            <CssBaseline/>
+            <CssBaseline />
             {children}
         </ThemeProvider>
     )

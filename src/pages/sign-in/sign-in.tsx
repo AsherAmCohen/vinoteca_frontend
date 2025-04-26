@@ -33,20 +33,19 @@ export const SingIn = () => {
         // Reinicia los errores
         setCreateUser(false)
         setServerErrors('')
-        setUserErrors('')
 
         const userData = {
             email: emailRef.current?.value || '',
             password: passwRef.current?.value || ''
         }
 
+        // Validar datos
         const { isOk, errors } = validateSignIn(userData)
+        setUserErrors(errors)
 
 
         if (isOk) {
             SignIn(userData)
-        } else {
-            setUserErrors(errors)
         }
     }
 

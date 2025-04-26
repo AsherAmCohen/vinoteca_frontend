@@ -4,7 +4,8 @@ import { SingIn } from "./pages/sign-in/sign-in";
 import { SignUp } from "./pages/sign-up/sign-up";
 import { User } from "./pages/user/user";
 import { UserInformation } from "./pages/user/information/user-information";
-import { UserAddress } from "./pages/user/address/user-address";
+import { UserOrders } from "./pages/user/orders/user-orders";
+import { WineList } from "./pages/user/wine-list/wine-list";
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/user" element={<User/>}>
           <Route index element={<UserInformation/>}/>
-          <Route path="address" element={<UserAddress/>}/>
+          <Route path="orders" element={<UserOrders/>}/>
+          <Route path="winelist" element={<WineList/>}/>
         </Route>
       </Routes>
     </Router>
