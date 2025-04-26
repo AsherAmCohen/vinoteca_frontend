@@ -2,7 +2,7 @@ import { Box, Divider, Stack, Typography } from "@mui/material"
 import { NavItemConfigProps, NavItemProps, RenderNavItemsProps } from "../../types/side-nav"
 import { ReactNode } from "react"
 import { useLocation } from "react-router-dom"
-import { navItems } from "./config"
+import { navItemsShopping, navItemsUser, navItemsWineList } from "./config"
 import { isNavItemActive } from "../../lib/is-nav-item-active"
 import { navIcons } from "./nav-icons"
 import { Link as RouterLink } from 'react-router-dom'
@@ -45,7 +45,7 @@ export const SideNav = () => {
                     p: '12px'
                 }}
             >
-                {renderNavItems({ pathname, items: navItems })}
+                {renderNavItems({ pathname, items: navItemsShopping })}
             </Box>
             <Divider
                 sx={{bgcolor: 'var(--Vinoteca-Background-Light)'}}
@@ -53,11 +53,23 @@ export const SideNav = () => {
             <Box
                 component='nav'
                 sx={{
-                    flex: '1 1 auto',
+                    flex: '0 1 auto',
                     p: '12px'
                 }}
             >
-                {/* {renderNavItems({ pathname, items: navItems })} */}
+                {renderNavItems({ pathname, items: navItemsUser })}
+            </Box>
+            <Divider
+                sx={{bgcolor: 'var(--Vinoteca-Background-Light)'}}
+            />
+            <Box
+                component='nav'
+                sx={{
+                    flex: '0 1 auto',
+                    p: '12px'
+                }}
+            >
+                {renderNavItems({ pathname, items: navItemsWineList })}
             </Box>
         </Box>
     )

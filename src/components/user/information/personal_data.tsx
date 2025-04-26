@@ -1,5 +1,5 @@
-import { Avatar, Card, CardContent, Divider, Stack, Typography } from "@mui/material"
-import { UserCircleGear as Icon } from "@phosphor-icons/react"
+import { Button, Card, CardActions, CardContent, Divider, Stack, Typography } from "@mui/material"
+import { PencilLine as EditIcon } from "@phosphor-icons/react";
 
 export const PersonalData = (props: any) => {
     const {name, lastname, gender, email, address, phone, birthdate} = props.props
@@ -59,18 +59,13 @@ export const PersonalData = (props: any) => {
                             <Divider/>
 
                         </Stack>
-                        <Avatar
-                            sx={{
-                                backgroundColor: 'var(--Vinoteca-Background-Dark)',
-                                height: '56px',
-                                width: '56px'
-                            }}
-                        >
-                            <Icon fontSize="var(--Vinoteca-Icon-FontSize-lg)" />
-                        </Avatar>
                     </Stack>
                 </Stack>
             </CardContent>
+            <Divider />
+            <CardActions>
+                <Button startIcon={<EditIcon/>} fullWidth variant='contained'>Editar datos</Button>
+            </CardActions>
         </Card>
     )
 }

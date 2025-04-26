@@ -28,3 +28,15 @@ export interface validateSignUpProps {
 export type SignUpErrors = {
     [K in keyof validateSignUpProps]: FieldError;
 };
+
+export interface validateWineAddProps {
+    name: string;
+    description: string;
+    mark: string;
+    price: string;
+    stock: number;
+}
+
+export type WineAddErros = {
+    [K in keyof validateWineAddProps]: FieldError;
+}

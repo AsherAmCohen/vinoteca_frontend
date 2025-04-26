@@ -22,3 +22,17 @@ export const PhoneMask = forwardRef<HTMLInputElement, Props>(
         )
     }
 )
+
+export const StockMask = forwardRef<HTMLInputElement, Props>(
+    function TextMask(props, ref) {
+        const { onChange, ...other } = props;
+        return (
+            <IMaskInput
+                {...other}
+                mask={Number}
+                scale={0}
+                inputRef={ref}
+            />
+        )
+    }
+)

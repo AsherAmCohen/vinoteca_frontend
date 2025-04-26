@@ -87,8 +87,6 @@ export const validateSignUp = (values: validateSignUpProps) => {
         confirm_password,
     } = values
 
-    console.log(values)
-
     if (!name) {
         errors = { ...errors, 'name': { ...errors.name, error: true } }
     }

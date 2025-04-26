@@ -1,13 +1,13 @@
-import { Button, Grid, Stack, Typography } from "@mui/material"
-import { Pencil as EditIcon } from "@phosphor-icons/react"
-import { PersonalData } from "../../../components/user/information/personal_data"
 import { useUserInformationQuery } from "../../../store/api/api"
+import { SummaryData } from "../../../components/user/information/summary_data"
+import { Grid, Stack, Typography } from "@mui/material";
+import { PersonalData } from "../../../components/user/information/personal_data";
 
 export const UserInformation = () => {
-    const {data, isLoading} = useUserInformationQuery('PabloVazquezReyes@outlook.com')
+    const { data, isLoading } = useUserInformationQuery('PabloVazquezReyes@outlook.com')
     const user = data ? data.data : null;
 
-    if(isLoading) {
+    if (isLoading) {
         return (
             <>
                 cargando...
@@ -17,40 +17,21 @@ export const UserInformation = () => {
 
     return (
         <Stack spacing={3}>
-            <Stack
-                direction='row'
-                spacing={3}
-            >
-                <Stack
-                    spacing={1}
-                    sx={{
-                        flex: '1 1 auto'
-                    }}
+            <div>
+                <Typography
+                    variant='h4'
                 >
-                    <Typography
-                        variant="h4"
-                    >
-                        Información personal
-                    </Typography>
-                </Stack>
-                <Button
-                    color='primary'
-                    variant='contained'
-                    startIcon={<EditIcon fontSize="var(--Vinoteca-Icon-FontSize-md)" />}
-                >
-                    Editar información
-                </Button>
-            </Stack>
-
+                    Información personal
+                </Typography>
+            </div>
             <Grid container spacing={3}>
-                <Grid size={{ xs: 6, md: 7 }}>
-                    <PersonalData 
+                <Grid size={{ xs: 12, md: 4 }}>
+                    <SummaryData
                         props={user}
                     />
                 </Grid>
-
-                <Grid size={{ xs: 6, md: 5 }}>
-                    <PersonalData 
+                <Grid size={{ xs: 12, md: 8 }}>
+                    <PersonalData
                         props={user}
                     />
                 </Grid>
