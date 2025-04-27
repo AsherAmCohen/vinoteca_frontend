@@ -9,10 +9,10 @@ import { useStoreWineMutation } from "../../../store/api/api";
 export const WineListAdd = () => {
 
     // Manejo de Errores
-    const [wineErros, setWineErros] = useState<any>('');
+    const [wineErrors, setwineErrors] = useState<any>('');
 
     // Api
-    const [StoreWine, {isSuccess, error}]: any = useStoreWineMutation();
+    const [StoreWine, { isSuccess, error }]: any = useStoreWineMutation();
 
     // Referencias para obtener los datos
     const nameRef = useRef<HTMLInputElement>(null);
@@ -20,28 +20,41 @@ export const WineListAdd = () => {
     const markRef = useRef<HTMLInputElement>(null);
     const priceRef = useRef<HTMLInputElement>(null);
     const stockRef = useRef<HTMLInputElement>(null);
+    const imageRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = () => {
         // Evita que se recarge la pagina
         event?.preventDefault()
 
         // Datos
-        const wineData = {
+        const wineData: any = {
             name: nameRef.current?.value || '',
             description: descriptionRef.current?.value || '',
             mark: markRef.current?.value || '',
             price: priceRef.current?.value || '',
             stock: parseInt(stockRef.current?.value || ''),
+            image: imageRef.current?.files?.[0] || null,
         }
 
         // Comprobar datos
         const { isOk, errors } = validateWineAdd(wineData)
-        
-        setWineErros(errors)
+
+        setwineErrors(errors)
 
         if (isOk) {
-            StoreWine(wineData)
-        } 
+            // Crear un objeto FormData para enviar al backend
+            const formData = new FormData();
+            formData.append('name', wineData.name);
+            formData.append('description', wineData.description);
+            formData.append('mark', wineData.mark);
+            formData.append('price', wineData.price);
+            formData.append('stock', wineData.stock);
+            if (wineData.image) {
+                formData.append('image', wineData.image); // Agregar la imagen al FormData
+            }
+
+            StoreWine(formData)
+        }
     }
 
     return (
@@ -58,8 +71,9 @@ export const WineListAdd = () => {
                             type="text"
                             placeholder="Nombre del vino"
                             inputRef={nameRef}
-                            error={wineErros?.name?.error}
-                            helperText={wineErros?.name?.msg}
+                            autoFocus
+                            error={wineErrors?.name?.error}
+                            helperText={wineErrors?.name?.msg}
                         />
                     </Grid>
 
@@ -70,8 +84,8 @@ export const WineListAdd = () => {
                             type="text"
                             placeholder="Descripción del vino"
                             inputRef={descriptionRef}
-                            error={wineErros?.description?.error}
-                            helperText={wineErros?.description?.msg}
+                            error={wineErrors?.description?.error}
+                            helperText={wineErrors?.description?.msg}
                         />
                     </Grid>
 
@@ -82,15 +96,15 @@ export const WineListAdd = () => {
                             type="text"
                             placeholder="Marca del vino"
                             inputRef={markRef}
-                            error={wineErros?.mark?.error}
-                            helperText={wineErros?.mark?.msg}
+                            error={wineErrors?.mark?.error}
+                            helperText={wineErrors?.mark?.msg}
                         />
                     </Grid>
 
                     <Grid size={{ xs: 6, md: 4 }}>
                         <FormLabel
                             htmlFor='price'
-                            error={wineErros?.price?.error}
+                            error={wineErrors?.price?.error}
                         >
                             Precio</FormLabel>
                         <NumericFormat
@@ -106,8 +120,8 @@ export const WineListAdd = () => {
                             allowNegative={false}
                             displayType="input"
                             inputRef={priceRef}
-                            error={wineErros?.price?.error}
-                            helperText={wineErros?.price?.error && wineErros?.price?.msg}
+                            error={wineErrors?.price?.error}
+                            helperText={wineErrors?.price?.error && wineErrors?.price?.msg}
                         />
                     </Grid>
 
@@ -119,8 +133,50 @@ export const WineListAdd = () => {
                             placeholder="Cantidad del vino"
                             inputRef={stockRef}
                             inputComponent={StockMask}
-                            error={wineErros?.stock?.error}
-                            helperText={wineErros?.stock?.msg}
+                            error={wineErrors?.stock?.error}
+                            helperText={wineErrors?.stock?.msg}
+                        />
+                    </Grid>
+
+                    <Grid size={{ xs: 12, md: 12 }}>
+                        <FormLabel
+                            htmlFor='image'
+                            error={wineErrors?.image?.error}
+                        >
+                            Imagen
+                        </FormLabel>
+                        <TextField
+                            type='file'
+                            variant='outlined'
+                            id='image'
+                            fullWidth
+                            inputProps={{
+                                accept: ".jpg, jpeg, .png" // Solo acepta imagenes
+                            }}
+                            inputRef={imageRef}
+                            sx={{
+                                '& input': {
+                                    padding: 0,
+                                    height: '56px',  // La altura estándar de un TextField
+                                },
+                                '& input::file-selector-button': {
+                                    height: '100%',
+                                    backgroundColor: 'var(--Vinoteca-Background-Dark)',
+                                    color: 'var(--Vinoteca-Background-Light)',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold',
+                                    mr: 2,
+                                    padding: '20px',
+                                    '&:hover': {
+                                        backgroundColor: 'var(--Vinoteca-Background-Ligth)',
+                                        color: 'var(--Vinoteca-Background-Dark)',
+                                    }
+                                },
+                            }}
+                            error={wineErrors?.image?.error}
+                            helperText={wineErrors?.image?.error && wineErrors?.image?.msg}
                         />
                     </Grid>
                 </Grid>

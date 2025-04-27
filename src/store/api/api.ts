@@ -7,7 +7,7 @@ export const vinotecaApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
-    tagTypes: ['Vinoteca'],
+    tagTypes: ['wineList'],
 
     endpoints: (builder) => ({
         // Manejo de usuarios
@@ -40,7 +40,16 @@ export const vinotecaApi = createApi({
                 url: '/wine/StoreWine',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['wineList']
+        }),
+
+        Wines: builder.query({
+            query: () => ({
+                url: '/wine/wines',
+                method: 'GET',
+            }),
+            providesTags: ['wineList']
         })
     })
 })
@@ -50,5 +59,6 @@ export const {
     useSignUpMutation,
     useUserInformationQuery,
     // Vinos
-    useStoreWineMutation
+    useStoreWineMutation,
+    useWinesQuery
 } = vinotecaApi

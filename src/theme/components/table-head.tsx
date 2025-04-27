@@ -7,8 +7,8 @@ export const MuiTableHead = {
   styleOverrides: {
     root: {
       [`& .${tableCellClasses.root}`]: {
-        backgroundColor: 'var(--mui-palette-background-level1)',
-        color: 'var(--mui-palette-text-secondary)',
+        backgroundColor: 'var(--Vinoteca-Background-Dark)',
+        color: 'var(--Vinoteca-Background-Light)',
         lineHeight: 1,
       },
     },
