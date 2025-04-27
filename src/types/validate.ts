@@ -35,6 +35,7 @@ export interface validateWineAddProps {
     mark: string;
     price: string;
     stock: number;
+    image: any;
 }
 
 export type WineAddErros = {

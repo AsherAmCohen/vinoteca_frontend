@@ -20,6 +20,10 @@ export const validateWineAddErros: WineAddErros = {
     stock: {
         msg: 'Introduce la cantidad de vinos disponibles',
         error: false
+    },
+    image: {
+        msg: 'Selecciona una imagen representativa del vino',
+        error: false
     }
 }
 
@@ -32,7 +36,8 @@ export const validateWineAdd = (values: validateWineAddProps) => {
         description,
         mark,
         price,
-        stock
+        stock,
+        image
     } = values
 
     const normalized = price
@@ -61,6 +66,10 @@ export const validateWineAdd = (values: validateWineAddProps) => {
 
     if (!stock) {
         errors = { ...errors, 'stock': { ...errors.stock, error: true } }
+    }
+
+    if(!image) {
+        errors = {...errors, 'image': {...errors.image, error: true}}
     }
 
     for (const [key, value] of Object.entries(errors)) {
