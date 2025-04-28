@@ -4,15 +4,15 @@ import { useRef, useState } from "react"
 import { validateWineAdd } from "../../../helpers/validate/validate-wine-add";
 import { NumericFormat } from "react-number-format";
 import { StockMask } from "../../../helpers/mask/mask";
-import { useStoreWineMutation } from "../../../store/api/api";
+import { useLazySearchMarkQuery, useStoreWineMutation } from "../../../store/api/api";
+import { AutocompleteSearch } from "../../../helpers/components/autocomplete-search";
 
 export const WineListAdd = () => {
-
     // Manejo de Errores
     const [wineErrors, setwineErrors] = useState<any>('');
 
     // Api
-    const [StoreWine, { isSuccess, error }]: any = useStoreWineMutation();
+    const [StoreWine]: any = useStoreWineMutation();
 
     // Referencias para obtener los datos
     const nameRef = useRef<HTMLInputElement>(null);
@@ -36,6 +36,7 @@ export const WineListAdd = () => {
             image: imageRef.current?.files?.[0] || null,
         }
 
+        console.log(wineData)
         // Comprobar datos
         const { isOk, errors } = validateWineAdd(wineData)
 
@@ -90,14 +91,15 @@ export const WineListAdd = () => {
                     </Grid>
 
                     <Grid size={{ xs: 12, md: 4 }}>
-                        <FormControl
-                            id='mark'
+                        <AutocompleteSearch
+                            api={useLazySearchMarkQuery}
                             label="Marca"
-                            type="text"
+                            id='mark'
                             placeholder="Marca del vino"
                             inputRef={markRef}
                             error={wineErrors?.mark?.error}
                             helperText={wineErrors?.mark?.msg}
+                            add
                         />
                     </Grid>
 

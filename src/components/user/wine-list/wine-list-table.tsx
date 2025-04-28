@@ -49,7 +49,7 @@ export const WineListTable = () => {
                                         </Stack>
                                     </TableCell>
                                     <TableCell>
-                                        <Typography variant='subtitle2'>{wine.name}</Typography>
+                                        <Typography variant='subtitle2'>{wine.mark}</Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant='subtitle2'>{wine.description}</Typography>

@@ -58,7 +58,7 @@ export const SignUp = () => {
 
         if (isOk) {
             // Se elimina el parametro confirmar contraseña
-            const {confirm_password, ...rest} = userData
+            const { confirm_password, ...rest } = userData
             SignUp(rest)
         }
     }
@@ -143,6 +143,7 @@ export const SignUp = () => {
                             { value: 'Masculino' },
                             { value: 'Femenino' }
                         ]}
+                        autoHighlight
                         getOptionLabel={(option) => option.value}
                         renderInput={
                             params => (
