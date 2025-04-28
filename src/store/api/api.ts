@@ -50,6 +50,14 @@ export const vinotecaApi = createApi({
                 method: 'GET',
             }),
             providesTags: ['wineList']
+        }),
+
+        // Marcas
+        searchMark: builder.query({
+            query: (word: string) => ({
+                url: `/mark/marks?word=${word}`,
+                method: 'GET'
+            })
         })
     })
 })
@@ -60,5 +68,7 @@ export const {
     useUserInformationQuery,
     // Vinos
     useStoreWineMutation,
-    useWinesQuery
+    useWinesQuery,
+    // Marcas
+    useLazySearchMarkQuery
 } = vinotecaApi
