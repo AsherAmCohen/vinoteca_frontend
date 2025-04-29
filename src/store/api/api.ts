@@ -7,7 +7,7 @@ export const vinotecaApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
-    tagTypes: ['wineList', 'markList'],
+    tagTypes: ['wineList', 'markList', 'categoryList'],
 
     endpoints: (builder) => ({
         // Manejo de usuarios
@@ -77,6 +77,24 @@ export const vinotecaApi = createApi({
             }),
             providesTags: ['markList']
         }),
+
+        // Categorias
+        createCategory: builder.mutation({
+            query: (data) => ({
+                url: '/category/create',
+                method: 'POST',
+                body: data
+            }),
+            invalidatesTags: ['categoryList']
+        }),
+
+        categorys: builder.query({
+            query: ({rowsPerPage, page}) => ({
+                url: `category/categorys?rowsPerPage=${rowsPerPage}&page=${page}`,
+                method: 'GET'
+            }),
+            providesTags: ['categoryList']
+        })
     })
 })
 
@@ -90,5 +108,8 @@ export const {
     // Marcas
     useCreateMarkMutation,
     useLazySearchMarkQuery,
-    useMarksQuery
+    useMarksQuery,
+    // Categorias
+    useCreateCategoryMutation,
+    useCategorysQuery
 } = vinotecaApi

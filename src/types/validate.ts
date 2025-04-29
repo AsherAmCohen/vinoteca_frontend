@@ -48,5 +48,14 @@ export interface validateMarkAddProps {
 }
 
 export type MarkAddErrorProps = {
-    [k in keyof validateMarkAddProps]: FieldErrorProps;
+    [K in keyof validateMarkAddProps]: FieldErrorProps;
+}
+
+export interface validateCategoryAddProps {
+    name: string;
+    description: string;
+}
+
+export type CategoryAddErrorProps = {
+    [K in keyof validateCategoryAddProps]: FieldErrorProps
 }

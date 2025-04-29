@@ -1,18 +1,18 @@
 import { Box, Button, Card, Divider, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
-import { useMarksQuery } from "../../../../store/api/api"
 import { useDispatch, useSelector } from "react-redux"
-import { setMarkActions } from "../../../../store/slice/vinoteca/slice"
+import { useCategorysQuery } from "../../../../store/api/api"
+import { setCategoryActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
 
-export const WineMarkTable = () => {
+export const WineCategoryTable = () => {
     const dispatch = useDispatch()
 
     // Datos filtrados
-    const Filters = useSelector((state: any) => state.Vinoteca.Mark)
+    const Filters = useSelector((state: any) => state.Vinoteca.Category)
     const { page, rowsPerPage } = Filters
 
-    const { data } = useMarksQuery(Filters)
-    const { marks, count } = data ? data.data : []
+    const { data } = useCategorysQuery(Filters)
+    const { categorys, count } = data ? data.data : []
 
     // Cambiar elementos por pagina
     const handleOnRowsPerPageChange = (value: string) => {
@@ -20,7 +20,7 @@ export const WineMarkTable = () => {
             value: value,
             key: 'rowsPerPage'
         }
-        dispatch(setMarkActions(payload))
+        dispatch(setCategoryActions(payload))
     }
 
     // Cambiar pagina
@@ -29,17 +29,17 @@ export const WineMarkTable = () => {
             value: value,
             key: 'page'
         }
-        dispatch(setMarkActions(payload))
+        dispatch(setCategoryActions(payload))
     }
 
-    // Reinicar pagina a 0 cuando se cambie el rowsPerPage
+    // Reiniciar pagina a 0 cuando cambie el rowsPerpage
     useEffect(() => {
         const payload: any = {
             value: 0,
             key: 'page'
         }
-        dispatch(setMarkActions(payload))
-    },  [rowsPerPage])
+        dispatch(setCategoryActions(payload))
+    }, [rowsPerPage])
 
     return (
         <Card>
@@ -57,30 +57,30 @@ export const WineMarkTable = () => {
                         <TableRow>
                             <TableCell>Nombre</TableCell>
                             <TableCell>Descripción</TableCell>
-                            <TableCell>Acciones</TableCell>
+                            <TableCell align='right'>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {count >= 1
-                            ? marks.map((mark: any) => (
+                            ? categorys.map((category: any) => (
                                 <TableRow>
                                     <TableCell>
-                                        <Typography variant='subtitle2'>{mark.name}</Typography>
+                                        <Typography variant='subtitle1'>{category.name}</Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <Typography variant='subtitle2'>{mark.description}</Typography>
+                                        <Typography variant='subtitle1'>{category.description}</Typography>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell align='right'>
                                         <Button variant='contained'>
                                             Editar
                                         </Button>
                                     </TableCell>
                                 </TableRow>
-                            )) :
+                            )) : 
                             <TableRow>
                                 <TableCell align='center' colSpan={3}>
                                     <Typography>
-                                        No hay marcas registradas
+                                        No hay categorias registradas
                                     </Typography>
                                 </TableCell>
                             </TableRow>

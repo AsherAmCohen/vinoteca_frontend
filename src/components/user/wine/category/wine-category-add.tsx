@@ -1,19 +1,19 @@
 import { Alert, Box, Button, DialogActions, DialogContent, Grid } from "@mui/material"
 import { FormControl } from "../../../../helpers/components/form-control"
 import { useEffect, useRef, useState } from "react"
-import { validateMarkAdd } from "../../../../helpers/validate/validate-mark-add"
-import { useCreateMarkMutation } from "../../../../store/api/api"
-import { useDispatch } from "react-redux"
-import { closeModalAction } from "../../../../store/slice/UI/slice"
+import { validateCategoryAdd } from "../../../../helpers/validate/validate-category-add";
+import { useDispatch } from "react-redux";
+import { useCreateCategoryMutation } from "../../../../store/api/api";
+import { closeModalAction } from "../../../../store/slice/UI/slice";
 
-export const WineMarkAdd = () => {
+export const WineCategoryAdd = () => {
     const dispatch = useDispatch()
-    
+
     // Manejo de errores
-    const [markErrors, setMarkErrors] = useState<any>('')
+    const [categoryErrors, setCategoryErrors] = useState<any>('')
 
     // Api
-    const [CreateMark, { isLoading, isSuccess, error }]: any = useCreateMarkMutation()
+    const [CreateCategory, { isLoading, isSuccess, error }] = useCreateCategoryMutation()
 
     // Referencias para obtener los datos
     const nameRef = useRef<HTMLInputElement>(null);
@@ -28,24 +28,25 @@ export const WineMarkAdd = () => {
     }, [isSuccess])
 
     const handleSubmit = () => {
-        // Evita que se recargue la pagina
+        // Evita que la pagina se recargue
         event?.preventDefault()
 
         // Datos
-        const markData: any = {
+        const categoryData: any = {
             name: nameRef.current?.value || '',
             description: descriptionRef.current?.value || ''
         }
 
         // Comprobar datos
-        const { isOk, errors } = validateMarkAdd(markData)
+        const { isOk, errors } = validateCategoryAdd(categoryData)
 
-        setMarkErrors(errors)
+        setCategoryErrors(errors)
 
         if (isOk) {
-            CreateMark(markData)
+            CreateCategory(categoryData)
         }
     }
+
     return (
         <Box
             component='form'
@@ -53,12 +54,12 @@ export const WineMarkAdd = () => {
         >
             {isSuccess &&
                 <Alert severity='success'>
-                    Marca guardada
+                    Categoria guardada
                 </Alert>
             }
             {error &&
                 <Alert severity='error'>
-                    Error al guardar la marca
+                    Error al guardar la categoria
                 </Alert>
             }
             <DialogContent>
@@ -68,11 +69,11 @@ export const WineMarkAdd = () => {
                             id='name'
                             label='Nombre'
                             type='text'
-                            placeholder="Nombre de la marca"
-                            inputRef={nameRef}
+                            placeholder="Nombre de la categoria"
                             autoFocus
-                            error={markErrors?.name?.error}
-                            helperText={markErrors?.name?.msg}
+                            inputRef={nameRef}
+                            error={categoryErrors?.name?.error}
+                            helperText={categoryErrors?.name?.msg}
                         />
                     </Grid>
 
@@ -81,10 +82,10 @@ export const WineMarkAdd = () => {
                             id='description'
                             label='Descripción'
                             type='text'
-                            placeholder="Descripción de la marca"
+                            placeholder="Descripción de la categoria"
                             inputRef={descriptionRef}
-                            error={markErrors?.description?.error}
-                            helperText={markErrors?.description?.msg}
+                            error={categoryErrors?.description?.error}
+                            helperText={categoryErrors?.description?.msg}
                         />
                     </Grid>
                 </Grid>
@@ -92,12 +93,10 @@ export const WineMarkAdd = () => {
 
             <DialogActions>
                 <Button
-                    disabled={isSuccess}
-                    loading={isLoading}
-                    type="submit"
+                    type='submit'
                     variant='contained'
                 >
-                    Agregar marca
+                    Agregar categoria
                 </Button>
             </DialogActions>
         </Box>

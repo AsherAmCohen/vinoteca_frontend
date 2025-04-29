@@ -28,5 +28,11 @@ export const navItemsWineList = [
         title: 'Marcas',
         href: '/user/wine/mark',
         icon: 'mark'
+    },
+    {
+        key: 'category',
+        title: 'Categorias',
+        href: '/user/wine/category',
+        icon: 'category'
     }
 ]
