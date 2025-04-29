@@ -1,6 +1,6 @@
-import { SignInErrors, validateSignInProps } from "../../types/validate";
+import { SignInErrorsProps, validateSignInProps } from "../../types/validate";
 
-export const validateSignInErrors: SignInErrors = {
+export const validateSignInErrors: SignInErrorsProps = {
     email: {
         msg: 'Introduce tu correo electronico',
         error: false
@@ -12,7 +12,7 @@ export const validateSignInErrors: SignInErrors = {
 }
 
 export const validateSignIn = (values: validateSignInProps) => {
-    let errors: SignInErrors = validateSignInErrors;
+    let errors: SignInErrorsProps = validateSignInErrors;
     let isOk: boolean = true;
 
     const {

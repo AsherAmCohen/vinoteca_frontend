@@ -7,7 +7,7 @@ export const vinotecaApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
-    tagTypes: ['wineList'],
+    tagTypes: ['wineList', 'markList'],
 
     endpoints: (builder) => ({
         // Manejo de usuarios
@@ -34,7 +34,7 @@ export const vinotecaApi = createApi({
             })
         }),
 
-        // Vinoes
+        // Vinos
         StoreWine: builder.mutation({
             query: (data) => ({
                 url: '/wine/StoreWine',
@@ -53,12 +53,30 @@ export const vinotecaApi = createApi({
         }),
 
         // Marcas
+        createMark: builder.mutation({
+            query: (data) => ({
+                url: '/mark/create',
+                method: 'POST',
+                body: data
+            }),
+            invalidatesTags: ['markList']
+        }),
+
         searchMark: builder.query({
             query: (word: string) => ({
-                url: `/mark/marks?word=${word}`,
+                url: `/mark/search?word=${word}`,
                 method: 'GET'
-            })
-        })
+            }),
+            providesTags: ['markList']
+        }),
+
+        marks: builder.query({
+            query: ({rowsPerPage, page}) => ({
+                url: `mark/marks?rowsPerPage=${rowsPerPage}&page=${page}`,
+                method: 'GET'
+            }),
+            providesTags: ['markList']
+        }),
     })
 })
 
@@ -70,5 +88,7 @@ export const {
     useStoreWineMutation,
     useWinesQuery,
     // Marcas
-    useLazySearchMarkQuery
+    useCreateMarkMutation,
+    useLazySearchMarkQuery,
+    useMarksQuery
 } = vinotecaApi

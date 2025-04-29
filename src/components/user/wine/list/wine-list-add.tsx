@@ -1,15 +1,15 @@
 import { Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material"
-import { FormControl } from "../../../helpers/components/form-control"
+import { FormControl } from "../../../../helpers/components/form-control"
 import { useRef, useState } from "react"
-import { validateWineAdd } from "../../../helpers/validate/validate-wine-add";
+import { validateWineAdd } from "../../../../helpers/validate/validate-wine-add";
 import { NumericFormat } from "react-number-format";
-import { StockMask } from "../../../helpers/mask/mask";
-import { useLazySearchMarkQuery, useStoreWineMutation } from "../../../store/api/api";
-import { AutocompleteSearch } from "../../../helpers/components/autocomplete-search";
+import { StockMask } from "../../../../helpers/mask/mask";
+import { useLazySearchMarkQuery, useStoreWineMutation } from "../../../../store/api/api";
+import { AutocompleteSearch } from "../../../../helpers/components/autocomplete-search";
 
 export const WineListAdd = () => {
     // Manejo de Errores
-    const [wineErrors, setwineErrors] = useState<any>('');
+    const [wineErrors, setWineErrors] = useState<any>('');
 
     // Api
     const [StoreWine]: any = useStoreWineMutation();
@@ -36,11 +36,10 @@ export const WineListAdd = () => {
             image: imageRef.current?.files?.[0] || null,
         }
 
-        console.log(wineData)
         // Comprobar datos
         const { isOk, errors } = validateWineAdd(wineData)
 
-        setwineErrors(errors)
+        setWineErrors(errors)
 
         if (isOk) {
             // Crear un objeto FormData para enviar al backend
@@ -99,7 +98,6 @@ export const WineListAdd = () => {
                             inputRef={markRef}
                             error={wineErrors?.mark?.error}
                             helperText={wineErrors?.mark?.msg}
-                            add
                         />
                     </Grid>
 

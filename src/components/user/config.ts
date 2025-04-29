@@ -20,7 +20,13 @@ export const navItemsWineList = [
     {
         key: 'winelist',
         title: 'Carta de vinos',
-        href: '/user/winelist',
+        href: '/user/wine',
         icon: 'winelist'
     },
+    {
+        key: 'mark',
+        title: 'Marcas',
+        href: '/user/wine/mark',
+        icon: 'mark'
+    }
 ]

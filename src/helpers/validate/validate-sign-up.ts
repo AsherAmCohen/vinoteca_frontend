@@ -1,4 +1,4 @@
-import { SignUpErrors, validateSignUpProps } from "../../types/validate";
+import { SignUpErrorsProps, validateSignUpProps } from "../../types/validate";
 
 const esFechaValida = (fechaStr: string): boolean => {
     // Verificamos el formato con una expresión regular
@@ -31,7 +31,7 @@ const comprobarMayoriaEdad = (fechaNacimientoStr: string): boolean => {
 
 
 
-export const validateSignUpErrors: SignUpErrors = {
+export const validateSignUpErrors: SignUpErrorsProps = {
     name: {
         msg: 'Introduce tu nombre(s)',
         error: false
@@ -72,7 +72,7 @@ export const validateSignUpErrors: SignUpErrors = {
 
 export const validateSignUp = (values: validateSignUpProps) => {
 
-    let errors: SignUpErrors = validateSignUpErrors;
+    let errors: SignUpErrorsProps = validateSignUpErrors;
     let isOk: boolean = true;
 
     const {

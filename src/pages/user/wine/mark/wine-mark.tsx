@@ -1,17 +1,17 @@
 import { Button, Stack, Typography } from "@mui/material"
 import { Plus as AddIcon } from "@phosphor-icons/react"
-import { WineListTable } from "../../../components/user/wine-list/wine-list-table"
+import { WineMarkTable } from "../../../../components/user/wine/mark/wine-mark-table"
 import { useDispatch } from "react-redux"
-import { openModalAction } from "../../../store/slice/UI/slice"
-import { WineListAdd } from "../../../components/user/wine-list/wine-list-add"
+import { WineMarkAdd } from "../../../../components/user/wine/mark/wine-mark-add"
+import { openModalAction } from "../../../../store/slice/UI/slice"
 
-export const WineList = () => {
+export const WineMark = () => {
     const dispath = useDispatch()
 
-    const handleAddWine = () => {
+    const handleAddMark = () => {
         const payload: any = {
-            title: 'Agregar nuevo vino',
-            component: WineListAdd
+            title: 'Agrega nueva marca',
+            component: WineMarkAdd
         }
         dispath(openModalAction(payload))
     }
@@ -28,7 +28,7 @@ export const WineList = () => {
                         flex: '1 1 auto'
                     }}
                 >
-                    <Typography variant="h4">Carta de vinos</Typography>
+                    <Typography variant="h4">Marcas</Typography>
                 </Stack>
                 <div>
                     <Button
@@ -37,13 +37,13 @@ export const WineList = () => {
                         startIcon={
                             <AddIcon fontSize='var(--Vinoteca-Icon-FontSize-md)' />
                         }
-                        onClick={handleAddWine}
+                        onClick={handleAddMark}
                     >
-                        Agregar nuevo vino
+                        Agregar nueva marca
                     </Button>
                 </div>
             </Stack>
-            <WineListTable />
+            <WineMarkTable/>
         </Stack>
     )
 }
