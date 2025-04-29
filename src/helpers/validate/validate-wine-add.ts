@@ -1,6 +1,6 @@
-import { validateWineAddProps, WineAddErros } from "../../types/validate";
+import { validateWineAddProps, WineAddErrosProps } from "../../types/validate";
 
-export const validateWineAddErros: WineAddErros = {
+export const validateWineAddErros: WineAddErrosProps = {
     name: {
         msg: 'Introduce el nombre del vino',
         error: false
@@ -28,7 +28,7 @@ export const validateWineAddErros: WineAddErros = {
 }
 
 export const validateWineAdd = (values: validateWineAddProps) => {
-    let errors: WineAddErros = validateWineAddErros;
+    let errors: WineAddErrosProps = validateWineAddErros;
     let isOk: boolean = true;
 
     const {
@@ -47,7 +47,7 @@ export const validateWineAdd = (values: validateWineAddProps) => {
 
     const floatPrice = parseFloat(normalized); // ahora sí es un número JS real
 
-    // Vilidar 
+    // Validar 
     if (!name) {
         errors = { ...errors, 'name': { ...errors.name, error: true } }
     }

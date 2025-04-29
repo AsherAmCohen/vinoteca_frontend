@@ -6,3 +6,10 @@ export interface UISliceProps {
         args: null
     }
 }
+
+export interface VinotecaSliceProps {
+    Mark: {
+        rowsPerPage: number;
+        page: number,
+    }
+}

@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Card, Divider, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
-import { useWinesQuery } from "../../../store/api/api"
+import { useWinesQuery } from "../../../../store/api/api"
 
 export const WineListTable = () => {
     const { data } = useWinesQuery({})

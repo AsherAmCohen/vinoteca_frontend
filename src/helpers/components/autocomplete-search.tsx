@@ -1,11 +1,9 @@
-import { Autocomplete, createFilterOptions, debounce, FormLabel, TextField } from "@mui/material"
+import { Autocomplete, debounce, FormLabel, TextField } from "@mui/material"
 import { useCallback, useEffect, useState } from "react"
 import { AutocompleteSearchProps } from "../../types/autocomplete-search"
 
-const filter = createFilterOptions<any>();
-
 export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
-    const { api, label, id, placeholder, error, helperText, add, inputRef } = props
+    const { api, label, id, placeholder, error, helperText, inputRef } = props
 
     const [inputSearch, setInputSearch] = useState<string>('')
     const [inputValue, setInputValue] = useState<string>('')
@@ -48,43 +46,7 @@ export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
                 autoHighlight
                 loading={isLoading}
                 noOptionsText={options && "Escribe al menos 3 letras"}
-                getOptionLabel={(option: any) => {
-                    if (typeof option === 'string') {
-                        return option;
-                    }
-
-                    if (option.inputValue) {
-                        return option.inputValue
-                    }
-
-                    return option.name
-                }}
-                filterOptions={(options, params) => {
-                    if (!add) {
-                        return options
-                    } else {
-                        const filtered = filter(options, params);
-                        const { inputValue } = params;
-
-                        const isExisting = options.some((option) => inputValue === option.name);
-                        if (inputValue !== '' && !isExisting) {
-                            filtered.push({
-                                inputValue,
-                                name: `Agregar "${inputValue}"`
-                            })
-                        }
-
-                        return filtered
-                    }
-                }}
-                renderOption={(props, option) => {
-                    const { key, ...optionProps } = props;
-                    return (
-                        <li key={key} {...optionProps}>
-                            {option.name}
-                        </li>
-                    );
-                }}
+                getOptionLabel={(option: any) => option.name}
                 renderInput={
                     params => (
                         <TextField

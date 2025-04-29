@@ -4,13 +4,13 @@ export interface validateSignInProps {
     password: string;
 }
 
-type FieldError = {
+type FieldErrorProps = {
     msg: string;
     error: boolean;
 };
 
-export type SignInErrors = {
-    [K in keyof validateSignInProps]: FieldError;
+export type SignInErrorsProps = {
+    [K in keyof validateSignInProps]: FieldErrorProps;
 };
 
 export interface validateSignUpProps {
@@ -25,8 +25,8 @@ export interface validateSignUpProps {
     confirm_password: string;
 }
 
-export type SignUpErrors = {
-    [K in keyof validateSignUpProps]: FieldError;
+export type SignUpErrorsProps = {
+    [K in keyof validateSignUpProps]: FieldErrorProps;
 };
 
 export interface validateWineAddProps {
@@ -38,6 +38,15 @@ export interface validateWineAddProps {
     image: any;
 }
 
-export type WineAddErros = {
-    [K in keyof validateWineAddProps]: FieldError;
+export type WineAddErrosProps = {
+    [K in keyof validateWineAddProps]: FieldErrorProps;
+}
+
+export interface validateMarkAddProps {
+    name: string;
+    description: string;
+}
+
+export type MarkAddErrorProps = {
+    [k in keyof validateMarkAddProps]: FieldErrorProps;
 }
