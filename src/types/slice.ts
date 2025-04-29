@@ -11,5 +11,9 @@ export interface VinotecaSliceProps {
     Mark: {
         rowsPerPage: number;
         page: number,
+    },
+    Category: {
+        rowsPerPage: number;
+        page: number,
     }
 }

@@ -1,19 +1,19 @@
-import { MarkAddErrorProps, validateMarkAddProps } from "../../types/validate";
+import { CategoryAddErrorProps, validateCategoryAddProps } from "../../types/validate";
 
-export const validateMarkAddErrors: MarkAddErrorProps = {
+export const validateCategoryAddErrors: CategoryAddErrorProps = {
     name: {
-        msg: 'Introduce el nombre de la marca',
+        msg: 'Introduce el nombre de la categoria',
         error: false
     },
     description: {
-        msg: 'Introduce la descripción de la marca',
+        msg: 'Introduce la descripción de la empresa',
         error: false
     }
 }
 
-export const validateMarkAdd = (values: validateMarkAddProps) => {
-    let errors: MarkAddErrorProps = validateMarkAddErrors;
-    let isOk: boolean = true
+export const validateCategoryAdd = (values: validateCategoryAddProps) => {
+    let errors: CategoryAddErrorProps = validateCategoryAddErrors;
+    let isOk: boolean = true;
 
     const {
         name,
@@ -30,8 +30,8 @@ export const validateMarkAdd = (values: validateMarkAddProps) => {
     }
 
     for(const [key, value] of Object.entries(errors)) {
-        if(value.error) {
-            isOk = false
+        if(value.error){
+            isOk = false;
             break;
         }
     }
