@@ -33,6 +33,7 @@ export interface validateWineAddProps {
     name: string;
     description: string;
     mark: string;
+    category: string;
     price: string;
     stock: number;
     image: any;

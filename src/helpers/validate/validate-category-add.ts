@@ -23,6 +23,8 @@ export const validateCategoryAdd = (values: validateCategoryAddProps) => {
     // Validar
     if (!name) {
         errors = { ...errors, 'name': { ...errors.name, error: true } }
+    } else if (name.trim().length < 3) {
+        errors = { ...errors, 'name': { ...errors.name, error: true, msg: 'El nombre debe de contener al menos 3 letras' } }
     }
 
     if (!description) {

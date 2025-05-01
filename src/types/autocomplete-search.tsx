@@ -5,5 +5,5 @@ export interface AutocompleteSearchProps {
     placeholder: string;
     error?: boolean;
     helperText?: string;
-    inputRef?: any
+    setData?: any
 }

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react"
 import { AutocompleteSearchProps } from "../../types/autocomplete-search"
 
 export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
-    const { api, label, id, placeholder, error, helperText, inputRef } = props
+    const { api, label, id, placeholder, error, helperText, setData } = props
 
     const [inputSearch, setInputSearch] = useState<string>('')
     const [inputValue, setInputValue] = useState<string>('')
@@ -32,6 +32,10 @@ export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
         }, 400), []
     )
 
+    const handleChange = (_e: any, value: any) => {
+        setData(value)
+    }
+
     return (
         <>
             <FormLabel
@@ -45,6 +49,7 @@ export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
                 options={options}
                 autoHighlight
                 loading={isLoading}
+                onChange={handleChange}
                 noOptionsText={options && "Escribe al menos 3 letras"}
                 getOptionLabel={(option: any) => option.name}
                 renderInput={
@@ -59,7 +64,6 @@ export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
                             fullWidth
                             error={error}
                             helperText={error && helperText}
-                            inputRef={inputRef}
                         />
                     )
                 }
