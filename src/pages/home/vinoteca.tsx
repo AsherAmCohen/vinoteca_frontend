@@ -3,6 +3,7 @@ import { ToolBar } from "../../components/home/tool-bar"
 import { Home } from "../../components/home/home"
 import { useRef, useEffect, useState } from "react"
 import { History } from "../../components/home/history"
+import { WineList } from "../../components/home/winelist"
 
 export const Vinoteca = () => {
     const homeRef = useRef<HTMLDivElement | null>(null)
@@ -64,7 +65,7 @@ export const Vinoteca = () => {
             </section>
 
             <section ref={winelistRef} className="h-screen flex snap-start text-white">
-                <Home />
+                <WineList/>
             </section>
         </div>
     )
