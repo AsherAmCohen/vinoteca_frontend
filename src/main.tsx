@@ -5,6 +5,7 @@ import { AppTheme } from './theme/app-theme.tsx'
 import { GlobalStyles } from '@mui/material'
 import { Provider } from 'react-redux'
 import { store } from './store/store.ts'
+import { Modal } from './components/user/modal.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')!).render(
             }
           }}
         />
+        <Modal/>
         <App />
       </AppTheme>
     </Provider>

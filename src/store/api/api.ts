@@ -62,9 +62,9 @@ export const vinotecaApi = createApi({
             invalidatesTags: ['markList']
         }),
 
-        searchMark: builder.query({
-            query: (word: string) => ({
-                url: `/mark/search?word=${word}`,
+        allMarks: builder.query({
+            query: () => ({
+                url: `/mark/all`,
                 method: 'GET'
             }),
             providesTags: ['markList']
@@ -88,10 +88,10 @@ export const vinotecaApi = createApi({
             invalidatesTags: ['categoryList']
         }),
 
-        searchCategory: builder.query({
-            query: (word: string) => ({
-                url: `category/search?word=${word}`,
-                method: 'POST'
+        allCategorys: builder.query({
+            query: () => ({
+                url: `category/all`,
+                method: 'GET'
             }),
             providesTags: ['categoryList']
         }),
@@ -115,10 +115,10 @@ export const {
     useWinesQuery,
     // Marcas
     useCreateMarkMutation,
-    useLazySearchMarkQuery,
+    useAllMarksQuery,
     useMarksQuery,
     // Categorias
     useCreateCategoryMutation,
-    useLazySearchCategoryQuery,
+    useAllCategorysQuery,
     useCategorysQuery
 } = vinotecaApi

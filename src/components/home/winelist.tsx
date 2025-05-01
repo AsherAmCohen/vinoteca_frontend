@@ -1,10 +1,14 @@
-import { Box, Card, CardContent, CardMedia, Container, Divider, Grid, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Divider, Grid, Typography } from "@mui/material";
 import { useWinesQuery } from "../../store/api/api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { openModalAction } from "../../store/slice/UI/slice";
+import { WineInfo } from "./wine-info/wine-info";
 
 export const WineList = () => {
+    const dispatch = useDispatch();
+
     // Datos filtrados
-    const Filters = useSelector((state: any) => state.Vinoteca.Wine)
+    const Filters = useSelector((state: any) => state.Vinoteca.WineList)
 
     const { data } = useWinesQuery(Filters)
     const { wines, count } = data ? data.data : [];
@@ -12,77 +16,106 @@ export const WineList = () => {
     // Obtener imagen
     const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
 
+    const handleWineOpen = (id: number) => {
+        const payload: any = {
+            title: 'Vino',
+            component: WineInfo,
+            args: {
+                id
+            }
+        }
+        dispatch(openModalAction(payload))
+    }
+
     return (
-        <Box
-            sx={{
-                width: "100%",
-                backgroundImage: "url(/history.jpg)",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                paddingTop: 4,
-                paddingBottom: 0,
-            }}
-        >
+        <Box>
             <Container
                 sx={{
-                    display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    height: '100vh',
+                    width: '100vw',
+                    pt: '150px'
                 }}
-                maxWidth="xl"
             >
-                <Grid container spacing={2}>
+                <Card
+                    sx={{
+                        width: '100%',
+                        borderRadius: 3,
+                        border: "2px solid #d4af37",
+                        overflow: 'hidden',
+                        mb: 2
+                    }}
+                >
+                    <CardContent>
+                        Filtros
+                    </CardContent>
+                </Card>
+                
+                <Grid
+                    container
+                    spacing={2}
+                    alignItems='stretch'
+                >
                     {count >= 1 ?
                         wines.map((wine: any, index: number) => (
-                            <Grid size={6}>
+                            <Grid
+                                size={{ xs: 12, md: 3, lg: 3 }}
+                                key={index}
+                                display='flex'
+                            >
                                 <Card
                                     sx={{
-                                        height: "100%",
-                                        display: "flex",
-                                        flexDirection: "column",
+                                        height: 400,
+                                        width: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
                                         borderRadius: 3,
-                                        boxShadow: 5,
-                                        border: "2px solid #d4af37", // Borde dorado elegante
-                                        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                                        border: "2px solid #d4af37",
+                                        overflow: 'hidden',
                                         "&:hover": {
                                             transform: "scale(1.03)",
                                             boxShadow: "0px 0px 10px 5px rgba(212, 175, 55, 0.6)", // Resplandor dorado
                                         },
+                                        transition: "transform 0.3s ease, box-shadow 0.3s ease",
                                     }}
-                                    key={index}
                                 >
-                                    <CardMedia
-                                        component="img"
-                                        height="180"
-                                        image={`${apiUrl}${wine.image}`}
-                                        alt={wine?.name || "Vino"}
-                                    />
-                                    <CardContent>
-                                        <Typography variant="h6" component="div" gutterBottom>
-                                            {wine?.name || "Nombre no disponible"}
-                                        </Typography>
-                                        <Divider sx={{ my: 1, backgroundColor: "#b09a84" }} />
-                                        <Typography variant="body2" color="text.secondary">
-                                            {wine?.description || "Descripción no disponible."}
-                                        </Typography>
-                                    </CardContent>
+                                    <CardActionArea
+                                        sx={{ height: '100%' }}
+                                        onClick={(_e) => handleWineOpen(wine.id)}
+                                    >
+
+                                        <CardMedia
+                                            component="img"
+                                            image={`${apiUrl}${wine.image}`}
+                                            alt={wine?.name || "Vino"}
+                                            sx={{
+                                                height: 250,            // altura fija del contenedor
+                                                width: "100%",          // ocupa todo el ancho del Card
+                                                objectFit: "contain",   // muestra toda la imagen sin recortarla
+                                                objectPosition: "center",
+                                                backgroundColor: "#fff" // fondo blanco opcional para mejor visual
+                                            }}
+                                        />
+                                        <CardContent
+                                            sx={{ flexGrow: 1 }}
+                                        >
+                                            <Typography variant="h6" component="div" gutterBottom>
+                                                {wine?.name || "Nombre no disponible"}
+                                            </Typography>
+                                            <Divider sx={{ my: 1, backgroundColor: "#b09a84" }} />
+                                            <Typography variant="body2" color="text.secondary">
+                                                {wine?.description || "Descripción no disponible."}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
                                 </Card>
                             </Grid>
                         )) : 'Por el momento no tenemos vinos'
                     }
                 </Grid>
             </Container>
-
-            {/* Franja negra debajo de todos los productos */}
-            <Box
-                sx={{
-                    width: "100%",
-                    height: "100px",
-                    backgroundColor: "#000",
-                    marginTop: 4,
-                }}
-            />
         </Box>
     );
 };

@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react"
 import { validateWineAdd } from "../../../../helpers/validate/validate-wine-add";
 import { NumericFormat } from "react-number-format";
 import { StockMask } from "../../../../helpers/mask/mask";
-import { useLazySearchCategoryQuery, useLazySearchMarkQuery, useStoreWineMutation } from "../../../../store/api/api";
-import { AutocompleteSearch } from "../../../../helpers/components/autocomplete-search";
+import { useAllCategorysQuery, useAllMarksQuery, useStoreWineMutation } from "../../../../store/api/api";
+import { AutocompleteCatalog } from "../../../../helpers/components/autocomplete-catalog";
 import { useDispatch } from "react-redux";
 import { closeModalAction } from "../../../../store/slice/UI/slice";
+import { setWineActions } from "../../../../store/slice/vinoteca/slice";
 
 export const WineListAdd = () => {
     const dispatch = useDispatch()
@@ -30,6 +31,12 @@ export const WineListAdd = () => {
     const imageRef = useRef<HTMLInputElement>(null);
 
     const handleClose = () => {
+        const payload: any = {
+            value: 0,
+            key: 'page'
+        }
+        dispatch(setWineActions(payload))
+
         dispatch(closeModalAction())
     }
 
@@ -117,8 +124,8 @@ export const WineListAdd = () => {
                     </Grid>
 
                     <Grid size={{ xs: 6, md: 3 }}>
-                        <AutocompleteSearch
-                            api={useLazySearchMarkQuery}
+                        <AutocompleteCatalog
+                            api={useAllMarksQuery}
                             label="Marca"
                             id='mark'
                             placeholder="Marca del vino"
@@ -129,8 +136,8 @@ export const WineListAdd = () => {
                     </Grid>
 
                     <Grid size={{ xs: 6, md: 3 }}>
-                        <AutocompleteSearch
-                            api={useLazySearchCategoryQuery}
+                        <AutocompleteCatalog
+                            api={useAllCategorysQuery}
                             label="Categoria"
                             id='category'
                             placeholder="Categoria del vino"

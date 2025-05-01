@@ -4,7 +4,7 @@ import { Grid, Stack, Typography } from "@mui/material";
 import { PersonalData } from "../../../components/user/information/personal_data";
 
 export const UserInformation = () => {
-    const { data, isLoading } = useUserInformationQuery('PabloVazquezReyes@outlook.com')
+    const { data, isLoading } = useUserInformationQuery('PABLOVAZQUEZREYES@OUTLOOK.COM')
     const user = data ? data.data : null;
 
     if (isLoading) {

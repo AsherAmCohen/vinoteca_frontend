@@ -13,6 +13,10 @@ const initialState: VinotecaSliceProps = {
     Wine: {
         rowsPerPage: 5,
         page: 0
+    },
+    WineList: {
+        rowsPerPage: 40,
+        page: 0
     }
 }
 
@@ -38,11 +42,18 @@ export const VinotecaSlice = createSlice({
                 [action.payload.key]: action.payload.value
             }
         },
+        setWineListActions: (state, action: PayloadAction<any>) => {
+            state.WineList = {
+                ...state.WineList,
+                [action.payload.key]: action.payload.value
+            }
+        }
     }
 })
 
 export const {
     setMarkActions,
     setCategoryActions,
-    setWineActions
+    setWineActions,
+    setWineListActions
 } = VinotecaSlice.actions

@@ -4,7 +4,6 @@ import { SideNav } from "../../components/user/side-nav"
 import { MainNav } from "../../components/user/main-nav"
 import baseTheme from "../../theme/color-schemes"
 import { components } from "../../theme/components/components"
-import { Modal } from "../../components/user/modal"
 
 export const User = () => {
     const localTheme = createTheme({
@@ -54,7 +53,6 @@ export const User = () => {
                     minHeight: '100%'
                 }}
             >
-                <Modal/>
                 <SideNav />
                 <Box
                     sx={{

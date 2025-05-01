@@ -1,36 +1,13 @@
-import { Autocomplete, debounce, FormLabel, TextField } from "@mui/material"
-import { useCallback, useEffect, useState } from "react"
+import { Autocomplete, FormLabel, TextField } from "@mui/material"
 import { AutocompleteSearchProps } from "../../types/autocomplete-search"
 
-export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
+export const AutocompleteCatalog = (props: AutocompleteSearchProps) => {
     const { api, label, id, placeholder, error, helperText, setData } = props
 
-    const [inputSearch, setInputSearch] = useState<string>('')
-    const [inputValue, setInputValue] = useState<string>('')
-
     // Api
-    const [search, { data, isLoading }] = api();
+    const { data, isLoading } = api();
 
     const options = data ? data.data : []
-
-    // Busqueda
-    useEffect(() => {
-        let active = true;
-        if (inputValue.length >= 3) {
-            if (active) {
-                search(inputValue)
-            }
-        }
-        return () => {
-            active = false
-        }
-    }, [inputSearch])
-
-    const debounceOnChange = useCallback(
-        debounce(value => {
-            setInputSearch(value)
-        }, 400), []
-    )
 
     const handleChange = (_e: any, value: any) => {
         setData(value)
@@ -56,10 +33,6 @@ export const AutocompleteSearch = (props: AutocompleteSearchProps) => {
                     params => (
                         <TextField
                             {...params}
-                            onChange={(e) => {
-                                setInputValue(e.target.value)
-                                debounceOnChange(e.target.value)
-                            }}
                             placeholder={placeholder}
                             fullWidth
                             error={error}

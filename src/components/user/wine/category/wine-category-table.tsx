@@ -64,12 +64,8 @@ export const WineCategoryTable = () => {
                         {count >= 1
                             ? categorys.map((category: any) => (
                                 <TableRow>
-                                    <TableCell>
-                                        <Typography variant='subtitle1'>{category.name}</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant='subtitle1'>{category.description}</Typography>
-                                    </TableCell>
+                                    <TableCell>{category.name}</TableCell>
+                                    <TableCell>{category.description}</TableCell>
                                     <TableCell align='right'>
                                         <Button variant='contained'>
                                             Editar

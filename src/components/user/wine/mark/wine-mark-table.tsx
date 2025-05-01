@@ -64,12 +64,8 @@ export const WineMarkTable = () => {
                         {count >= 1
                             ? marks.map((mark: any) => (
                                 <TableRow>
-                                    <TableCell>
-                                        <Typography variant='subtitle2'>{mark.name}</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant='subtitle2'>{mark.description}</Typography>
-                                    </TableCell>
+                                    <TableCell>{mark.name}</TableCell>
+                                    <TableCell>{mark.description}</TableCell>
                                     <TableCell>
                                         <Button variant='contained'>
                                             Editar

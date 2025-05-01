@@ -5,6 +5,7 @@ import { validateMarkAdd } from "../../../../helpers/validate/validate-mark-add"
 import { useCreateMarkMutation } from "../../../../store/api/api"
 import { useDispatch } from "react-redux"
 import { closeModalAction } from "../../../../store/slice/UI/slice"
+import { setMarkActions } from "../../../../store/slice/vinoteca/slice"
 
 export const WineMarkAdd = () => {
     const dispatch = useDispatch()
@@ -20,6 +21,12 @@ export const WineMarkAdd = () => {
     const descriptionRef = useRef<HTMLInputElement>(null);
 
     const handleClose = () => {
+        const payload: any = {
+            value: 0,
+            key: 'page'
+        }
+        dispatch(setMarkActions(payload))
+
         dispatch(closeModalAction())
     }
 
