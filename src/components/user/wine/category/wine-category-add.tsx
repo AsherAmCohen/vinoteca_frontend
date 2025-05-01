@@ -5,6 +5,7 @@ import { validateCategoryAdd } from "../../../../helpers/validate/validate-categ
 import { useDispatch } from "react-redux";
 import { useCreateCategoryMutation } from "../../../../store/api/api";
 import { closeModalAction } from "../../../../store/slice/UI/slice";
+import { setCategoryActions } from "../../../../store/slice/vinoteca/slice";
 
 export const WineCategoryAdd = () => {
     const dispatch = useDispatch()
@@ -20,6 +21,12 @@ export const WineCategoryAdd = () => {
     const descriptionRef = useRef<HTMLInputElement>(null);
 
     const handleClose = () => {
+        const payload: any = {
+            value: 0,
+            key: 'page'
+        }
+        dispatch(setCategoryActions(payload))
+
         dispatch(closeModalAction())
     }
 

@@ -16,4 +16,5 @@ export interface VinotecaSliceProps {
     Mark: PageProps
     Category: PageProps
     Wine: PageProps
+    WineList: PageProps
 }

@@ -84,23 +84,12 @@ export const WineListTable = () => {
                                             <Typography variant='subtitle2'>{wine.name}</Typography>
                                         </Stack>
                                     </TableCell>
-                                    <TableCell>
-                                        <Typography variant='subtitle2'>{wine.mark}</Typography>
-                                    </TableCell><TableCell>
-                                        <Typography variant='subtitle2'>{wine.category}</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant='subtitle2'>{wine.description}</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant='subtitle2'>{wine.price}</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant='subtitle2'>{wine.stock}</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant='subtitle2'>{wine.sale}</Typography>
-                                    </TableCell>
+                                    <TableCell>{wine.mark}</TableCell>
+                                    <TableCell>{wine.category}</TableCell>
+                                    <TableCell>{wine.description}</TableCell>
+                                    <TableCell>{wine.price}</TableCell>
+                                    <TableCell>{wine.stock}</TableCell>
+                                    <TableCell>{wine.sale}</TableCell>
                                     <TableCell>
                                         <Button variant='contained'>
                                             Editar
@@ -109,7 +98,7 @@ export const WineListTable = () => {
                                 </TableRow>
                             ))
                             : <TableRow>
-                                <TableCell align='center' colSpan={3}>
+                                <TableCell align='center' colSpan={8}>
                                     <Typography>
                                         No se han agregado vinos
                                     </Typography>
