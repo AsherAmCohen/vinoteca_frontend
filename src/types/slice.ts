@@ -7,13 +7,13 @@ export interface UISliceProps {
     }
 }
 
+interface PageProps {
+    rowsPerPage: number;
+    page: number;
+}
+
 export interface VinotecaSliceProps {
-    Mark: {
-        rowsPerPage: number;
-        page: number,
-    },
-    Category: {
-        rowsPerPage: number;
-        page: number,
-    }
+    Mark: PageProps
+    Category: PageProps
+    Wine: PageProps
 }

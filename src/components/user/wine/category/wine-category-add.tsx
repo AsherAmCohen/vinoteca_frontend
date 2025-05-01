@@ -93,6 +93,8 @@ export const WineCategoryAdd = () => {
 
             <DialogActions>
                 <Button
+                    disabled={isSuccess}
+                    loading={isLoading}
                     type='submit'
                     variant='contained'
                 >

@@ -45,8 +45,8 @@ export const vinotecaApi = createApi({
         }),
 
         Wines: builder.query({
-            query: () => ({
-                url: '/wine/wines',
+            query: ({page, rowsPerPage}) => ({
+                url: `/wine/wines?page=${page}&rowsPerPage=${rowsPerPage}`,
                 method: 'GET',
             }),
             providesTags: ['wineList']
@@ -88,6 +88,14 @@ export const vinotecaApi = createApi({
             invalidatesTags: ['categoryList']
         }),
 
+        searchCategory: builder.query({
+            query: (word: string) => ({
+                url: `category/search?word=${word}`,
+                method: 'POST'
+            }),
+            providesTags: ['categoryList']
+        }),
+
         categorys: builder.query({
             query: ({rowsPerPage, page}) => ({
                 url: `category/categorys?rowsPerPage=${rowsPerPage}&page=${page}`,
@@ -111,5 +119,6 @@ export const {
     useMarksQuery,
     // Categorias
     useCreateCategoryMutation,
+    useLazySearchCategoryQuery,
     useCategorysQuery
 } = vinotecaApi

@@ -8,12 +8,12 @@ import { closeModalAction } from "../../../../store/slice/UI/slice"
 
 export const WineMarkAdd = () => {
     const dispatch = useDispatch()
-    
+
     // Manejo de errores
     const [markErrors, setMarkErrors] = useState<any>('')
 
     // Api
-    const [CreateMark, { isLoading, isSuccess, error }]: any = useCreateMarkMutation()
+    const [CreateMark, { isLoading, isSuccess, error }] = useCreateMarkMutation()
 
     // Referencias para obtener los datos
     const nameRef = useRef<HTMLInputElement>(null);
@@ -46,6 +46,7 @@ export const WineMarkAdd = () => {
             CreateMark(markData)
         }
     }
+
     return (
         <Box
             component='form'

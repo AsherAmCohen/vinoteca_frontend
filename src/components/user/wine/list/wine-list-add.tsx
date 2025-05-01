@@ -1,26 +1,41 @@
-import { Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material"
+import { Alert, Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material"
 import { FormControl } from "../../../../helpers/components/form-control"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { validateWineAdd } from "../../../../helpers/validate/validate-wine-add";
 import { NumericFormat } from "react-number-format";
 import { StockMask } from "../../../../helpers/mask/mask";
-import { useLazySearchMarkQuery, useStoreWineMutation } from "../../../../store/api/api";
+import { useLazySearchCategoryQuery, useLazySearchMarkQuery, useStoreWineMutation } from "../../../../store/api/api";
 import { AutocompleteSearch } from "../../../../helpers/components/autocomplete-search";
+import { useDispatch } from "react-redux";
+import { closeModalAction } from "../../../../store/slice/UI/slice";
 
 export const WineListAdd = () => {
+    const dispatch = useDispatch()
+
     // Manejo de Errores
     const [wineErrors, setWineErrors] = useState<any>('');
 
+    // Manejo de autocomplete
+    const [mark, setMark] = useState<any>()
+    const [category, setCategory] = useState<any>()
+
     // Api
-    const [StoreWine]: any = useStoreWineMutation();
+    const [StoreWine, { isLoading, isSuccess, error }] = useStoreWineMutation();
 
     // Referencias para obtener los datos
     const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
-    const markRef = useRef<HTMLInputElement>(null);
     const priceRef = useRef<HTMLInputElement>(null);
     const stockRef = useRef<HTMLInputElement>(null);
     const imageRef = useRef<HTMLInputElement>(null);
+
+    const handleClose = () => {
+        dispatch(closeModalAction())
+    }
+
+    useEffect(() => {
+        if (isSuccess) setTimeout(() => handleClose(), 1000)
+    }, [isSuccess])
 
     const handleSubmit = () => {
         // Evita que se recarge la pagina
@@ -30,7 +45,8 @@ export const WineListAdd = () => {
         const wineData: any = {
             name: nameRef.current?.value || '',
             description: descriptionRef.current?.value || '',
-            mark: markRef.current?.value || '',
+            mark: mark || '',
+            category: category || '',
             price: priceRef.current?.value || '',
             stock: parseInt(stockRef.current?.value || ''),
             image: imageRef.current?.files?.[0] || null,
@@ -46,7 +62,8 @@ export const WineListAdd = () => {
             const formData = new FormData();
             formData.append('name', wineData.name);
             formData.append('description', wineData.description);
-            formData.append('mark', wineData.mark);
+            formData.append('mark', wineData.mark.id);
+            formData.append('category', wineData.category.id);
             formData.append('price', wineData.price);
             formData.append('stock', wineData.stock);
             if (wineData.image) {
@@ -62,6 +79,16 @@ export const WineListAdd = () => {
             component='form'
             onSubmit={handleSubmit}
         >
+            {isSuccess &&
+                <Alert severity='success'>
+                    Vino guardado
+                </Alert>
+            }
+            {error &&
+                <Alert severity='error'>
+                    Error al guardar el vino
+                </Alert>
+            }
             <DialogContent>
                 <Grid container spacing={2}>
                     <Grid size={{ xs: 12, md: 6 }}>
@@ -89,19 +116,31 @@ export const WineListAdd = () => {
                         />
                     </Grid>
 
-                    <Grid size={{ xs: 12, md: 4 }}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                         <AutocompleteSearch
                             api={useLazySearchMarkQuery}
                             label="Marca"
                             id='mark'
                             placeholder="Marca del vino"
-                            inputRef={markRef}
                             error={wineErrors?.mark?.error}
                             helperText={wineErrors?.mark?.msg}
+                            setData={setMark}
                         />
                     </Grid>
 
-                    <Grid size={{ xs: 6, md: 4 }}>
+                    <Grid size={{ xs: 6, md: 3 }}>
+                        <AutocompleteSearch
+                            api={useLazySearchCategoryQuery}
+                            label="Categoria"
+                            id='category'
+                            placeholder="Categoria del vino"
+                            error={wineErrors?.category?.error}
+                            helperText={wineErrors?.category?.msg}
+                            setData={setCategory}
+                        />
+                    </Grid>
+
+                    <Grid size={{ xs: 6, md: 3 }}>
                         <FormLabel
                             htmlFor='price'
                             error={wineErrors?.price?.error}
@@ -125,7 +164,7 @@ export const WineListAdd = () => {
                         />
                     </Grid>
 
-                    <Grid size={{ xs: 6, md: 4 }}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                         <FormControl
                             id='stock'
                             label="Cantidad"
@@ -184,6 +223,8 @@ export const WineListAdd = () => {
 
             <DialogActions>
                 <Button
+                    disabled={isSuccess}
+                    loading={isLoading}
                     type='submit'
                     variant='contained'
                 >

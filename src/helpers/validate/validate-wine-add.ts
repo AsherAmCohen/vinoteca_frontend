@@ -13,6 +13,10 @@ export const validateWineAddErros: WineAddErrosProps = {
         msg: 'Selecciona la marca del vino',
         error: false
     },
+    category: {
+        msg: 'Selecciona la categoria del vino',
+        error: false,
+    },
     price: {
         msg: 'Introduce el precio del vino',
         error: false
@@ -35,6 +39,7 @@ export const validateWineAdd = (values: validateWineAddProps) => {
         name,
         description,
         mark,
+        category,
         price,
         stock,
         image
@@ -60,6 +65,10 @@ export const validateWineAdd = (values: validateWineAddProps) => {
         errors = { ...errors, 'mark': { ...errors.mark, error: true } }
     }
 
+    if (!category) {
+        errors = { ...errors, 'category': { ...errors.category, error: true } }
+    }
+
     if (!floatPrice) {
         errors = { ...errors, 'price': { ...errors.price, error: true } }
     }
@@ -68,8 +77,8 @@ export const validateWineAdd = (values: validateWineAddProps) => {
         errors = { ...errors, 'stock': { ...errors.stock, error: true } }
     }
 
-    if(!image) {
-        errors = {...errors, 'image': {...errors.image, error: true}}
+    if (!image) {
+        errors = { ...errors, 'image': { ...errors.image, error: true } }
     }
 
     for (const [key, value] of Object.entries(errors)) {
