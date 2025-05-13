@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Divider, Grid, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Divider, Grid, TablePagination, Typography } from "@mui/material";
 import { useWinesQuery } from "../../store/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { openModalAction } from "../../store/slice/UI/slice";
@@ -10,18 +10,20 @@ export const WineList = () => {
     // Datos filtrados
     const Filters = useSelector((state: any) => state.Vinoteca.WineList)
 
+    const { page, rowsPerPage } = Filters
+
     const { data } = useWinesQuery(Filters)
     const { wines, count } = data ? data.data : [];
 
     // Obtener imagen
     const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
 
-    const handleWineOpen = (id: number) => {
+    const handleWineOpen = (wine: any) => {
         const payload: any = {
             title: 'Vino',
             component: WineInfo,
             args: {
-                id
+                wine: wine
             }
         }
         dispatch(openModalAction(payload))
@@ -51,7 +53,7 @@ export const WineList = () => {
                         Filtros
                     </CardContent>
                 </Card>
-                
+
                 <Grid
                     container
                     spacing={2}
@@ -83,7 +85,7 @@ export const WineList = () => {
                                 >
                                     <CardActionArea
                                         sx={{ height: '100%' }}
-                                        onClick={(_e) => handleWineOpen(wine.id)}
+                                        onClick={(_e) => handleWineOpen(wine)}
                                     >
 
                                         <CardMedia
@@ -115,6 +117,17 @@ export const WineList = () => {
                         )) : 'Por el momento no tenemos vinos'
                     }
                 </Grid>
+                <TablePagination
+                    sx={{
+                        background: 'white'
+                    }}
+                    component='div'
+                    count={count}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    // onPageChange={}
+                    // onRowsPerPageChange={}
+                />
             </Container>
         </Box>
     );
