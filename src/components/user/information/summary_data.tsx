@@ -29,8 +29,8 @@ export const SummaryData = (props: any) => {
                     </div>
                     <Stack spacing={1} sx={{ textAlign: 'center' }}>
                         <Typography variant="h5">{name} {lastname}</Typography>
-                        <Typography variant='body2'>{email}</Typography>
-                        <Typography variant='body2'>{phone}</Typography>
+                        <Typography color="text.secondary" variant='body2'>{email}</Typography>
+                        <Typography color="text.secondary" variant='body2'>{phone}</Typography>
                     </Stack>
                 </Stack>
             </CardContent>

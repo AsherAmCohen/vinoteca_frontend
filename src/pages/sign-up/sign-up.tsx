@@ -1,5 +1,5 @@
-import { MyContainer } from "../../theme/components/my-container"
-import { MyCard } from "../../theme/components/my-card"
+import { MyContainer } from "../../styles/theme/components/my-container"
+import { MyCard } from "../../styles/theme/components/my-card"
 import { Alert, Autocomplete, Box, Button, Divider, FormLabel, TextField, Typography } from "@mui/material"
 import { FormControl } from "../../helpers/components/form-control"
 import { Link, useNavigate } from "react-router-dom"
