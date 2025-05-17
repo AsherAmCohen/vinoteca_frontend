@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material"
-import { MyBox } from "../../theme/components/my-box"
+import { MyBox } from "../../styles/theme/components/my-box"
 
 export const History = () => {
     return (

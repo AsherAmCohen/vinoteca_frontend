@@ -27,7 +27,7 @@ export const WineCategory = () => {
                         flex: '1 1 auto'
                     }}
                 >
-                    <Typography variant="h4">Categirias</Typography>
+                    <Typography variant="h4">Categorias</Typography>
                 </Stack>
                 <div>
                     <Button

@@ -1,13 +1,45 @@
-import { AppBar, Box, Container, IconButton, Tooltip } from "@mui/material"
-import { MyToolBar } from "../../theme/components/my-tool-bar"
+import { AppBar, Badge, Box, Container, IconButton, styled, Tooltip } from "@mui/material"
+import { MyToolBar } from "../../styles/theme/components/my-tool-bar"
 import { ScrollButton } from "./scroll-button"
 import { ToolBarProps } from "../../types/tool-bar"
 import { UserCircle as UserCircleIcon } from "@phosphor-icons/react"
 import { ShoppingCart as ShoppingCartIcon } from "@phosphor-icons/react"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../auth-context"
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}));
 
 export const ToolBar = (props: ToolBarProps) => {
     const { homeRef, historyRef, winelistRef } = props;
+    const { isAuthenticated } = useAuth()
+
     const navigate = useNavigate()
 
     const handleUser = () => {
@@ -73,20 +105,26 @@ export const ToolBar = (props: ToolBarProps) => {
                     </Box>
 
                     <Box>
-                        <Tooltip title='Usuario'>
-                            <IconButton
-                                sx={{
-                                    color: 'var(--Vinoteca-Background-Light)',
-                                    '&:hover': {
-                                        color: 'var(--Vinoteca-Background-Dark)',
-                                        background: 'var(--Vinoteca-Background-Light)'
-                                    }
-                                }}
-                                onClick={handleUser}
-                            >
-                                <UserCircleIcon />
-                            </IconButton>
-                        </Tooltip>
+                        <StyledBadge
+                            overlap="circular"
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            variant={isAuthenticated ? 'dot' : 'standard'}
+                        >
+                            <Tooltip title='Usuario'>
+                                <IconButton
+                                    sx={{
+                                        color: 'var(--Vinoteca-Background-Light)',
+                                        '&:hover': {
+                                            color: 'var(--Vinoteca-Background-Dark)',
+                                            background: 'var(--Vinoteca-Background-Light)'
+                                        }
+                                    }}
+                                    onClick={handleUser}
+                                >
+                                    <UserCircleIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </StyledBadge>
 
                         <Tooltip title='Carrito'>
                             <IconButton

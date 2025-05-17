@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import { AppTheme } from './theme/app-theme.tsx'
 import { GlobalStyles } from '@mui/material'
 import { Provider } from 'react-redux'
 import { store } from './store/store.ts'
 import { Modal } from './components/user/modal.tsx'
+import { AppTheme } from './styles/theme/app-theme.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
