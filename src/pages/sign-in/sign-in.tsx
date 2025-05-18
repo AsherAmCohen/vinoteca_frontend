@@ -1,13 +1,25 @@
-import { MyContainer } from "../../theme/components/my-container"
-import { MyCard } from "../../theme/components/my-card"
+import { MyContainer } from "../../styles/theme/components/my-container"
+import { MyCard } from "../../styles/theme/components/my-card"
 import { Alert, Box, Button, Divider, Typography } from "@mui/material"
 import { FormControl } from "../../helpers/components/form-control"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import { validateSignIn } from "../../helpers/validate/validate-sign-in"
 import { useSignInMutation } from "../../store/api/api"
+import { useAuth } from "../../auth-context"
 
 export const SingIn = () => {
+    // Comprobar si ya existe in inicio de sesión
+    const { login, isAuthenticated } = useAuth();
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(isAuthenticated) {
+            navigate('/user')
+        }
+    }, [isAuthenticated, navigate])
+
+
     // Obtiene la cookie almacenada, si es que existe
     const confirmCreateUser = localStorage.getItem('createCount')
 
@@ -16,11 +28,9 @@ export const SingIn = () => {
     const [serverErrors, setServerErrors] = useState<any>('')
     const [createUser, setCreateUser] = useState<boolean>(false)
 
-    // Redireccionamiento
-    const navigate = useNavigate()
 
     // Api
-    const [SignIn, { isSuccess, error }]: any = useSignInMutation()
+    const [SignIn, { data, isSuccess, error }]: any = useSignInMutation()
 
     // Referencias para obtener los datos
     const emailRef = useRef<HTMLInputElement>(null);
@@ -55,13 +65,15 @@ export const SingIn = () => {
             setCreateUser(true)
             localStorage.removeItem('createCount')
         }
-    },[confirmCreateUser])
+    }, [confirmCreateUser])
 
+    // Comprueba la respuesta del backend
     useEffect(() => {
         if (error) {
             setServerErrors(error?.data?.msg || 'Error al iniciar sesión, intentalo más tarde')
         } else if (isSuccess) {
-            navigate('/')
+            const { token } = data.data
+            login(token)
         }
     }, [isSuccess, error])
 

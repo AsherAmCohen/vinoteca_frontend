@@ -2,8 +2,9 @@ import { Box, Container, createTheme, CssBaseline, ThemeProvider } from "@mui/ma
 import { Outlet } from "react-router-dom"
 import { SideNav } from "../../components/user/side-nav"
 import { MainNav } from "../../components/user/main-nav"
-import baseTheme from "../../theme/color-schemes"
-import { components } from "../../theme/components/components"
+import baseTheme from "../../styles/theme/color-schemes"
+import { components } from "../../styles/theme/components/components"
+import '../../styles/global.css'
 
 export const User = () => {
     const localTheme = createTheme({

@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { closeModalAction } from "../../store/slice/UI/slice"
-import TransitionUp from "../../theme/transitions/transition-up"
+import TransitionUp from "../../styles/theme/transitions/transition-up"
 
 export const Modal = () => {
     const dispath = useDispatch()
