@@ -7,7 +7,7 @@ export const vinotecaApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
-    tagTypes: ['wineList', 'markList', 'categoryList'],
+    tagTypes: ['wineList', 'markList', 'categoryList', 'amountProduct'],
 
     endpoints: (builder) => ({
         // Manejo de usuarios
@@ -102,6 +102,41 @@ export const vinotecaApi = createApi({
                 method: 'GET'
             }),
             providesTags: ['categoryList']
+        }),
+
+        // Carrito de compras
+        addShoppingCart: builder.mutation ({
+            query: (data) => ({
+                url: '/shoppingCart/add',
+                method: 'POST',
+                body: data
+            }),
+            invalidatesTags: ['amountProduct']
+        }),
+
+        amountProduct: builder.query({
+            query: ({wineId, shoppingCartId}) => ({
+                url: `/shoppingCart/product?wineId=${wineId}&shoppingCartId=${shoppingCartId}`,
+                method: 'GET'
+            }),
+            providesTags: ['amountProduct']
+        }),
+
+        updateAmountProduct: builder.mutation({
+            query: (data) => ({
+                url: '/shoppingCart/update',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['amountProduct']
+        }),
+
+        countProducts: builder.query({
+            query: ({shoppingCartId}) => ({
+                url: `/shoppingCart/count?shoppingCartId=${shoppingCartId}`,
+                method: 'GET'
+            }),
+            providesTags: ['amountProduct']
         })
     })
 })
@@ -120,5 +155,10 @@ export const {
     // Categorias
     useCreateCategoryMutation,
     useAllCategorysQuery,
-    useCategorysQuery
+    useCategorysQuery,
+    // Carrito de compras
+    useAddShoppingCartMutation,
+    useAmountProductQuery,
+    useUpdateAmountProductMutation,
+    useCountProductsQuery
 } = vinotecaApi
