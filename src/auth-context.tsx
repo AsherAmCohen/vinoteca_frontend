@@ -29,6 +29,7 @@ const AuthProvider = ({ children }: Props) => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        console.log('aqui')
         if (token) {
             try {
                 const decoded: any = jwtDecode(token);

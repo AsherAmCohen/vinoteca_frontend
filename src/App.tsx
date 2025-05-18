@@ -12,13 +12,16 @@ import { WineCategory } from "./pages/user/wine/category/wine-category";
 import { PrivateRoute } from "./routes/private-route";
 import { AuthProvider } from "./auth-context";
 import { PublicRoute } from "./routes/public-route";
+import { HomeRoute } from "./routes/home-route";
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Vinoteca />} />
+          <Route element={<HomeRoute />}>
+            <Route path="/" element={<Vinoteca />} />
+          </Route>
 
           {/* Rutas que comprueban el estado de inicio de sesión */}
           <Route element={<PublicRoute />}>
