@@ -20,7 +20,7 @@ export const WineList = () => {
 
     const handleWineOpen = (wine: any) => {
         const payload: any = {
-            title: 'Vino',
+            title: wine.name,
             component: WineInfo,
             args: {
                 wine: wine
@@ -117,17 +117,6 @@ export const WineList = () => {
                         )) : 'Por el momento no tenemos vinos'
                     }
                 </Grid>
-                <TablePagination
-                    sx={{
-                        background: 'white'
-                    }}
-                    component='div'
-                    count={count}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    // onPageChange={}
-                    // onRowsPerPageChange={}
-                />
             </Container>
         </Box>
     );
