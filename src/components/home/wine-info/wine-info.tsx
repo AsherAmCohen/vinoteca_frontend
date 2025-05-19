@@ -1,17 +1,4 @@
-import {
-    Box,
-    DialogActions,
-    DialogContent,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Paper,
-    Chip,
-    IconButton
-} from "@mui/material";
-
+import { Box, DialogActions, DialogContent, Table, TableBody, TableCell, TableContainer, TableRow, Paper, Chip, IconButton } from "@mui/material";
 import { TagSimple as LabelOutlined } from "@phosphor-icons/react";
 import { Trademark as Business } from "@phosphor-icons/react"
 import { Tag as Category } from "@phosphor-icons/react"
@@ -19,46 +6,111 @@ import { Article as Description } from "@phosphor-icons/react";
 import { CurrencyDollar as AttachMoney } from "@phosphor-icons/react";
 import { StackOverflowLogo as Inventory } from "@phosphor-icons/react";
 import { ShoppingCart as Repeat } from "@phosphor-icons/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAddShoppingCartMutation, useAmountProductQuery, useUpdateAmountProductMutation } from "../../../store/api/api";
 import { Plus as Add } from "@phosphor-icons/react";
 import { Minus as Remove } from "@phosphor-icons/react";
+import { useAuth } from "../../../auth-context";
+import { useEffect, useState } from "react";
+import { DeleteToCart, ToCart } from "../../../store/slice/shop/slice";
 
 export const WineInfo = (props: any) => {
+    const dispatch = useDispatch()
     const { category, description, id, image, mark, name, price, sale, stock } = props.args.wine;
+
+    // Comprobar si existe un usuario iniciado
+    const { isAuthenticated } = useAuth();
+    const user = useSelector((state: any) => state.Auth.user);
+    const localCart = useSelector((state: any) => state.ShoppingCart);
+
+    console.log(localCart)
+
+    // Cantidad del producto agregado al carrito
+    const [amountShopping, setAmountShopping] = useState<number>(0)
 
     // Obtener imagen
     const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
 
-    // Obtener el ID del carrito
-    const { shoppingCart } = useSelector((state: any) => state.Auth.user)
+    // Objeto para RTK Query solo si está autenticado
+    const dataWine = isAuthenticated
+        ? {
+            wineId: id,
+            shoppingCartId: user?.shoppingCart,
+            amount: 0,
+        }
+        : null;
 
-    // Obtener cantidad del producto si ya esta agregado al carrito
-    const dataWine = {
-        wineId: id,
-        shoppingCartId: shoppingCart,
-        amount: 0
-    }
+    const { data } = useAmountProductQuery(dataWine!, {
+        skip: !isAuthenticated,
+    });
 
-    const { data } = useAmountProductQuery(dataWine)
-    const amount = data ? data.data : 0
+    // Sincronizar cantidad con query
+    useEffect(() => {
+        if (isAuthenticated && data) {
+            setAmountShopping(data.data);
+        }
+
+        if (!isAuthenticated) {
+            const localWine = localCart.wines.find((wine: any) => wine.id === id);
+            setAmountShopping(localWine ? localWine.amount : 0);
+        }
+    }, [data, isAuthenticated, localCart]);
 
     const [addWine] = useAddShoppingCartMutation();
     const [updateAmount] = useUpdateAmountProductMutation();
 
     const handleAddShoppingCart = () => {
-        addWine(dataWine)
+        // Comprobación de usuario iniciado
+        if (isAuthenticated) {
+            addWine(dataWine)
+        } else {
+            const payload = {
+                id: id,
+                amount: 1
+            }
+
+            dispatch(ToCart(payload))
+        }
     }
 
     const handleAddProduct = () => {
-        dataWine.amount = amount + 1
-        updateAmount(dataWine)
-    }
+        if (amountShopping >= stock) return; // evitar que sobrepase el stock
 
-    const handleDeleteProdudct = () => {
-        dataWine.amount = amount - 1
-        updateAmount(dataWine)
-    }
+        if (isAuthenticated) {
+            const newAmount = amountShopping + 1;
+            setAmountShopping(newAmount);
+            updateAmount({ ...dataWine, amount: newAmount });
+        } else {
+            // Redux local: incrementar cantidad
+            dispatch(ToCart({ id, amount: 1 }));
+            setAmountShopping(prev => prev + 1);
+        }
+    };
+
+    const handleDeleteProduct = () => {
+        const newAmount = amountShopping - 1;
+
+        // Si el nuevo valor es 0 o menor, elimina el producto
+        if (newAmount <= 0) {
+            if (isAuthenticated) {
+                updateAmount({ ...dataWine, amount: 0 });
+            } else {
+                dispatch(DeleteToCart(id));
+            }
+            setAmountShopping(0);
+            return;
+        }
+
+        // Si sigue siendo mayor a 0, solo actualiza la cantidad
+        if (isAuthenticated) {
+            updateAmount({ ...dataWine, amount: newAmount });
+        } else {
+            dispatch(ToCart({ id, amount: -1 }));
+        }
+
+        setAmountShopping(newAmount);
+    };
+
 
 
     return (
@@ -128,7 +180,7 @@ export const WineInfo = (props: any) => {
                                             <strong>Precio</strong>
                                         </Box>
                                     </TableCell>
-                                    <TableCell>${price}</TableCell>
+                                    <TableCell>{price}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>
@@ -155,14 +207,14 @@ export const WineInfo = (props: any) => {
             </DialogContent>
 
             <DialogActions>
-                {amount < 1 ?
+                {amountShopping < 1 ?
                     <Chip
                         variant="outlined"
                         clickable={false}
                         label={
                             <>
                                 Agregar a carrito
-                                <Repeat/>
+                                <Repeat />
                             </>
                         }
                         onClick={handleAddShoppingCart}
@@ -184,14 +236,14 @@ export const WineInfo = (props: any) => {
                                     size="small"
                                     onClick={(e) => {
                                         e.stopPropagation(); // para evitar cerrar el chip si se hace clic
-                                        handleDeleteProdudct();
+                                        handleDeleteProduct();
                                     }}
                                     sx={{ p: 0.5, color: 'var(--Vinoteca-Background-Light)' }}
                                 >
                                     <Remove fontSize="small" />
                                 </IconButton>
 
-                                <span><strong>{amount}</strong></span>
+                                <span><strong>{amountShopping}</strong></span>
 
                                 <IconButton
                                     size="small"

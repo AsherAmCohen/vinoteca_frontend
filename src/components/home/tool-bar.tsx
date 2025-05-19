@@ -10,6 +10,7 @@ import { ShoppingCartPopover } from "./shopping-cart-popover"
 import { usePopover } from "../../hooks/use-popover"
 import { useCountProductsQuery } from "../../store/api/api"
 import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -41,23 +42,46 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export const ToolBar = (props: ToolBarProps) => {
+    // Manejo de las secciones
     const { homeRef, historyRef, winelistRef } = props;
+    // Contador del carrito
+    const [countShopping, setCountShopping] = useState<any>(0)
+    const shoppingCartPopover = usePopover<HTMLDivElement>();
+
+    // Comprobar si existe un usuario iniciado
     const { isAuthenticated } = useAuth()
 
-    const shoppingCartPopover = usePopover<HTMLDivElement>();
+    // Datos del usuario
+    const { shoppingCart } = useSelector((state: any) => state.Auth.user || {})
+
+    // Si el usuario está autenticado, obtener conteo desde API
+    const { data } = useCountProductsQuery(
+        { shoppingCartId: shoppingCart },
+        { skip: !isAuthenticated }
+    )
+
+    // Si está autenticado, actualiza el contador cuando llegue la data
+    useEffect(() => {
+        if (isAuthenticated && data?.data != null) {
+            setCountShopping(data.data)
+        }
+    }, [isAuthenticated, data])
+
+    // Si NO está autenticado, contar productos desde Redux (carrito local)
+    const { wines } = useSelector((state: any) => state.ShoppingCart)
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            const total = wines.reduce((sum: number, wine: any) => sum + wine.amount, 0)
+            setCountShopping(total)
+        }
+    }, [isAuthenticated, wines])
 
     const navigate = useNavigate()
 
     const handleUser = () => {
         navigate('/SignIn')
     }
-
-    // Id del carrito
-    const { shoppingCart } = useSelector((state: any) => state.Auth.user)
-
-    // Cantidad de productos agregados en el carrito
-    const { data } = useCountProductsQuery({ shoppingCartId: shoppingCart })
-    const countProducts = data ? data.data : 0
 
     return (
         <>
@@ -153,7 +177,7 @@ export const ToolBar = (props: ToolBarProps) => {
                                     ref={shoppingCartPopover.anchorRef}
                                 >
                                     <Badge
-                                        badgeContent={countProducts > 0 ? countProducts : null}
+                                        badgeContent={countShopping > 0 ? countShopping : null}
                                         color='warning'
                                     >
                                         <ShoppingCartIcon />

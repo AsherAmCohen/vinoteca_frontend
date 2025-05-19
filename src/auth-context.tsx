@@ -2,6 +2,7 @@ import { jwtDecode } from "jwt-decode"
 import { createContext, useContext, useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import { login as loginRedux, logout as logoutRedux } from "./store/slice/auth/slice";
+import { ClearCart } from "./store/slice/shop/slice";
 interface AuthContextType {
     user: any;
     isAuthenticated: boolean;
@@ -29,7 +30,6 @@ const AuthProvider = ({ children }: Props) => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log('aqui')
         if (token) {
             try {
                 const decoded: any = jwtDecode(token);
@@ -44,7 +44,7 @@ const AuthProvider = ({ children }: Props) => {
             }
         }
         setLoading(false)
-    }, [])
+    }, [dispatch])
 
     const login = (token: string) => {
         localStorage.setItem('token', token)
@@ -56,6 +56,7 @@ const AuthProvider = ({ children }: Props) => {
     const logout = () => {
         localStorage.removeItem('token')
         setUser(null)
+        dispatch(ClearCart())
         dispatch(logoutRedux())
     }
 
