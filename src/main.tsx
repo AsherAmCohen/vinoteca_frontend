@@ -4,7 +4,7 @@ import App from './App.tsx'
 import { GlobalStyles } from '@mui/material'
 import { Provider } from 'react-redux'
 import { persistor, store } from './store/store.ts'
-import { Modal } from './components/user/modal.tsx'
+
 import { AppTheme } from './styles/theme/app-theme.tsx'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -27,7 +27,6 @@ createRoot(document.getElementById('root')!).render(
               }
             }}
           />
-          <Modal />
           <App />
         </AppTheme>
       </PersistGate>

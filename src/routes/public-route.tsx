@@ -5,5 +5,5 @@ export const PublicRoute = () => {
     const { isAuthenticated, loading } = useAuth()
 
     if (loading) return <>Cargando...</>
-    return !isAuthenticated ? <Outlet /> : <Navigate to="/user" />
+    return !isAuthenticated ? <Outlet /> : <Navigate to="/" />
 }

@@ -1,8 +1,10 @@
 import { jwtDecode } from "jwt-decode"
 import { createContext, useContext, useEffect, useState } from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login as loginRedux, logout as logoutRedux } from "./store/slice/auth/slice";
 import { ClearCart } from "./store/slice/shop/slice";
+
+import { useUpdateAmountProductMutation } from "./store/api/api";
 interface AuthContextType {
     user: any;
     isAuthenticated: boolean;
@@ -23,10 +25,31 @@ interface Props {
     children: React.ReactNode
 }
 
-const AuthProvider = ({ children }: Props) => {
+export const AuthProvider = ({ children }: Props) => {
     const dispatch = useDispatch();
     const [user, setUser] = useState<any>(null)
     const [loading, setLoading] = useState(true);
+
+    // Sincronizar carritos
+    const localCart = useSelector((state: any) => state.ShoppingCart.wines);
+    const [addToCart] = useUpdateAmountProductMutation();
+
+    const syncCartWithAPI = async (userData: any) => {
+        if (!userData?.shoppingCart || !localCart?.length) return;
+
+        try {
+            console.log(localCart)
+            for (const item of localCart) {
+                await addToCart({
+                    wineId: item.id,
+                    shoppingCartId: userData.shoppingCart,
+                    amount: item.amount
+                }).unwrap();
+            }
+            dispatch(ClearCart());
+        } catch (error) {}
+    };
+
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -36,6 +59,7 @@ const AuthProvider = ({ children }: Props) => {
                 if (decoded.exp * 1000 > Date.now()) {
                     setUser(decoded)
                     dispatch(loginRedux({ user: decoded, token }))
+                    syncCartWithAPI(decoded); // sincronizar si hay token válido
                 } else {
                     localStorage.removeItem('token')
                 }
@@ -44,19 +68,19 @@ const AuthProvider = ({ children }: Props) => {
             }
         }
         setLoading(false)
-    }, [dispatch])
+    }, [])
 
     const login = (token: string) => {
         localStorage.setItem('token', token)
         const decoded: any = jwtDecode(token)
         setUser(decoded)
-        dispatch(loginRedux({user: decoded, token}))
+        dispatch(loginRedux({ user: decoded, token }))
+        syncCartWithAPI(decoded); // sincronizar al iniar sesión
     }
 
     const logout = () => {
         localStorage.removeItem('token')
         setUser(null)
-        dispatch(ClearCart())
         dispatch(logoutRedux())
     }
 
@@ -67,8 +91,6 @@ const AuthProvider = ({ children }: Props) => {
     )
 }
 
-function useAuth() {
+export const useAuth = () => {
     return useContext(AuthContext);
 }
-
-export { AuthProvider, useAuth };

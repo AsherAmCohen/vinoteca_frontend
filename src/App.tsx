@@ -13,10 +13,12 @@ import { PrivateRoute } from "./routes/private-route";
 import { AuthProvider } from "./auth-context";
 import { PublicRoute } from "./routes/public-route";
 import { HomeRoute } from "./routes/home-route";
+import { Modal } from './components/user/modal.tsx'
 
 const App = () => {
   return (
     <AuthProvider>
+      <Modal/>
       <Router>
         <Routes>
           <Route element={<HomeRoute />}>

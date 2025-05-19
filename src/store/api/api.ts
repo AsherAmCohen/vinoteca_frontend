@@ -105,15 +105,6 @@ export const vinotecaApi = createApi({
         }),
 
         // Carrito de compras
-        addShoppingCart: builder.mutation ({
-            query: (data) => ({
-                url: '/shoppingCart/add',
-                method: 'POST',
-                body: data
-            }),
-            invalidatesTags: ['amountProduct']
-        }),
-
         amountProduct: builder.query({
             query: ({wineId, shoppingCartId}) => ({
                 url: `/shoppingCart/product?wineId=${wineId}&shoppingCartId=${shoppingCartId}`,
@@ -157,7 +148,6 @@ export const {
     useAllCategorysQuery,
     useCategorysQuery,
     // Carrito de compras
-    useAddShoppingCartMutation,
     useAmountProductQuery,
     useUpdateAmountProductMutation,
     useCountProductsQuery

@@ -7,7 +7,7 @@ import { CurrencyDollar as AttachMoney } from "@phosphor-icons/react";
 import { StackOverflowLogo as Inventory } from "@phosphor-icons/react";
 import { ShoppingCart as Repeat } from "@phosphor-icons/react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAddShoppingCartMutation, useAmountProductQuery, useUpdateAmountProductMutation } from "../../../store/api/api";
+import { useAmountProductQuery, useUpdateAmountProductMutation } from "../../../store/api/api";
 import { Plus as Add } from "@phosphor-icons/react";
 import { Minus as Remove } from "@phosphor-icons/react";
 import { useAuth } from "../../../auth-context";
@@ -20,10 +20,9 @@ export const WineInfo = (props: any) => {
 
     // Comprobar si existe un usuario iniciado
     const { isAuthenticated } = useAuth();
+
     const user = useSelector((state: any) => state.Auth.user);
     const localCart = useSelector((state: any) => state.ShoppingCart);
-
-    console.log(localCart)
 
     // Cantidad del producto agregado al carrito
     const [amountShopping, setAmountShopping] = useState<number>(0)
@@ -56,24 +55,24 @@ export const WineInfo = (props: any) => {
         }
     }, [data, isAuthenticated, localCart]);
 
-    const [addWine] = useAddShoppingCartMutation();
     const [updateAmount] = useUpdateAmountProductMutation();
 
-    const handleAddShoppingCart = () => {
-        // Comprobación de usuario iniciado
-        if (isAuthenticated) {
-            addWine(dataWine)
-        } else {
-            const payload = {
-                id: id,
-                amount: 1
-            }
+    // const handleAddShoppingCart = () => {
+    //     // Comprobación de usuario iniciado
+    //     if (isAuthenticated) {
+    //         updateAmount(dataWine)
+    //     } else {
+    //         const payload = {
+    //             id: id,
+    //             amount: 1
+    //         }
 
-            dispatch(ToCart(payload))
-        }
-    }
+    //         dispatch(ToCart(payload))
+    //     }
+    // }
 
     const handleAddProduct = () => {
+        console.log(isAuthenticated)
         if (amountShopping >= stock) return; // evitar que sobrepase el stock
 
         if (isAuthenticated) {
@@ -103,6 +102,7 @@ export const WineInfo = (props: any) => {
 
         // Si sigue siendo mayor a 0, solo actualiza la cantidad
         if (isAuthenticated) {
+            console.log('aqui')
             updateAmount({ ...dataWine, amount: newAmount });
         } else {
             dispatch(ToCart({ id, amount: -1 }));
@@ -217,7 +217,7 @@ export const WineInfo = (props: any) => {
                                 <Repeat />
                             </>
                         }
-                        onClick={handleAddShoppingCart}
+                        onClick={handleAddProduct}
                         sx={{
                             cursor: 'pointer',
                             px: 1.5,

@@ -11,6 +11,7 @@ import { usePopover } from "../../hooks/use-popover"
 import { useCountProductsQuery } from "../../store/api/api"
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
+import { UserPopover } from "./user-popover"
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -47,7 +48,7 @@ export const ToolBar = (props: ToolBarProps) => {
     // Contador del carrito
     const [countShopping, setCountShopping] = useState<any>(0)
     const shoppingCartPopover = usePopover<HTMLDivElement>();
-
+    const userPopover = usePopover<HTMLDivElement>();
     // Comprobar si existe un usuario iniciado
     const { isAuthenticated } = useAuth()
 
@@ -157,7 +158,8 @@ export const ToolBar = (props: ToolBarProps) => {
                                                 background: 'var(--Vinoteca-Background-Light)'
                                             }
                                         }}
-                                        onClick={handleUser}
+                                        onClick={isAuthenticated ? userPopover.handleOpen : handleUser}
+                                        ref={userPopover.anchorRef}
                                     >
                                         <UserCircleIcon />
                                     </IconButton>
@@ -192,6 +194,11 @@ export const ToolBar = (props: ToolBarProps) => {
                 anchorEl={shoppingCartPopover.anchorRef.current}
                 open={shoppingCartPopover.open}
                 onClose={shoppingCartPopover.handleClose}
+            />
+            <UserPopover
+                anchorEl={userPopover.anchorRef.current}
+                open={userPopover.open}
+                onClose={userPopover.handleClose}
             />
         </>
     )

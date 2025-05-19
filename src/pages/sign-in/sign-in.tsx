@@ -15,7 +15,7 @@ export const SingIn = () => {
 
     useEffect(() => {
         if(isAuthenticated) {
-            navigate('/user')
+            navigate('/')
         }
     }, [isAuthenticated, navigate])
 
