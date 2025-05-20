@@ -27,7 +27,7 @@ export const Home = () => {
                     >
                         <img
                             src='/logo.png'
-                            alt='Vinoteca'
+                            alt='Logo Vinoteca'
                             style={{
                                 width: '15vw',
                                 height: 'auto'
@@ -36,7 +36,7 @@ export const Home = () => {
 
                         <Box>
                             <Typography
-                            variant="h1"
+                                variant="h1"
                                 sx={{
                                     fontSize: '5vw',
                                     fontWeight: 'bold',

@@ -112,6 +112,7 @@ export const ToolBar = (props: ToolBarProps) => {
                                 <img
                                     src="/logo.png"
                                     width='50wv'
+                                    alt='Logo Vinoteca'
                                     style={{
                                         cursor: 'pointer'
                                     }}

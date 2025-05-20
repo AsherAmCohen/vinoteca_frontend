@@ -45,7 +45,7 @@ export const History = () => {
                     <Grid size={8}>
                         <Box display='flex' justifyContent='center'>
                             <Typography
-                                variant='h5'
+                                variant='h2'
                                 sx={{
                                     fontSize: '1.9vw',
                                     color: 'var(--Vinoteca-Background-Light)',

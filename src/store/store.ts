@@ -22,7 +22,8 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage,
-    whiteList: ['ShoppingCart']
+    whitelist: ['ShoppingCart'],
+
 }
 
 // Aplicar persistencia

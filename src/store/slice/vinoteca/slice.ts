@@ -18,6 +18,10 @@ const initialState: VinotecaSliceProps = {
         rowsPerPage: 40,
         page: 0
     },
+    UserList: {
+        rowsPerPage: 5,
+        page: 0
+    }
 }
 
 export const VinotecaSlice = createSlice({
@@ -48,6 +52,12 @@ export const VinotecaSlice = createSlice({
                 [action.payload.key]: action.payload.value
             }
         },
+        setUserListActions: (state, action: PayloadAction<any>) => {
+            state.UserList = {
+                ...state.UserList,
+                [action.payload.key]: action.payload.value
+            }
+        }
     }
 })
 
@@ -56,4 +66,5 @@ export const {
     setCategoryActions,
     setWineActions,
     setWineListActions,
+    setUserListActions
 } = VinotecaSlice.actions

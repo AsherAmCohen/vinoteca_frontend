@@ -5,12 +5,15 @@ import { login as loginRedux, logout as logoutRedux } from "./store/slice/auth/s
 import { ClearCart } from "./store/slice/shop/slice";
 
 import { useUpdateAmountProductMutation } from "./store/api/api";
+
 interface AuthContextType {
     user: any;
     isAuthenticated: boolean;
     login: (token: string) => void;
     logout: () => void;
     loading: boolean;
+    hasPermission: (perm: string) => boolean;
+    isRole: (role: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -18,7 +21,9 @@ const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
     login: () => { },
     logout: () => { },
-    loading: true
+    loading: true,
+    hasPermission: () => false,
+    isRole: () => false
 });
 
 interface Props {
@@ -56,6 +61,7 @@ export const AuthProvider = ({ children }: Props) => {
         if (token) {
             try {
                 const decoded: any = jwtDecode(token);
+                console.log(decoded)
                 if (decoded.exp * 1000 > Date.now()) {
                     setUser(decoded)
                     dispatch(loginRedux({ user: decoded, token }))
@@ -84,8 +90,16 @@ export const AuthProvider = ({ children }: Props) => {
         dispatch(logoutRedux())
     }
 
+    const hasPermission = (perm: string) => {
+        return user?.permissions?.includes(perm);
+    }
+
+    const isRole = (role: string) => {
+        return user?.role === role;
+    }
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, loading, hasPermission, isRole }}>
             {children}
         </AuthContext.Provider>
     )

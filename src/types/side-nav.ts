@@ -11,11 +11,13 @@ export interface NavItemConfigProps {
         type: 'startsWith' | 'equals';
         href: string
     }
+    permissions?: string[]
 }
 
 export interface RenderNavItemsProps {
     items?: NavItemConfigProps[],
     pathname: string;
+    userPermissions: string[]
 }
 
 export interface NavItemProps extends Omit<NavItemConfigProps, 'items'> {

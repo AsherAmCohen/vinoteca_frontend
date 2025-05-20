@@ -14,11 +14,13 @@ import { AuthProvider } from "./auth-context";
 import { PublicRoute } from "./routes/public-route";
 import { HomeRoute } from "./routes/home-route";
 import { Modal } from './components/user/modal.tsx'
+import { Users } from "./pages/user/users/users.tsx";
+import { UserList } from "./pages/user/users/list/users-list.tsx";
 
 const App = () => {
   return (
     <AuthProvider>
-      <Modal/>
+      <Modal />
       <Router>
         <Routes>
           <Route element={<HomeRoute />}>
@@ -34,13 +36,21 @@ const App = () => {
           {/* Rutas protegitas */}
           <Route element={<PrivateRoute />}>
             <Route path="/user" element={<User />}>
+              {/* Información del usuario */}
               <Route index element={<UserInformation />} />
+              {/* Ordenes */}
               <Route path="orders" element={<UserOrders />} />
               <Route path="wine" element={<Wine />}>
                 <Route index element={<WineList />} />
                 <Route path="mark" element={<WineMark />} />
                 <Route path="category" element={<WineCategory />} />
               </Route>
+
+              {/* Usuarios */}
+              <Route path="users" element={<Users />}>
+                <Route index element={<UserList />} />
+              </Route>
+
             </Route>
 
           </Route>

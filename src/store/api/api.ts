@@ -34,6 +34,13 @@ export const vinotecaApi = createApi({
             })
         }),
 
+        AllUserRegister: builder.query({
+            query: ({email, page, rowsPerPage}) => ({
+                url: `/user/all?email=${email}&page=${page}&rowsPerPage=${rowsPerPage}`,
+                method: 'GET'
+            })
+        }),
+
         // Vinos
         StoreWine: builder.mutation({
             query: (data) => ({
@@ -133,9 +140,11 @@ export const vinotecaApi = createApi({
 })
 
 export const {
+    // Usuarios
     useSignInMutation,
     useSignUpMutation,
     useUserInformationQuery,
+    useAllUserRegisterQuery,
     // Vinos
     useStoreWineMutation,
     useWinesQuery,
