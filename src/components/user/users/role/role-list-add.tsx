@@ -76,7 +76,7 @@ export const RoleListAdd = () => {
             }
             {error &&
                 <Alert severity='error'>
-                    Error al guardar el rol
+                    Error al guardar los permisos
                 </Alert>
             }
             <DialogContent>

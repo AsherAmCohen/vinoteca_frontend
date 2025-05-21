@@ -5,7 +5,21 @@ const apiUrl = import.meta.env.VITE_BACKEND_URL;
 export const vinotecaApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: apiUrl
+        baseUrl: apiUrl,
+        prepareHeaders: (headers, {getState}) => {
+            const token = localStorage.getItem('token')
+            const apiKey = import.meta.env.VITE_INTERNAL_API_KEY
+
+            if(token) {
+                headers.set('Authorization', `Bearer ${token}`)
+            }
+
+            if(apiKey) {
+                headers.set('x-internal-api-key', apiKey)
+            }
+
+            return headers
+        }
     }),
     tagTypes: ['userList', 'roleList', 'wineList', 'markList', 'categoryList', 'amountProduct'],
 

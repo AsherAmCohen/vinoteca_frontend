@@ -5,6 +5,7 @@ import { setRoleListActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
 import { openModalAction } from "../../../../store/slice/UI/slice"
 import { RoleListEdit } from "./role-list-edit"
+import { HasPermissions } from "../../../../helpers/components/has-permission"
 
 export const RoleListTable = () => {
     const dispatch = useDispatch()
@@ -89,13 +90,15 @@ export const RoleListTable = () => {
                                         ))}
                                     </TableCell>
                                     <TableCell>
-                                        <Button
-                                            disabled={role.name === 'ADMIN'}
-                                            variant='contained'
-                                            onClick={(_e) => handleChangeRole(role)}
-                                        >
-                                            Modificar permisos
-                                        </Button>
+                                        <HasPermissions permission="EDIT_ROLE">
+                                            <Button
+                                                disabled={role.name === 'ADMIN'}
+                                                variant='contained'
+                                                onClick={(_e) => handleChangeRole(role)}
+                                            >
+                                                Modificar permisos
+                                            </Button>
+                                        </HasPermissions>
                                     </TableCell>
                                 </TableRow>
                             ))
