@@ -31,7 +31,7 @@ const comprobarMayoriaEdad = (fechaNacimientoStr: string): boolean => {
 
 
 
-export const validateSignUpErrors: SignUpErrorsProps = {
+const validateSignUpErrors: SignUpErrorsProps = {
     name: {
         msg: 'Introduce tu nombre(s)',
         error: false

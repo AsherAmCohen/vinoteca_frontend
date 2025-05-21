@@ -55,7 +55,7 @@ export const SideNav = () => {
     )
 }
 
-const renderNavItems = ({ items = [], pathname, userPermissions = [] }: RenderNavItemsProps) => {
+export const renderNavItems = ({ items = [], pathname, userPermissions = [] }: RenderNavItemsProps) => {
     const children = items.reduce((acc: ReactNode[], curr: NavItemConfigProps) => {
         const { key, permissions = [], ...item } = curr;
 

@@ -7,7 +7,7 @@ export const vinotecaApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
-    tagTypes: ['userList', 'wineList', 'markList', 'categoryList', 'amountProduct'],
+    tagTypes: ['userList', 'roleList', 'wineList', 'markList', 'categoryList', 'amountProduct'],
 
     endpoints: (builder) => ({
         // Manejo de usuarios
@@ -45,10 +45,11 @@ export const vinotecaApi = createApi({
 
         // Roles y permisos
         Roles: builder.query({
-            query: () => ({
-                url: `/role/roles`,
+            query: ({page, rowsPerPage}) => ({
+                url: `/role/roles?page=${page}&rowsPerPage=${rowsPerPage}`,
                 method: 'GET'
-            })
+            }),
+            providesTags: ['roleList']
         }),
 
         Permissions: builder.query({
@@ -63,7 +64,17 @@ export const vinotecaApi = createApi({
                 url: '/role/create',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['roleList']
+        }),
+
+        UpdateRole: builder.mutation({
+            query: (data) => ({
+                url: '/role/update',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['roleList']
         }),
 
         // Vinos
@@ -174,6 +185,7 @@ export const {
     useRolesQuery,
     usePermissionsQuery,
     useCreateRoleMutation,
+    useUpdateRoleMutation,
     // Vinos
     useStoreWineMutation,
     useWinesQuery,

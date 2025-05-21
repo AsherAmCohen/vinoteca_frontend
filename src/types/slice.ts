@@ -18,4 +18,5 @@ export interface VinotecaSliceProps {
     Wine: PageProps
     WineList: PageProps
     UserList: PageProps
+    RoleList: PageProps
 }

@@ -1,6 +1,6 @@
 import { MarkAddErrorProps, validateMarkAddProps } from "../../types/validate";
 
-export const validateMarkAddErrors: MarkAddErrorProps = {
+const validateMarkAddErrors: MarkAddErrorProps = {
     name: {
         msg: 'Introduce el nombre de la marca',
         error: false

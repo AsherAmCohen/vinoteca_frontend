@@ -1,6 +1,6 @@
 import { CategoryAddErrorProps, validateCategoryAddProps } from "../../types/validate";
 
-export const validateCategoryAddErrors: CategoryAddErrorProps = {
+const validateCategoryAddErrors: CategoryAddErrorProps = {
     name: {
         msg: 'Introduce el nombre de la categoria',
         error: false

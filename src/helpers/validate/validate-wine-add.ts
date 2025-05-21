@@ -1,6 +1,6 @@
 import { validateWineAddProps, WineAddErrosProps } from "../../types/validate";
 
-export const validateWineAddErros: WineAddErrosProps = {
+const validateWineAddErros: WineAddErrosProps = {
     name: {
         msg: 'Introduce el nombre del vino',
         error: false

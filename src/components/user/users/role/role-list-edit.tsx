@@ -1,36 +1,29 @@
 import { Alert, Autocomplete, Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material"
-import { FormControl } from "../../../../helpers/components/form-control"
-import { useCreateRoleMutation, usePermissionsQuery } from "../../../../store/api/api"
-import { useEffect, useRef, useState } from "react"
-import { validateRoleAdd } from "../../../../helpers/validate/validate-role-add"
+import { useEffect, useState } from "react"
+import { usePermissionsQuery, useUpdateRoleMutation } from "../../../../store/api/api"
+import { validateRoleEdit } from "../../../../helpers/validate/validate-role-edit"
 import { useDispatch } from "react-redux"
 import { closeModalAction } from "../../../../store/slice/UI/slice"
-import { setRoleListActions } from "../../../../store/slice/vinoteca/slice"
 
-export const RoleListAdd = () => {
+export const RoleListEdit = (props: any) => {
     const dispatch = useDispatch()
-    const [permissionsRef, setPermissionsRef] = useState('')
 
+    const { id, permissions } = props.args
+    const [permissionsRef, setPermissionsRef] = useState<any>('')
+
+    useEffect(() => {
+        setPermissionsRef(permissions)
+    }, [permissions])
 
     // Manejo de errores
     const [roleErrors, setRoleErrors] = useState<any>('')
 
     // Api
-    const [CreateRole, { isLoading, isSuccess, error }] = useCreateRoleMutation()
     const { data, isLoading: LoadingPermissions } = usePermissionsQuery({})
-    const permissions = data ? data.data : []
-
-    // Referencias para obtener los datos
-    const nameRef = useRef<HTMLInputElement>(null)
-    const descriptionRef = useRef<HTMLInputElement>(null)
+    const allPermissions = data ? data.data : []
+    const [updateRole, { isSuccess, isLoading, error }] = useUpdateRoleMutation(data)
 
     const handleClose = () => {
-        const payload: any = {
-            value: 0,
-            key: 'page'
-        }
-        dispatch(setRoleListActions(payload))
-
         dispatch(closeModalAction())
     }
 
@@ -42,20 +35,19 @@ export const RoleListAdd = () => {
         // Evita que se recargue la pagina
         event?.preventDefault()
 
-        // Datos
         const roleData: any = {
-            name: nameRef.current?.value || '',
-            description: descriptionRef.current?.value || '',
+            roleId: id,
             permissions: permissionsRef
         }
 
+
         // Comprobar datos
-        const { isOk, errors } = validateRoleAdd(roleData)
+        const { isOk, errors } = validateRoleEdit(roleData)
 
         setRoleErrors(errors)
 
         if (isOk) {
-            CreateRole(roleData)
+            updateRole(roleData)
         }
 
     }
@@ -71,38 +63,16 @@ export const RoleListAdd = () => {
         >
             {isSuccess &&
                 <Alert severity='success'>
-                    Rol guardado
+                    Vino guardado
                 </Alert>
             }
             {error &&
                 <Alert severity='error'>
-                    Error al guardar el rol
+                    Error al guardar el vino
                 </Alert>
             }
             <DialogContent>
                 <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, md: 6 }}>
-                        <FormControl
-                            id='name'
-                            label='Nombre'
-                            type='text'
-                            placeholder="Nombre del rol"
-                            inputRef={nameRef}
-                            error={roleErrors?.name?.error}
-                            helperText={roleErrors?.name?.msg}
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, md: 6 }}>
-                        <FormControl
-                            id='description'
-                            label='Descripción'
-                            type='text'
-                            placeholder="Descripción del rol"
-                            inputRef={descriptionRef}
-                            error={roleErrors?.description?.error}
-                            helperText={roleErrors?.description?.msg}
-                        />
-                    </Grid>
                     <Grid size={{ xs: 12, md: 12 }}>
                         <FormLabel
                             htmlFor='permissions'
@@ -112,9 +82,11 @@ export const RoleListAdd = () => {
                         </FormLabel>
                         <Autocomplete
                             multiple
+                            value={permissionsRef}
                             id='permissions'
                             onChange={handleChangePermissions}
-                            options={permissions}
+                            isOptionEqualToValue={(option, value) => option.id === value.id} // 💡 clave
+                            options={allPermissions}
                             autoHighlight
                             loading={LoadingPermissions}
                             getOptionLabel={(option: any) => option.name}
@@ -140,15 +112,14 @@ export const RoleListAdd = () => {
                     </Grid>
                 </Grid>
             </DialogContent>
-
             <DialogActions>
                 <Button
                     disabled={isSuccess}
                     loading={isLoading}
+                    variant='contained'
                     type='submit'
-                    variant="contained"
                 >
-                    Agregar Rol
+                    Cambiar permisos
                 </Button>
             </DialogActions>
         </Box>

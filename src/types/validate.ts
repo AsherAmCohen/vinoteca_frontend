@@ -70,3 +70,11 @@ export interface validateRoleAddProps {
 export type RoleAddErrorsProps = {
     [K in keyof validateRoleAddProps]: FieldErrorProps
 }
+
+export interface validateRoleEditProps {
+    permissions: [];
+}
+
+export type RoleEditErrorsProps = {
+    [K in keyof validateRoleEditProps]: FieldErrorProps
+}

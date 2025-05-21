@@ -10,15 +10,19 @@ const initialState: VinotecaSliceProps = {
         rowsPerPage: 5,
         page: 0
     },
-    Wine: {
+    WineList: {
         rowsPerPage: 5,
         page: 0
     },
-    WineList: {
+    Wine: {
         rowsPerPage: 40,
         page: 0
     },
     UserList: {
+        rowsPerPage: 5,
+        page: 0
+    },
+    RoleList: {
         rowsPerPage: 5,
         page: 0
     }
@@ -40,21 +44,27 @@ export const VinotecaSlice = createSlice({
                 [action.payload.key]: action.payload.value
             }
         },
-        setWineActions: (state, action: PayloadAction<any>) => {
-            state.Wine = {
-                ...state.Wine,
-                [action.payload.key]: action.payload.value
-            }
-        },
         setWineListActions: (state, action: PayloadAction<any>) => {
             state.WineList = {
                 ...state.WineList,
                 [action.payload.key]: action.payload.value
             }
         },
+        setWineActions: (state, action: PayloadAction<any>) => {
+            state.Wine = {
+                ...state.Wine,
+                [action.payload.key]: action.payload.value
+            }
+        },
         setUserListActions: (state, action: PayloadAction<any>) => {
             state.UserList = {
                 ...state.UserList,
+                [action.payload.key]: action.payload.value
+            }
+        },
+        setRoleListActions: (state, action: PayloadAction<any>) => {
+            state.RoleList = {
+                ...state.RoleList,
                 [action.payload.key]: action.payload.value
             }
         }
@@ -66,5 +76,6 @@ export const {
     setCategoryActions,
     setWineActions,
     setWineListActions,
-    setUserListActions
+    setUserListActions,
+    setRoleListActions
 } = VinotecaSlice.actions

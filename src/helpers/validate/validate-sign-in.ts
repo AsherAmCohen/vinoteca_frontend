@@ -1,6 +1,6 @@
 import { SignInErrorsProps, validateSignInProps } from "../../types/validate";
 
-export const validateSignInErrors: SignInErrorsProps = {
+const validateSignInErrors: SignInErrorsProps = {
     email: {
         msg: 'Introduce tu correo electronico',
         error: false

@@ -1,15 +1,58 @@
-import { Box, Button, Card, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material"
-import { useDispatch } from "react-redux"
+import { Box, Button, Card, Divider, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
+import { useDispatch, useSelector } from "react-redux"
 import { useRolesQuery } from "../../../../store/api/api"
+import { setRoleListActions } from "../../../../store/slice/vinoteca/slice"
+import { useEffect } from "react"
+import { openModalAction } from "../../../../store/slice/UI/slice"
+import { RoleListEdit } from "./role-list-edit"
 
 export const RoleListTable = () => {
-    const dispath = useDispatch()
+    const dispatch = useDispatch()
+
+    // Filtros
+    const Filters = useSelector((state: any) => state.Vinoteca.RoleList)
+    const { page, rowsPerPage } = Filters
 
     // Api
-    const { data } = useRolesQuery({})
+    const { data } = useRolesQuery(Filters)
     const { roles, count } = data ? data.data : []
 
-    console.log(roles)
+    // Cambiar elementos por pagina
+    const handleOnRowsPerPageChange = (value: string) => {
+        const payload: any = {
+            value: value,
+            key: 'rowsPerPage'
+        }
+        dispatch(setRoleListActions(payload))
+    }
+
+    // Modificar Rol
+    const handleChangeRole = (role: any) => {
+        const payload: any = {
+            title: `Cambiar permisos de rol ${role.name}`,
+            component: RoleListEdit,
+            args: role
+        }
+        dispatch(openModalAction(payload))
+    }
+
+    // Cambiar pagina
+    const handleOnPageChange = (_e: any, value: any) => {
+        const payload: any = {
+            value: value,
+            key: 'page'
+        }
+        dispatch(setRoleListActions(payload))
+    }
+
+    // Reiniciar pagina a 0 cuando se cambie el rowsPerPage
+    useEffect(() => {
+        const payload: any = {
+            value: 0,
+            key: 'page'
+        }
+        dispatch(setRoleListActions(payload))
+    }, [rowsPerPage])
 
     return (
         <Card>
@@ -49,6 +92,7 @@ export const RoleListTable = () => {
                                         <Button
                                             disabled={role.name === 'ADMIN'}
                                             variant='contained'
+                                            onClick={(_e) => handleChangeRole(role)}
                                         >
                                             Modificar permisos
                                         </Button>
@@ -66,6 +110,17 @@ export const RoleListTable = () => {
                     </TableBody>
                 </Table>
             </Box>
+            <Divider />
+            <TablePagination
+                component='div'
+                count={count}
+                onPageChange={handleOnPageChange}
+                onRowsPerPageChange={(e) => handleOnRowsPerPageChange(e.target.value)}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={[5, 10, 25, 50]}
+                labelRowsPerPage='Elementos por pagina'
+            />
         </Card>
     )
 }

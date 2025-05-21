@@ -8,7 +8,7 @@ export const WineListTable = () => {
     const dispatch = useDispatch()
 
     // Datos filtrados
-    const Filters = useSelector((state: any) => state.Vinoteca.Wine)
+    const Filters = useSelector((state: any) => state.Vinoteca.WineList)
     const { page, rowsPerPage } = Filters;
 
     // Api
