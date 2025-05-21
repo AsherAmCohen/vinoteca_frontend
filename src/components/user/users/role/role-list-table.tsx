@@ -72,7 +72,9 @@ export const RoleListTable = () => {
                             <TableCell>Nombre</TableCell>
                             <TableCell>Descripción</TableCell>
                             <TableCell>Permisos</TableCell>
-                            <TableCell>Acciones</TableCell>
+                            <HasPermissions permission="EDIT_ROLE">
+                                <TableCell>Acciones</TableCell>
+                            </HasPermissions>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -89,8 +91,8 @@ export const RoleListTable = () => {
                                             </li>
                                         ))}
                                     </TableCell>
-                                    <TableCell>
-                                        <HasPermissions permission="EDIT_ROLE">
+                                    <HasPermissions permission="EDIT_ROLE">
+                                        <TableCell>
                                             <Button
                                                 disabled={role.name === 'ADMIN'}
                                                 variant='contained'
@@ -98,8 +100,8 @@ export const RoleListTable = () => {
                                             >
                                                 Modificar permisos
                                             </Button>
-                                        </HasPermissions>
-                                    </TableCell>
+                                        </TableCell>
+                                    </HasPermissions>
                                 </TableRow>
                             ))
                             : <TableRow>

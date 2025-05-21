@@ -91,6 +91,13 @@ export const vinotecaApi = createApi({
             invalidatesTags: ['roleList']
         }),
 
+        allRoles: builder.query({
+            query: () => ({
+                url: '/role/all',
+                method: 'GET'
+            })
+        }),
+
         // Vinos
         StoreWine: builder.mutation({
             query: (data) => ({
@@ -200,6 +207,7 @@ export const {
     usePermissionsQuery,
     useCreateRoleMutation,
     useUpdateRoleMutation,
+    useAllRolesQuery,
     // Vinos
     useStoreWineMutation,
     useWinesQuery,

@@ -78,3 +78,11 @@ export interface validateRoleEditProps {
 export type RoleEditErrorsProps = {
     [K in keyof validateRoleEditProps]: FieldErrorProps
 }
+
+export interface validateUserRoleEditProps {
+    role: string[]
+}
+
+export type UserRoleEditErrorsProps = {
+    [K in keyof validateUserRoleEditProps]: FieldErrorProps
+}

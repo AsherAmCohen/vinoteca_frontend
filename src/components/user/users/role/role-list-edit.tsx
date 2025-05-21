@@ -40,7 +40,6 @@ export const RoleListEdit = (props: any) => {
             permissions: permissionsRef
         }
 
-
         // Comprobar datos
         const { isOk, errors } = validateRoleEdit(roleData)
 

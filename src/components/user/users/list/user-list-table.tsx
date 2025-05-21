@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { setUserListActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
 import { useUsersQuery } from "../../../../store/api/api"
+import { HasPermissions } from "../../../../helpers/components/has-permission"
+import { openModalAction } from "../../../../store/slice/UI/slice"
+import { UserListEdit } from "./user-list-edit"
 
 export const UserListTable = () => {
     const dispatch = useDispatch()
@@ -18,6 +21,16 @@ export const UserListTable = () => {
     // Api
     const { data } = useUsersQuery({ page: page, rowsPerPage: rowsPerPage, email: email })
     const { users, count } = data ? data.data : []
+
+    // Modificar usuario
+    const handleChangeUser = (user: any) => {
+        const payload: any = {
+            title: `Cambiar el rol de ${user.name}`,
+            component: UserListEdit,
+            args: user
+        }
+        dispatch(openModalAction(payload))
+    }
 
     // Cambiar elementos por pagina
     const handleOnRowsPerPageChange = (value: string) => {
@@ -65,7 +78,9 @@ export const UserListTable = () => {
                             <TableCell>Correo</TableCell>
                             <TableCell>Rol</TableCell>
                             <TableCell>Fecha de creación</TableCell>
-                            <TableCell>Acciones</TableCell>
+                            <HasPermissions permission="EDIT_USER">
+                                <TableCell>Acciones</TableCell>
+                            </HasPermissions>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -86,13 +101,18 @@ export const UserListTable = () => {
                                     </TableCell>
                                     <TableCell>{user.lastname}</TableCell>
                                     <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
+                                    <TableCell>{user.role.name}</TableCell>
                                     <TableCell>{user.createdAt}</TableCell>
-                                    <TableCell>
-                                        <Button variant='contained'>
-                                            Cambiar rol
-                                        </Button>
-                                    </TableCell>
+                                    <HasPermissions permission="EDIT_USER">
+                                        <TableCell>
+                                            <Button
+                                                variant='contained'
+                                                onClick={(_e) => handleChangeUser(user)}
+                                            >
+                                                Cambiar rol
+                                            </Button>
+                                        </TableCell>
+                                    </HasPermissions>
                                 </TableRow>
                             ))
                             : <TableRow>
