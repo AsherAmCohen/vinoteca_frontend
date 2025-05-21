@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 
-export const Users = () => {
+export const User = () => {
     return (
         <Outlet/>
     )

@@ -1,10 +1,10 @@
 import { Avatar, Box, Button, Card, Divider, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
-import { useAllUserRegisterQuery } from "../../../../store/api/api"
 import { setUserListActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
+import { useUsersQuery } from "../../../../store/api/api"
 
-export const UsersListTable = () => {
+export const UserListTable = () => {
     const dispatch = useDispatch()
 
     // Correo del usuario para que no se muestre en la lista de usuarios
@@ -16,7 +16,7 @@ export const UsersListTable = () => {
     const { page, rowsPerPage } = Filters
 
     // Api
-    const { data } = useAllUserRegisterQuery({ page: page, rowsPerPage: rowsPerPage, email: email })
+    const { data } = useUsersQuery({ page: page, rowsPerPage: rowsPerPage, email: email })
     const { users, count } = data ? data.data : []
 
     // Cambiar elementos por pagina

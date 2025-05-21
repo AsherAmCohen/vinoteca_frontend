@@ -37,8 +37,15 @@ export const navItem = [
     {
         key: 'users',
         title: 'Usuarios',
-        href: '/user/users',
+        href: '/user/user',
         icon: 'user',
         permissions: ['VIEW_USER']
+    },
+    {
+        key: 'role',
+        title: 'Roles',
+        href: '/user/user/role',
+        icon: 'role',
+        permissions: ['VIEW_ROLE']
     }
 ]

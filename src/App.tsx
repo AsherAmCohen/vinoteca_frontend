@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Vinoteca } from "./pages/home/vinoteca";
 import { SingIn } from "./pages/sign-in/sign-in";
 import { SignUp } from "./pages/sign-up/sign-up";
-import { User } from "./pages/user/user";
+import { UserLayout } from "./pages/user/user";
 import { UserInformation } from "./pages/user/information/user-information";
 import { UserOrders } from "./pages/user/orders/user-orders";
 import { Wine } from "./pages/user/wine/wine";
@@ -14,8 +14,9 @@ import { AuthProvider } from "./auth-context";
 import { PublicRoute } from "./routes/public-route";
 import { HomeRoute } from "./routes/home-route";
 import { Modal } from './components/user/modal.tsx'
-import { Users } from "./pages/user/users/users.tsx";
-import { UserList } from "./pages/user/users/list/users-list.tsx";
+import { User } from "./pages/user/user/user.tsx";
+import { UserList } from "./pages/user/user/list/user-list.tsx";
+import { UserRole } from "./pages/user/user/role/user-role.tsx";
 
 const App = () => {
   return (
@@ -35,7 +36,7 @@ const App = () => {
 
           {/* Rutas protegitas */}
           <Route element={<PrivateRoute />}>
-            <Route path="/user" element={<User />}>
+            <Route path="/user" element={<UserLayout />}>
               {/* Información del usuario */}
               <Route index element={<UserInformation />} />
               {/* Ordenes */}
@@ -47,8 +48,9 @@ const App = () => {
               </Route>
 
               {/* Usuarios */}
-              <Route path="users" element={<Users />}>
+              <Route path="user" element={<User />}>
                 <Route index element={<UserList />} />
+                <Route path="role" element={<UserRole/>}/>
               </Route>
 
             </Route>

@@ -27,7 +27,6 @@ export const AutocompleteCatalog = (props: AutocompleteSearchProps) => {
                 autoHighlight
                 loading={isLoading}
                 onChange={handleChange}
-                noOptionsText={options && "Escribe al menos 3 letras"}
                 getOptionLabel={(option: any) => option.name}
                 renderInput={
                     params => (

@@ -7,7 +7,7 @@ export const vinotecaApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
-    tagTypes: ['wineList', 'markList', 'categoryList', 'amountProduct'],
+    tagTypes: ['userList', 'wineList', 'markList', 'categoryList', 'amountProduct'],
 
     endpoints: (builder) => ({
         // Manejo de usuarios
@@ -24,7 +24,8 @@ export const vinotecaApi = createApi({
                 url: '/user/SignUp',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['userList']
         }),
 
         UserInformation: builder.query({
@@ -34,10 +35,34 @@ export const vinotecaApi = createApi({
             })
         }),
 
-        AllUserRegister: builder.query({
-            query: ({email, page, rowsPerPage}) => ({
-                url: `/user/all?email=${email}&page=${page}&rowsPerPage=${rowsPerPage}`,
+        Users: builder.query({
+            query: ({ email, page, rowsPerPage }) => ({
+                url: `/user/users?email=${email}&page=${page}&rowsPerPage=${rowsPerPage}`,
                 method: 'GET'
+            }),
+            providesTags: ['userList']
+        }),
+
+        // Roles y permisos
+        Roles: builder.query({
+            query: () => ({
+                url: `/role/roles`,
+                method: 'GET'
+            })
+        }),
+
+        Permissions: builder.query({
+            query: () => ({
+                url: '/role/permissions',
+                method: 'GET'
+            })
+        }),
+
+        CreateRole: builder.mutation({
+            query: (data) => ({
+                url: '/role/create',
+                method: 'POST',
+                body: data
             })
         }),
 
@@ -52,7 +77,7 @@ export const vinotecaApi = createApi({
         }),
 
         Wines: builder.query({
-            query: ({page, rowsPerPage}) => ({
+            query: ({ page, rowsPerPage }) => ({
                 url: `/wine/wines?page=${page}&rowsPerPage=${rowsPerPage}`,
                 method: 'GET',
             }),
@@ -78,7 +103,7 @@ export const vinotecaApi = createApi({
         }),
 
         marks: builder.query({
-            query: ({rowsPerPage, page}) => ({
+            query: ({ rowsPerPage, page }) => ({
                 url: `mark/marks?rowsPerPage=${rowsPerPage}&page=${page}`,
                 method: 'GET'
             }),
@@ -104,7 +129,7 @@ export const vinotecaApi = createApi({
         }),
 
         categorys: builder.query({
-            query: ({rowsPerPage, page}) => ({
+            query: ({ rowsPerPage, page }) => ({
                 url: `category/categorys?rowsPerPage=${rowsPerPage}&page=${page}`,
                 method: 'GET'
             }),
@@ -113,7 +138,7 @@ export const vinotecaApi = createApi({
 
         // Carrito de compras
         amountProduct: builder.query({
-            query: ({wineId, shoppingCartId}) => ({
+            query: ({ wineId, shoppingCartId }) => ({
                 url: `/shoppingCart/product?wineId=${wineId}&shoppingCartId=${shoppingCartId}`,
                 method: 'GET'
             }),
@@ -130,7 +155,7 @@ export const vinotecaApi = createApi({
         }),
 
         countProducts: builder.query({
-            query: ({shoppingCartId}) => ({
+            query: ({ shoppingCartId }) => ({
                 url: `/shoppingCart/count?shoppingCartId=${shoppingCartId}`,
                 method: 'GET'
             }),
@@ -144,7 +169,11 @@ export const {
     useSignInMutation,
     useSignUpMutation,
     useUserInformationQuery,
-    useAllUserRegisterQuery,
+    useUsersQuery,
+    // Roles y Permisos
+    useRolesQuery,
+    usePermissionsQuery,
+    useCreateRoleMutation,
     // Vinos
     useStoreWineMutation,
     useWinesQuery,

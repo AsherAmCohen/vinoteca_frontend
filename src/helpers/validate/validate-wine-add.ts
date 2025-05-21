@@ -81,7 +81,7 @@ export const validateWineAdd = (values: validateWineAddProps) => {
         errors = { ...errors, 'image': { ...errors.image, error: true } }
     }
 
-    for (const [key, value] of Object.entries(errors)) {
+    for (const [_key, value] of Object.entries(errors)) {
         if (value.error) {
             isOk = false;
             break

@@ -6,7 +6,7 @@ import baseTheme from "../../styles/theme/color-schemes"
 import { components } from "../../styles/theme/components/components"
 import '../../styles/global.css'
 
-export const User = () => {
+export const UserLayout = () => {
     const localTheme = createTheme({
         components,
         typography: {

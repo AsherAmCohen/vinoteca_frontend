@@ -60,3 +60,13 @@ export interface validateCategoryAddProps {
 export type CategoryAddErrorProps = {
     [K in keyof validateCategoryAddProps]: FieldErrorProps
 }
+
+export interface validateRoleAddProps {
+    name: string;
+    description: string;
+    permissions: []
+}
+
+export type RoleAddErrorsProps = {
+    [K in keyof validateRoleAddProps]: FieldErrorProps
+}

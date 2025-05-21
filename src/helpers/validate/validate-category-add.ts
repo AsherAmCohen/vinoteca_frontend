@@ -31,7 +31,7 @@ export const validateCategoryAdd = (values: validateCategoryAddProps) => {
         errors = { ...errors, 'description': { ...errors.description, error: true } }
     }
 
-    for(const [key, value] of Object.entries(errors)) {
+    for(const [_key, value] of Object.entries(errors)) {
         if(value.error){
             isOk = false;
             break;

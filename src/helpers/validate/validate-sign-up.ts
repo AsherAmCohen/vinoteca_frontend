@@ -135,7 +135,7 @@ export const validateSignUp = (values: validateSignUpProps) => {
         errors = { ...errors, 'confirm_password': { ...errors.confirm_password, error: true, msg: 'Las contraseñas no coinciden' } }
     }
 
-    for (const [key, value] of Object.entries(errors)) {
+    for (const [_key, value] of Object.entries(errors)) {
         if (value.error) {
             isOk = false;
             break

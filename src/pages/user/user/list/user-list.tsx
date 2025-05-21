@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material"
-import { UsersListTable } from "../../../../components/user/users/list/users-list-table"
+import { UserListTable } from "../../../../components/user/users/list/user-list-table"
 
 export const UserList = () => {
     return (
@@ -19,7 +19,7 @@ export const UserList = () => {
                     </Typography>
                 </Stack>
             </Stack>
-            <UsersListTable/>
+            <UserListTable/>
         </Stack>
     )
 }

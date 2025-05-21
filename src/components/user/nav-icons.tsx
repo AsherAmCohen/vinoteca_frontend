@@ -5,6 +5,7 @@ import { Wine as WineListIcon } from "@phosphor-icons/react"
 import { Trademark as MarkIcon } from "@phosphor-icons/react"
 import { Tag as TagIcon } from "@phosphor-icons/react"
 import { User as UserIcon } from "@phosphor-icons/react"
+import { LockKey as RoleIcon } from "@phosphor-icons/react"
 
 export const navIcons = {
     'information': InformationIcon,
@@ -13,5 +14,6 @@ export const navIcons = {
     'winelist': WineListIcon,
     'mark': MarkIcon,
     'category': TagIcon,
-    'user': UserIcon
+    'user': UserIcon,
+    'role': RoleIcon
 } as Record<string, Icon>
