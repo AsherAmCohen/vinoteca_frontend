@@ -1,8 +1,9 @@
-import { Autocomplete, Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material"
-import { useAllRolesQuery } from "../../../../store/api/api"
+import { Alert, Autocomplete, Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material"
+import { useAllRolesQuery, useUpdateUserRoleMutation } from "../../../../store/api/api"
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import { validateUserRoleEdit } from "../../../../helpers/validate/validate-user-role-edit"
+import { closeModalAction } from "../../../../store/slice/UI/slice"
 
 export const UserListEdit = (props: any) => {
     const dispatch = useDispatch()
@@ -20,10 +21,20 @@ export const UserListEdit = (props: any) => {
     // Api
     const { data, isLoading: LoadingRoles } = useAllRolesQuery({})
     const allRoles = data ? data.data : []
+    const [updateRole, { isSuccess, isLoading, error }] = useUpdateUserRoleMutation()
 
     const handleChangeRole = (_e: any, value: any) => {
         setRoleRef(value)
     }
+
+    const handleClose = () => {
+        dispatch(closeModalAction())
+    }
+
+    useEffect(() => {
+        if (isSuccess) setTimeout(() => handleClose(), 1000)
+    }, [isSuccess])
+
 
     const handleSubmit = () => {
         // Evita que se recague la pagina
@@ -35,12 +46,13 @@ export const UserListEdit = (props: any) => {
         }
 
         // Comprobar datos
-        const {isOk, errors} = validateUserRoleEdit(userData)
+        const { isOk, errors } = validateUserRoleEdit(userData)
 
         setUserErrors(errors)
 
-        if(isOk) {
-            console.log(userData)
+        // Enviar resultados si no existen errores
+        if (isOk) {
+            updateRole(userData)
         }
     }
 
@@ -49,6 +61,16 @@ export const UserListEdit = (props: any) => {
             component='form'
             onSubmit={handleSubmit}
         >
+            {isSuccess &&
+                <Alert severity='success'>
+                    Usuario editado
+                </Alert>
+            }
+            {error &&
+                <Alert severity='error'>
+                    Error al editar el usuario
+                </Alert>
+            }
             <DialogContent>
                 <Grid container spacing={2}>
                     <Grid size={{ xs: 12, md: 12 }}>
@@ -62,7 +84,7 @@ export const UserListEdit = (props: any) => {
                             id='role'
                             onChange={handleChangeRole}
                             isOptionEqualToValue={(option, value) => option.name === value.name}
-                            value={role}
+                            defaultValue={role}
                             options={allRoles}
                             autoHighlight
                             loading={LoadingRoles}
@@ -84,6 +106,8 @@ export const UserListEdit = (props: any) => {
             </DialogContent>
             <DialogActions>
                 <Button
+                    disabled={isSuccess}
+                    loading={isLoading}
                     variant='contained'
                     type="submit"
                 >

@@ -21,7 +21,7 @@ export const RoleListEdit = (props: any) => {
     // Api
     const { data, isLoading: LoadingPermissions } = usePermissionsQuery({})
     const allPermissions = data ? data.data : []
-    const [updateRole, { isSuccess, isLoading, error }] = useUpdateRoleMutation(data)
+    const [updateRole, { isSuccess, isLoading, error }] = useUpdateRoleMutation()
 
     const handleClose = () => {
         dispatch(closeModalAction())
@@ -45,6 +45,7 @@ export const RoleListEdit = (props: any) => {
 
         setRoleErrors(errors)
 
+        // Enviar resultados si no existen errores
         if (isOk) {
             updateRole(roleData)
         }
@@ -62,12 +63,12 @@ export const RoleListEdit = (props: any) => {
         >
             {isSuccess &&
                 <Alert severity='success'>
-                    Vino guardado
+                    Permisos editados
                 </Alert>
             }
             {error &&
                 <Alert severity='error'>
-                    Error al guardar el vino
+                    Error al editar el rol
                 </Alert>
             }
             <DialogContent>
@@ -81,7 +82,7 @@ export const RoleListEdit = (props: any) => {
                         </FormLabel>
                         <Autocomplete
                             multiple
-                            value={permissionsRef}
+                            defaultValue={permissionsRef}
                             id='permissions'
                             onChange={handleChangePermissions}
                             isOptionEqualToValue={(option, value) => option.id === value.id} // 💡 clave

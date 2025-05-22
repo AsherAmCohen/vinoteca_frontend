@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useCategorysQuery } from "../../../../store/api/api"
 import { setCategoryActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
+import { HasPermissions } from "../../../../helpers/components/has-permission"
 
 export const WineCategoryTable = () => {
     const dispatch = useDispatch()
@@ -57,7 +58,9 @@ export const WineCategoryTable = () => {
                         <TableRow>
                             <TableCell>Nombre</TableCell>
                             <TableCell>Descripción</TableCell>
-                            <TableCell align='right'>Acciones</TableCell>
+                            <HasPermissions permission="EDIT_CATEGORY">
+                                <TableCell>Acciones</TableCell>
+                            </HasPermissions>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -66,13 +69,15 @@ export const WineCategoryTable = () => {
                                 <TableRow>
                                     <TableCell>{category.name}</TableCell>
                                     <TableCell>{category.description}</TableCell>
-                                    <TableCell align='right'>
-                                        <Button variant='contained'>
-                                            Editar
-                                        </Button>
-                                    </TableCell>
+                                    <HasPermissions permission="EDIT_CATEGORY">
+                                        <TableCell>
+                                            <Button variant='contained'>
+                                                Editar
+                                            </Button>
+                                        </TableCell>
+                                    </HasPermissions>
                                 </TableRow>
-                            )) : 
+                            )) :
                             <TableRow>
                                 <TableCell align='center' colSpan={3}>
                                     <Typography>

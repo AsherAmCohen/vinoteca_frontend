@@ -57,6 +57,15 @@ export const vinotecaApi = createApi({
             providesTags: ['userList']
         }),
 
+        updateUserRole: builder.mutation({
+            query: (data) => ({
+                url: `/user/update/role`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['userList']
+        }),
+
         // Roles y permisos
         Roles: builder.query({
             query: ({page, rowsPerPage}) => ({
@@ -202,6 +211,7 @@ export const {
     useSignUpMutation,
     useUserInformationQuery,
     useUsersQuery,
+    useUpdateUserRoleMutation,
     // Roles y Permisos
     useRolesQuery,
     usePermissionsQuery,
