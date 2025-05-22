@@ -44,7 +44,7 @@ export const Home = () => {
                                     color: 'white',
                                     textAlign: 'center',
                                     zIndex: 3,
-                                    textShadow: '10px 10px 10px var(--Vinoteca-Background-Dark)'
+                                    textShadow: '10px 10px 10px var(--vinoteca-palette-neutral-950)'
                                 }}
                             >
                                 VINOTECA

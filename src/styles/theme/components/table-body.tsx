@@ -2,7 +2,7 @@ import type { Components } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { tableRowClasses } from '@mui/material/TableRow';
 
-import { Theme } from '../../types/theme';
+import { Theme } from '../../../types/theme';
 
 export const MuiTableBody = {
   styleOverrides: {

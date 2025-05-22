@@ -6,15 +6,15 @@ export const vinotecaApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl,
-        prepareHeaders: (headers, {getState}) => {
+        prepareHeaders: (headers, { getState }) => {
             const token = localStorage.getItem('token')
             const apiKey = import.meta.env.VITE_INTERNAL_API_KEY
 
-            if(token) {
+            if (token) {
                 headers.set('Authorization', `Bearer ${token}`)
             }
 
-            if(apiKey) {
+            if (apiKey) {
                 headers.set('x-internal-api-key', apiKey)
             }
 
@@ -66,9 +66,26 @@ export const vinotecaApi = createApi({
             invalidatesTags: ['userList']
         }),
 
+        deleteUser: builder.mutation({
+            query: (data) => ({
+                url: `/user/delete`,
+                method: 'DELETE',
+                body: data
+            }),
+            invalidatesTags: ['userList']
+        }),
+
+        verifyUser: builder.mutation({
+            query: (data) => ({
+                url: '/user/verify',
+                method: 'PUT',
+                body: data
+            })
+        }),
+
         // Roles y permisos
         Roles: builder.query({
-            query: ({page, rowsPerPage}) => ({
+            query: ({ page, rowsPerPage }) => ({
                 url: `/role/roles?page=${page}&rowsPerPage=${rowsPerPage}`,
                 method: 'GET'
             }),
@@ -212,6 +229,8 @@ export const {
     useUserInformationQuery,
     useUsersQuery,
     useUpdateUserRoleMutation,
+    useDeleteUserMutation,
+    useVerifyUserMutation,
     // Roles y Permisos
     useRolesQuery,
     usePermissionsQuery,

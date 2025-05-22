@@ -1,6 +1,6 @@
 import type { Components } from '@mui/material/styles';
 
-import type { Theme } from '../../types/theme';
+import { Theme } from '../../../types/theme';
 
 export const MuiCardContent = {
   styleOverrides: { root: { padding: '32px 24px', '&:last-child': { paddingBottom: '32px' } } },

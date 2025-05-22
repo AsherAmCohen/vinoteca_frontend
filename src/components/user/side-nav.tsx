@@ -18,8 +18,8 @@ export const SideNav = () => {
     return (
         <Box
             sx={{
-                bgcolor: 'var(--Vinoteca-Background-Dark)',
-                color: 'var(--Vinoteca-Background-Light)',
+                bgcolor: 'var(--vinoteca-palette-neutral-950)',
+                color: 'var(--vinoteca-palette-common-white)',
                 display: {
                     xs: 'none',
                     lg: 'flex'
@@ -40,7 +40,7 @@ export const SideNav = () => {
                 Logo
             </Stack>
             <Divider
-                sx={{ bgcolor: 'var(--Vinoteca-Background-Light)' }}
+                sx={{ bgcolor: 'var(--vinoteca-palette-common-white)' }}
             />
             <Box
                 component='nav'
@@ -106,7 +106,7 @@ const NavItem = ({ disabled, external, href, icon, matcher, pathname, title }: N
                 sx={{
                     alignItems: 'center',
                     borderRadius: 1,
-                    color: 'var(--Vinoteca-Background-Light)',
+                    color: 'var(--vinoteca-palette-common-white)',
                     cursor: 'pointer',
                     display: 'flex',
                     flex: '0 0 auto',
@@ -116,12 +116,12 @@ const NavItem = ({ disabled, external, href, icon, matcher, pathname, title }: N
                     textDecoration: 'none',
                     whiteSpace: 'nowrap',
                     ...(active && {
-                        bgcolor: 'var(--Vinoteca-Background-Light)',
-                        color: 'var(--Vinoteca-Background-Dark)'
+                        bgcolor: 'var(--vinoteca-palette-common-white)',
+                        color: 'var(--vinoteca-palette-neutral-950)'
                     }),
                     '&:hover': {
-                        color: 'var(--Vinoteca-Background-Dark)',
-                        bgcolor: 'var(--Vinoteca-Background-Light)'
+                        color: 'var(--vinoteca-palette-neutral-950)',
+                        bgcolor: 'var(--vinoteca-palette-common-white)'
                     }
                 }}
             >

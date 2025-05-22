@@ -153,10 +153,10 @@ export const ToolBar = (props: ToolBarProps) => {
                                 <Tooltip title='Usuario'>
                                     <IconButton
                                         sx={{
-                                            color: 'var(--Vinoteca-Background-Light)',
+                                            color: 'var(--vinoteca-palette-common-white)',
                                             '&:hover': {
-                                                color: 'var(--Vinoteca-Background-Dark)',
-                                                background: 'var(--Vinoteca-Background-Light)'
+                                                color: 'var(--vinoteca-palette-neutral-950)',
+                                                background: 'var(--vinoteca-palette-common-white)'
                                             }
                                         }}
                                         onClick={isAuthenticated ? userPopover.handleOpen : handleUser}
@@ -170,10 +170,10 @@ export const ToolBar = (props: ToolBarProps) => {
                             <Tooltip title='Carrito'>
                                 <IconButton
                                     sx={{
-                                        color: 'var(--Vinoteca-Background-Light)',
+                                        color: 'var(--vinoteca-palette-common-white)',
                                         '&:hover': {
-                                            color: 'var(--Vinoteca-Background-Dark)',
-                                            background: 'var(--Vinoteca-Background-Light)'
+                                            color: 'var(--vinoteca-palette-neutral-950)',
+                                            background: 'var(--vinoteca-palette-common-white)'
                                         }
                                     }}
                                     onClick={shoppingCartPopover.handleOpen}

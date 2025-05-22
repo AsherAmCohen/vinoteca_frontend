@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, Divider, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
+import { Avatar, Box, Button, ButtonGroup, Card, Divider, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { setUserListActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
@@ -6,6 +6,7 @@ import { useUsersQuery } from "../../../../store/api/api"
 import { HasPermissions } from "../../../../helpers/components/has-permission"
 import { openModalAction } from "../../../../store/slice/UI/slice"
 import { UserListEdit } from "./user-list-edit"
+import { UserListDelete } from "./user-list-detele"
 
 export const UserListTable = () => {
     const dispatch = useDispatch()
@@ -27,6 +28,16 @@ export const UserListTable = () => {
         const payload: any = {
             title: `Cambiar el rol de ${user.name}`,
             component: UserListEdit,
+            args: user
+        }
+        dispatch(openModalAction(payload))
+    }
+
+    // Eliminar el usuario
+    const handleDeleteUser = (user: any) => {
+        const payload: any = {
+            title: `Eliminar usuario ${user.name}`,
+            component: UserListDelete,
             args: user
         }
         dispatch(openModalAction(payload))
@@ -78,15 +89,20 @@ export const UserListTable = () => {
                             <TableCell>Correo</TableCell>
                             <TableCell>Rol</TableCell>
                             <TableCell>Fecha de creación</TableCell>
-                            <HasPermissions permission="EDIT_USER">
-                                <TableCell>Acciones</TableCell>
-                            </HasPermissions>
+                            <TableCell>Fecha de verificación</TableCell>
+                            <TableCell>Fecha de eliminación</TableCell>
+                            <TableCell>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {count >= 1
                             ? users.map((user: any) => (
-                                <TableRow hover key={user}>
+                                <TableRow
+                                    sx={{
+                                        backgroundColor: user.deletedAt && '#ffebee' || user.verifiedAt && '#e8f5e9'
+                                    }}
+
+                                    hover key={user}>
                                     <TableCell>
                                         <Stack
                                             sx={{ alignItems: 'center' }}
@@ -103,16 +119,31 @@ export const UserListTable = () => {
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.role.name}</TableCell>
                                     <TableCell>{user.createdAt}</TableCell>
-                                    <HasPermissions permission="EDIT_USER">
-                                        <TableCell>
-                                            <Button
-                                                variant='contained'
-                                                onClick={(_e) => handleChangeUser(user)}
-                                            >
-                                                Cambiar rol
-                                            </Button>
-                                        </TableCell>
-                                    </HasPermissions>
+                                    <TableCell>{user.verifiedAt}</TableCell>
+                                    <TableCell>{user.deletedAt}</TableCell>
+                                    <TableCell>
+                                        {!user.deletedAt &&
+                                            <ButtonGroup>
+                                                <HasPermissions permission="EDIT_USER">
+                                                    <Button
+                                                        variant='contained'
+                                                        onClick={(_e) => handleChangeUser(user)}
+                                                    >
+                                                        Cambiar rol
+                                                    </Button>
+                                                </HasPermissions>
+                                                <HasPermissions permission="DELETE_USER">
+                                                    <Button
+                                                        variant='contained'
+                                                        onClick={(_e) => handleDeleteUser(user)}
+                                                        color='error'
+                                                    >
+                                                        Eliminar
+                                                    </Button>
+                                                </HasPermissions>
+                                            </ButtonGroup>
+                                        }
+                                    </TableCell>
                                 </TableRow>
                             ))
                             : <TableRow>

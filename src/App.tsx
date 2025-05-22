@@ -17,6 +17,7 @@ import { Modal } from './components/user/modal.tsx'
 import { User } from "./pages/user/user/user.tsx";
 import { UserList } from "./pages/user/user/list/user-list.tsx";
 import { UserRole } from "./pages/user/user/role/user-role.tsx";
+import { VerifyEmail } from "./pages/token/verify-token.tsx";
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
       <Modal />
       <Router>
         <Routes>
+          <Route path='/verify-email' element={<VerifyEmail />}/>
+          
           <Route element={<HomeRoute />}>
             <Route path="/" element={<Vinoteca />} />
           </Route>
@@ -50,7 +53,7 @@ const App = () => {
               {/* Usuarios */}
               <Route path="user" element={<User />}>
                 <Route index element={<UserList />} />
-                <Route path="role" element={<UserRole/>}/>
+                <Route path="role" element={<UserRole />} />
               </Route>
 
             </Route>

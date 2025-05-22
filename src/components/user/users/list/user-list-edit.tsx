@@ -37,7 +37,7 @@ export const UserListEdit = (props: any) => {
 
 
     const handleSubmit = () => {
-        // Evita que se recague la pagina
+        // Evita que se recarge la pagina
         event?.preventDefault()
 
         const userData: any = {

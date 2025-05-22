@@ -1,8 +1,7 @@
 import { Stack, styled } from "@mui/material";
 
 export const MyContainer = styled(Stack)(({theme}) => ({
-    height: '100dvh',
-    minHeight: '100%',
+    minHeight: '100dvh',
     padding: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
         padding: theme.spacing(4)

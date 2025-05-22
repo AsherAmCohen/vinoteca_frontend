@@ -1,7 +1,7 @@
 import { paperClasses } from '@mui/material/Paper';
 import type { Components } from '@mui/material/styles';
 
-import type { Theme } from '../../types/theme';
+import { Theme } from '../../../types/theme';
 
 export const MuiCard = {
     styleOverrides: {

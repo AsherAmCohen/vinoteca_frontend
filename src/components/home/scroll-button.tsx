@@ -38,12 +38,12 @@ export const ScrollButton = (props: ScrollButtonProps) => {
             variant='text'
             sx={{
                 mr: 1,
-                color: isVisible ? 'var(--Vinoteca-Background-Dark)' : 'var(--Vinoteca-Background-Light)',
-                background: isVisible ? 'var(--Vinoteca-Background-Light)' : 'var(--Vinoteca-Background-Dark)',
+                color: isVisible ? 'var(--vinoteca-palette-neutral-950)' : 'var(--vinoteca-palette-common-white)',
+                background: isVisible ? 'var(--vinoteca-palette-common-white)' : 'var(--vinoteca-palette-neutral-950)',
                 fontWeight: 'bold',
                 '&:hover': {
-                    color: 'var(--Vinoteca-Background-Dark)',
-                    background: 'var(--Vinoteca-Background-Light)',
+                    color: 'var(--vinoteca-palette-neutral-950)',
+                    background: 'var(--vinoteca-palette-common-white)',
                 }
             }}
             size='small'

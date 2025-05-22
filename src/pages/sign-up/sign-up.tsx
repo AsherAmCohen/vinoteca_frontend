@@ -1,6 +1,6 @@
 import { MyContainer } from "../../styles/theme/components/my-container"
 import { MyCard } from "../../styles/theme/components/my-card"
-import { Alert, Autocomplete, Box, Button, Divider, FormLabel, TextField, Typography } from "@mui/material"
+import { Alert, Autocomplete, Box, Button, Divider, FormLabel, Grid, TextField, Typography } from "@mui/material"
 import { FormControl } from "../../helpers/components/form-control"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
@@ -83,7 +83,7 @@ export const SignUp = () => {
 
     return (
         <MyContainer direction='column' justifyContent='space-between'>
-            <MyCard variant='outlined'>
+            <MyCard>
                 <Typography
                     component='h1'
                     variant='h4'
@@ -94,7 +94,6 @@ export const SignUp = () => {
                 >
                     Registro
                 </Typography>
-
 
                 <Box
                     component='form'
@@ -116,136 +115,149 @@ export const SignUp = () => {
                     }
 
 
-                    {/* Nombre */}
-                    <FormControl
-                        label="Nombre(s)"
-                        type="text"
-                        id='name'
-                        placeholder="Tu nombre(s)"
-                        inputRef={nameRef}
-                        autoFocus
-                        error={userErrors?.name?.error}
-                        helperText={userErrors?.name?.msg}
-                    />
+                    <Grid container spacing={2}>
 
-                    {/* Apellido */}
-                    <FormControl
-                        label="Apellido(s)"
-                        type="text"
-                        id='lastname'
-                        placeholder="Tu apellido(s)"
-                        inputRef={lastnameRef}
-                        error={userErrors?.lastname?.error}
-                        helperText={userErrors?.lastname?.msg}
-                    />
+                        <Grid size={{ sm: 6, xs: 12 }}>
+                            {/* Nombre */}
+                            <FormControl
+                                label="Nombre(s)"
+                                type="text"
+                                id='name'
+                                placeholder="Tu nombre(s)"
+                                inputRef={nameRef}
+                                autoFocus
+                                error={userErrors?.name?.error}
+                                helperText={userErrors?.name?.msg}
+                            />
+                        </Grid>
 
-                    {/* Genero */}
-                    <Autocomplete
-                        options={[
-                            { value: 'Masculino' },
-                            { value: 'Femenino' }
-                        ]}
-                        autoHighlight
-                        getOptionLabel={(option) => option.value}
-                        renderInput={
-                            params => (
-                                <>
-                                    <FormLabel
-                                        htmlFor="gender"
-                                        error={userErrors?.gender?.error}
-                                    >
-                                        Genero
-                                    </FormLabel>
-                                    <TextField
-                                        {...params}
-                                        type='text'
-                                        id='gender'
-                                        placeholder="Selecciona tu genero"
-                                        inputRef={genderRef}
-                                        error={userErrors?.gender?.error}
-                                        helperText={userErrors?.gender?.error && userErrors?.gender?.msg}
-                                    />
-                                </>
-                            )
-                        }
-                    />
+                        <Grid size={{ sm: 6, xs: 12 }}>
+                            {/* Apellido */}
+                            <FormControl
+                                label="Apellido(s)"
+                                type="text"
+                                id='lastname'
+                                placeholder="Tu apellido(s)"
+                                inputRef={lastnameRef}
+                                error={userErrors?.lastname?.error}
+                                helperText={userErrors?.lastname?.msg}
+                            />
+                        </Grid>
 
-                    {/* Fecha de nacimiento */}
-                    <FormControl
-                        label="Fecha de nacimiento"
-                        type="date"
-                        id='password'
-                        placeholder="dd/mm/aaaa"
-                        inputRef={birthdateRef}
-                        error={userErrors?.birthdate?.error}
-                        helperText={userErrors?.birthdate?.msg}
-                    />
+                        {/* Genero */}
+                        <Autocomplete
+                            fullWidth
+                            options={[
+                                { value: 'Masculino' },
+                                { value: 'Femenino' }
+                            ]}
+                            autoHighlight
+                            getOptionLabel={(option) => option.value}
+                            renderInput={
+                                params => (
+                                    <>
+                                        <FormLabel
+                                            htmlFor="gender"
+                                            error={userErrors?.gender?.error}
+                                        >
+                                            Genero
+                                        </FormLabel>
+                                        <TextField
+                                            {...params}
+                                            type='text'
+                                            id='gender'
+                                            placeholder="Selecciona tu genero"
+                                            inputRef={genderRef}
+                                            error={userErrors?.gender?.error}
+                                            helperText={userErrors?.gender?.error && userErrors?.gender?.msg}
+                                        />
+                                    </>
+                                )
+                            }
+                        />
 
-                    {/* Correo Electronico */}
-                    <FormControl
-                        label="Correo electronico"
-                        type="email"
-                        id='email'
-                        placeholder="your@email.com"
-                        inputRef={emailRef}
-                        error={userErrors?.email?.error}
-                        helperText={userErrors?.email?.msg}
-                    />
+                        {/* Fecha de nacimiento */}
+                        <FormControl
+                            label="Fecha de nacimiento"
+                            type="date"
+                            id='password'
+                            placeholder="dd/mm/aaaa"
+                            inputRef={birthdateRef}
+                            error={userErrors?.birthdate?.error}
+                            helperText={userErrors?.birthdate?.msg}
+                        />
 
-                    {/* Número de telefono */}
-                    <FormControl
-                        label="Número telefonico"
-                        type="phone"
-                        id='phone'
-                        placeholder="000 00 00 00"
-                        inputRef={phoneRef}
-                        error={userErrors?.phone?.error}
-                        helperText={userErrors?.phone?.msg}
-                        inputComponent={PhoneMask}
-                    />
+                        {/* Correo Electronico */}
+                        <FormControl
+                            label="Correo electronico"
+                            type="email"
+                            id='email'
+                            placeholder="your@email.com"
+                            inputRef={emailRef}
+                            error={userErrors?.email?.error}
+                            helperText={userErrors?.email?.msg}
+                        />
 
-                    {/* Domicilio */}
-                    <FormControl
-                        label="Domicilio"
-                        type="text"
-                        id='address'
-                        placeholder="Calle y número"
-                        inputRef={addressRef}
-                        error={userErrors?.address?.error}
-                        helperText={userErrors?.address?.msg}
-                    />
+                        {/* Número de telefono */}
+                        <FormControl
+                            label="Número telefonico"
+                            type="phone"
+                            id='phone'
+                            placeholder="000 00 00 00"
+                            inputRef={phoneRef}
+                            error={userErrors?.phone?.error}
+                            helperText={userErrors?.phone?.msg}
+                            inputComponent={PhoneMask}
+                        />
 
-                    {/* Contraseña */}
-                    <FormControl
-                        label="Contraseña"
-                        type="password"
-                        id='password'
-                        placeholder="••••••••••••••••••"
-                        inputRef={passwRef}
-                        error={userErrors?.password?.error}
-                        helperText={userErrors?.password?.msg}
-                    />
+                        {/* Domicilio */}
+                        <FormControl
+                            label="Domicilio"
+                            type="text"
+                            id='address'
+                            placeholder="Calle y número"
+                            inputRef={addressRef}
+                            error={userErrors?.address?.error}
+                            helperText={userErrors?.address?.msg}
+                        />
 
-                    {/* Confirmar contraseña */}
-                    <FormControl
-                        label="Confirmar contraseña"
-                        type="password"
-                        id='confirm_password'
-                        placeholder="••••••••••••••••••"
-                        inputRef={conf_passwordRef}
-                        error={userErrors?.confirm_password?.error}
-                        helperText={userErrors?.confirm_password?.msg}
-                    />
+                        <Grid size={{ sm: 6, xs: 12 }}>
+                            {/* Contraseña */}
+                            <FormControl
+                                label="Contraseña"
+                                type="password"
+                                id='password'
+                                placeholder="••••••••••••••••••"
+                                inputRef={passwRef}
+                                error={userErrors?.password?.error}
+                                helperText={userErrors?.password?.msg}
+                            />
+                        </Grid>
 
-                    <Button
-                        color='primary'
-                        type='submit'
-                        fullWidth
-                        variant='contained'
-                    >
-                        Crear cuenta
-                    </Button>
+                        <Grid size={{ sm: 6, xs: 12 }}>
+                            {/* Confirmar contraseña */}
+                            <FormControl
+                                label="Confirmar contraseña"
+                                type="password"
+                                id='confirm_password'
+                                placeholder="••••••••••••••••••"
+                                inputRef={conf_passwordRef}
+                                error={userErrors?.confirm_password?.error}
+                                helperText={userErrors?.confirm_password?.msg}
+                            />
+                        </Grid>
 
+                        <Button
+                            color='primary'
+                            type='submit'
+                            fullWidth
+                            variant='contained'
+                        >
+                            Crear cuenta
+                        </Button>
+
+                    </Grid>
+                    
                     <Divider>o</Divider>
 
                     <Typography
