@@ -1,6 +1,6 @@
 import { useUserInformationQuery } from "../../../store/api/api"
 import { SummaryData } from "../../../components/user/information/summary_data"
-import { Grid, Stack, Typography } from "@mui/material";
+import { Alert, Grid, Stack, Typography } from "@mui/material";
 import { PersonalData } from "../../../components/user/information/personal_data";
 import { useSelector } from "react-redux";
 
@@ -10,6 +10,7 @@ export const UserInformation = () => {
 
     const { data, isLoading } = useUserInformationQuery(email)
     const userData = data ? data.data : null;
+    console.log(data)
 
     if (isLoading) {
         return (
@@ -21,6 +22,10 @@ export const UserInformation = () => {
 
     return (
         <Stack spacing={3}>
+            {
+                !userData.verifiedAt &&
+                <Alert severity='warning'>{<>Verifica tu cuenta mediante el correo enviado a <strong>{userData.email}</strong> recuerda verificar tu bandeja de no deseados o spam</>}</Alert>
+            }
             <div>
                 <Typography
                     variant='h4'

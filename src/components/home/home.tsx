@@ -29,7 +29,7 @@ export const Home = () => {
                             src='/logo.png'
                             alt='Logo Vinoteca'
                             style={{
-                                width: '15vw',
+                                width: 'clamp(20rem, 2vw, 2rem)',
                                 height: 'auto'
                             }}
                         />
@@ -38,7 +38,7 @@ export const Home = () => {
                             <Typography
                                 variant="h1"
                                 sx={{
-                                    fontSize: '5vw',
+                                    fontSize: 'clamp(4rem, 3vw, 2rem)',
                                     fontWeight: 'bold',
                                     fontFamily: '"Playfair Display", serif',
                                     color: 'white',

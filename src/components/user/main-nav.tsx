@@ -17,8 +17,8 @@ export const MainNav = () => {
             <Box
                 component='header'
                 sx={{
-                    borderBottom: '1px solid var(--Vinoteca-Divider)',
-                    backgroundColor: 'var(--Vinoteca-Background-Light)',
+                    borderBottom: '1px solid var(--vinoteca-palette-divider)',
+                    backgroundColor: 'var(--vinoteca-palette-common-white)',
                     position: 'sticky',
                     top: 0,
                     zIndex: 1

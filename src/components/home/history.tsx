@@ -27,29 +27,25 @@ export const History = () => {
                         width: '90vw'
                     }}
                 >
-                    <Grid size={3}>
-                        <Box display='flex'>
-                            <Typography
-                                variant="h1"
-                                sx={{
-                                    fontSize: '6vw',
-                                    color: 'var(--Vinoteca-Background-Light)',
-                                    textAlign: 'center'
-                                }}
-                            >
-                                Nuestra Historia
-                            </Typography>
-                        </Box>
+                    <Grid size={{ xs: 12, sm: 12, md: 4 }} textAlign='center'>
+                        <Typography
+                            variant="h1"
+                            sx={{
+                                fontSize: 'clamp(5rem, 2vw, 2rem)',
+                                textAlign: 'center'
+                            }}
+                        >
+                            Nuestra Historia
+                        </Typography>
                     </Grid>
 
-                    <Grid size={8}>
+                    <Grid size={{ xs: 12, sm: 12, md: 7 }} textAlign='center'>
                         <Box display='flex' justifyContent='center'>
                             <Typography
                                 variant='h2'
                                 sx={{
-                                    fontSize: '1.9vw',
-                                    color: 'var(--Vinoteca-Background-Light)',
-                                    textAlign: 'left'
+                                    textAlign: 'left',
+                                    fontSize: 'clamp(1rem, 2vw, 2rem)'
                                 }}
                             >
                                 En una región vinícola, una bodega centenaria fue fundada por

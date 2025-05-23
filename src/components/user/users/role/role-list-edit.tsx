@@ -82,7 +82,7 @@ export const RoleListEdit = (props: any) => {
                         </FormLabel>
                         <Autocomplete
                             multiple
-                            defaultValue={permissionsRef}
+                            value={permissionsRef}
                             id='permissions'
                             onChange={handleChangePermissions}
                             isOptionEqualToValue={(option, value) => option.id === value.id} // 💡 clave

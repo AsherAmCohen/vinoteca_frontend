@@ -23,8 +23,8 @@ export const MobileNav = (props: MobileNavProps) => {
         <Drawer
             PaperProps={{
                 sx: {
-                    bgcolor: 'var(--Vinoteca-Background-Dark)',
-                    color: 'var(--Vinoteca-Background-Light)',
+                    bgcolor: 'var(--vinoteca-palette-neutral-950)',
+                    color: 'var(--vinoteca-palette-common-white)',
                     display: 'flex',
                     flexDirection: 'column',
                     height: '100%',
@@ -45,7 +45,7 @@ export const MobileNav = (props: MobileNavProps) => {
                 Logo
             </Stack>
             <Divider
-                sx={{ bgcolor: 'var(--Vinoteca-Background-Light)' }}
+                sx={{ bgcolor: 'var(--vinoteca-palette-common-white)' }}
             />
             <Box
                 component='nav'

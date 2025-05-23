@@ -1,4 +1,4 @@
-import { AppBar, Badge, Box, Container, IconButton, styled, Tooltip } from "@mui/material"
+import { AppBar, Badge, Box, Container, Drawer, IconButton, MenuItem, styled, Tooltip } from "@mui/material"
 import { MyToolBar } from "../../styles/theme/components/my-tool-bar"
 import { ScrollButton } from "./scroll-button"
 import { ToolBarProps } from "../../types/tool-bar"
@@ -12,6 +12,9 @@ import { useCountProductsQuery } from "../../store/api/api"
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { UserPopover } from "./user-popover"
+import { List as MenuIcon } from "@phosphor-icons/react"
+import { XCircle as XCircleIcon } from "@phosphor-icons/react"
+import { ScrollButtonMenuItem } from "./scroll-button-menu-item"
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -45,6 +48,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export const ToolBar = (props: ToolBarProps) => {
     // Manejo de las secciones
     const { homeRef, historyRef, winelistRef } = props;
+    // Abrir o cerrar el menu en pantallas pequeñas
+    const [open, setOpen] = useState(false)
     // Contador del carrito
     const [countShopping, setCountShopping] = useState<any>(0)
     const shoppingCartPopover = usePopover<HTMLDivElement>();
@@ -82,6 +87,10 @@ export const ToolBar = (props: ToolBarProps) => {
 
     const handleUser = () => {
         navigate('/SignIn')
+    }
+
+    const toggleDrawer = (value: boolean) => () => {
+        setOpen(value)
     }
 
     return (
@@ -187,6 +196,70 @@ export const ToolBar = (props: ToolBarProps) => {
                                     </Badge>
                                 </IconButton>
                             </Tooltip>
+                        </Box>
+
+                        {/* Barra para pantallas pequeñas */}
+                        <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
+                            <IconButton
+                                aria-label="Boton de menu"
+                                onClick={toggleDrawer(true)}
+                                sx={{
+                                    color: 'var(--vinoteca-palette-common-white)',
+                                    '&:hover': {
+                                        color: 'var(--vinoteca-palette-neutral-950)',
+                                        background: 'var(--vinoteca-palette-common-white)'
+                                    }
+                                }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Drawer
+                                anchor='top'
+                                open={open}
+                                onClose={toggleDrawer(false)}
+                                PaperProps={{
+                                    sx: {
+                                        top: 'var(--vinoteca-frame-height, 0px)',
+                                    },
+                                }}
+
+                            >
+                                <Box sx={{ p: 2, background: 'var(--vinoteca-palette-neutral-950)' }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'flex-end'
+                                        }}
+                                    >
+                                        <IconButton
+                                            onClick={toggleDrawer(false)}
+                                            sx={{
+                                                color: 'var(--vinoteca-palette-common-white)',
+                                                '&:hover': {
+                                                    color: 'var(--vinoteca-palette-neutral-950)',
+                                                    background: 'var(--vinoteca-palette-common-white)'
+                                                }
+                                            }}
+                                        >
+                                            <XCircleIcon />
+                                        </IconButton>
+                                    </Box>
+                                    <ScrollButtonMenuItem
+                                        label='Inicio'
+                                        section={homeRef}
+                                    />
+
+                                    <ScrollButtonMenuItem
+                                        label='Historia'
+                                        section={historyRef}
+                                    />
+
+                                    <ScrollButtonMenuItem
+                                        label='Vinos'
+                                        section={winelistRef}
+                                    />
+                                </Box>
+                            </Drawer>
                         </Box>
                     </MyToolBar>
                 </Container>

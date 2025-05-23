@@ -72,6 +72,7 @@ export const SingIn = () => {
         if (error) {
             setServerErrors(error?.data?.msg || 'Error al iniciar sesión, intentalo más tarde')
         } else if (isSuccess) {
+            console.log(data)
             const { token } = data.data
             login(token)
         }
