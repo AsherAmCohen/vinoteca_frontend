@@ -78,7 +78,7 @@ export const WineCategoryTable = () => {
                     <TableBody>
                         {count >= 1
                             ? categorys.map((category: any) => (
-                                <TableRow>
+                                <TableRow key={category.id}>
                                     <TableCell>{category.name}</TableCell>
                                     <TableCell>{category.description}</TableCell>
                                     <HasPermissions permission="EDIT_CATEGORY">

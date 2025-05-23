@@ -168,6 +168,15 @@ export const vinotecaApi = createApi({
             providesTags: ['markList']
         }),
 
+        updateMark: builder.mutation({
+            query: (data) => ({
+                url: '/mark/update',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['markList']
+        }),
+
         // Categorias
         createCategory: builder.mutation({
             query: (data) => ({
@@ -253,6 +262,7 @@ export const {
     useCreateMarkMutation,
     useAllMarksQuery,
     useMarksQuery,
+    useUpdateMarkMutation,
     // Categorias
     useCreateCategoryMutation,
     useAllCategorysQuery,

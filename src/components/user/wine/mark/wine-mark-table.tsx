@@ -3,6 +3,9 @@ import { useMarksQuery } from "../../../../store/api/api"
 import { useDispatch, useSelector } from "react-redux"
 import { setMarkActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
+import { HasPermissions } from "../../../../helpers/components/has-permission"
+import { WineMarkEdit } from "./wine-mark-edit"
+import { openModalAction } from "../../../../store/slice/UI/slice"
 
 export const WineMarkTable = () => {
     const dispatch = useDispatch()
@@ -23,6 +26,16 @@ export const WineMarkTable = () => {
         dispatch(setMarkActions(payload))
     }
 
+    // Modificar Marca
+    const handleChangeMark = (mark: any) => {
+        const payload: any = {
+            title: `Editar marca ${mark.name}`,
+            component: WineMarkEdit,
+            args: mark
+        }
+        dispatch(openModalAction(payload))
+    }
+
     // Cambiar pagina
     const handleOnPageChange = (_e: any, value: any) => {
         const payload: any = {
@@ -39,7 +52,7 @@ export const WineMarkTable = () => {
             key: 'page'
         }
         dispatch(setMarkActions(payload))
-    },  [rowsPerPage])
+    }, [rowsPerPage])
 
     return (
         <Card>
@@ -63,13 +76,18 @@ export const WineMarkTable = () => {
                     <TableBody>
                         {count >= 1
                             ? marks.map((mark: any) => (
-                                <TableRow>
+                                <TableRow key={mark.id}>
                                     <TableCell>{mark.name}</TableCell>
                                     <TableCell>{mark.description}</TableCell>
                                     <TableCell>
-                                        <Button variant='contained'>
-                                            Editar
-                                        </Button>
+                                        <HasPermissions permission="EDIT_MARK">
+                                            <Button
+                                                variant='contained'
+                                                onClick={(_e) => handleChangeMark(mark)}
+                                            >
+                                                Editar
+                                            </Button>
+                                        </HasPermissions>
                                     </TableCell>
                                 </TableRow>
                             )) :

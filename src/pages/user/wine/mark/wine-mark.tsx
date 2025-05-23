@@ -4,6 +4,7 @@ import { WineMarkTable } from "../../../../components/user/wine/mark/wine-mark-t
 import { useDispatch } from "react-redux"
 import { WineMarkAdd } from "../../../../components/user/wine/mark/wine-mark-add"
 import { openModalAction } from "../../../../store/slice/UI/slice"
+import { HasPermissions } from "../../../../helpers/components/has-permission"
 
 export const WineMark = () => {
     const dispath = useDispatch()
@@ -31,19 +32,21 @@ export const WineMark = () => {
                     <Typography variant="h4">Marcas</Typography>
                 </Stack>
                 <div>
-                    <Button
-                        color='primary'
-                        variant='contained'
-                        startIcon={
-                            <AddIcon fontSize='var(--Vinoteca-Icon-FontSize-md)' />
-                        }
-                        onClick={handleAddMark}
-                    >
-                        Agregar nueva marca
-                    </Button>
+                    <HasPermissions permission="ADD_MARK">
+                        <Button
+                            color='primary'
+                            variant='contained'
+                            startIcon={
+                                <AddIcon fontSize='var(--Vinoteca-Icon-FontSize-md)' />
+                            }
+                            onClick={handleAddMark}
+                        >
+                            Agregar nueva marca
+                        </Button>
+                    </HasPermissions>
                 </div>
             </Stack>
-            <WineMarkTable/>
+            <WineMarkTable />
         </Stack>
     )
 }

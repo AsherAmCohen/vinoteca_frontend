@@ -102,7 +102,7 @@ export const UserListTable = () => {
                                         backgroundColor: user.deletedAt && '#ffebee' || user.verifiedAt && '#e8f5e9'
                                     }}
 
-                                    hover key={user}>
+                                    hover key={user.name}>
                                     <TableCell>
                                         <Stack
                                             sx={{ alignItems: 'center' }}
