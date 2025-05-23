@@ -6,4 +6,5 @@ export interface AutocompleteSearchProps {
     error?: boolean;
     helperText?: string;
     setData?: any
+    defaultValue?: any
 }

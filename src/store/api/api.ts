@@ -142,6 +142,15 @@ export const vinotecaApi = createApi({
             providesTags: ['wineList']
         }),
 
+        UpdateWine: builder.mutation({
+            query: (data) => ({
+                url: '/wine/update',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['wineList']
+        }),
+
         // Marcas
         createMark: builder.mutation({
             query: (data) => ({
@@ -258,6 +267,7 @@ export const {
     // Vinos
     useStoreWineMutation,
     useWinesQuery,
+    useUpdateWineMutation,
     // Marcas
     useCreateMarkMutation,
     useAllMarksQuery,

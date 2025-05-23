@@ -43,6 +43,19 @@ export type WineAddErrosProps = {
     [K in keyof validateWineAddProps]: FieldErrorProps;
 }
 
+export interface validateWineEditProps {
+    name: string;
+    description: string;
+    mark: string;
+    category: string;
+    price: string;
+    stock: number;
+}
+
+export type WineEditErrosProps = {
+    [K in keyof validateWineEditProps]: FieldErrorProps;
+}
+
 export interface validateMarkAddProps {
     name: string;
     description: string;

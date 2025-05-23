@@ -3,6 +3,9 @@ import { useWinesQuery } from "../../../../store/api/api"
 import { useDispatch, useSelector } from "react-redux"
 import { setWineActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
+import { HasPermissions } from "../../../../helpers/components/has-permission"
+import { WineListEdit } from "./wine-list-edit"
+import { openModalAction } from "../../../../store/slice/UI/slice"
 
 export const WineListTable = () => {
     const dispatch = useDispatch()
@@ -17,6 +20,16 @@ export const WineListTable = () => {
 
     // Obtener imagen
     const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
+
+    // Editar vino
+    const handleChangeWine = (wine: any) => {
+        const payload: any = {
+            title: `Editar vino ${wine.name}`,
+            component: WineListEdit,
+            args: wine
+        }
+        dispatch(openModalAction(payload))
+    }
 
     // Cambiar elementos por pagina
     const handleOnRowsPerPageChange = (value: string) => {
@@ -84,16 +97,21 @@ export const WineListTable = () => {
                                             <Typography variant='subtitle2'>{wine.name}</Typography>
                                         </Stack>
                                     </TableCell>
-                                    <TableCell>{wine.mark}</TableCell>
-                                    <TableCell>{wine.category}</TableCell>
+                                    <TableCell>{wine.mark.name}</TableCell>
+                                    <TableCell>{wine.category.name}</TableCell>
                                     <TableCell>{wine.description}</TableCell>
                                     <TableCell>{wine.price}</TableCell>
                                     <TableCell>{wine.stock}</TableCell>
                                     <TableCell>{wine.sale}</TableCell>
                                     <TableCell>
-                                        <Button variant='contained'>
-                                            Editar
-                                        </Button>
+                                        <HasPermissions permission="EDIT_WINE">
+                                            <Button
+                                                variant='contained'
+                                                onClick={(_e) => handleChangeWine(wine)}
+                                            >
+                                                Editar
+                                            </Button>
+                                        </HasPermissions>
                                     </TableCell>
                                 </TableRow>
                             ))
