@@ -20,7 +20,7 @@ export const SignUp = () => {
     const [serverErrors, setServerErrors] = useState<any>('')
 
     // Api
-    const [SignUp, { isSuccess, error }]: any = useSignUpMutation()
+    const [SignUp, { isSuccess, isLoading, error }]: any = useSignUpMutation()
 
     console.log(isSuccess)
     // Referencias para obtener los datos
@@ -252,6 +252,8 @@ export const SignUp = () => {
                             type='submit'
                             fullWidth
                             variant='contained'
+                            loading={isLoading}
+                            disabled={isSuccess}
                         >
                             Crear cuenta
                         </Button>

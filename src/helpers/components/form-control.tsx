@@ -12,7 +12,8 @@ export const FormControl = (props: FormControlProps) => {
         inputRef,
         error,
         helperText,
-        inputComponent
+        inputComponent,
+        defaultValue
     } = props
 
 
@@ -23,6 +24,7 @@ export const FormControl = (props: FormControlProps) => {
                 error={error}
             >{label}</FormLabel>
             <TextField
+                defaultValue={defaultValue}
                 id={id}
                 type={type}
                 placeholder={placeholder}

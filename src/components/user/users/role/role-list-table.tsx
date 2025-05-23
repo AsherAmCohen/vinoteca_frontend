@@ -94,7 +94,7 @@ export const RoleListTable = () => {
                                     <HasPermissions permission="EDIT_ROLE">
                                         <TableCell>
                                             <Button
-                                                disabled={role.name === 'ADMIN'}
+                                                disabled={role.name === 'ADMIN' || role.name === 'GUEST'}
                                                 variant='contained'
                                                 onClick={(_e) => handleChangeRole(role)}
                                             >

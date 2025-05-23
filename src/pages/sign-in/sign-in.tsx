@@ -30,7 +30,7 @@ export const SingIn = () => {
 
 
     // Api
-    const [SignIn, { data, isSuccess, error }]: any = useSignInMutation()
+    const [SignIn, { data, isLoading, isSuccess, error }]: any = useSignInMutation()
 
     // Referencias para obtener los datos
     const emailRef = useRef<HTMLInputElement>(null);
@@ -147,6 +147,8 @@ export const SingIn = () => {
                         type='submit'
                         fullWidth
                         variant='contained'
+                        loading={isLoading}
+                        disabled={isSuccess}
                     >
                         Iniciar
                     </Button>

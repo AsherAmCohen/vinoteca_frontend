@@ -4,6 +4,8 @@ import { useCategorysQuery } from "../../../../store/api/api"
 import { setCategoryActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
 import { HasPermissions } from "../../../../helpers/components/has-permission"
+import { WineCategoryEdit } from "./wine-category-edit"
+import { openModalAction } from "../../../../store/slice/UI/slice"
 
 export const WineCategoryTable = () => {
     const dispatch = useDispatch()
@@ -33,11 +35,21 @@ export const WineCategoryTable = () => {
         dispatch(setCategoryActions(payload))
     }
 
+    // Modificar categoria
+    const handleChangeCategory = (category: any) => {
+        const payload: any = {
+            title: `Editar categoria ${category.name}`,
+            component: WineCategoryEdit,
+            args: category
+        }
+        dispatch(openModalAction(payload))
+    }
+
     // Reiniciar pagina a 0 cuando cambie el rowsPerpage
     useEffect(() => {
         const payload: any = {
             value: 0,
-            key: 'page'
+            key: 'page',
         }
         dispatch(setCategoryActions(payload))
     }, [rowsPerPage])
@@ -71,7 +83,10 @@ export const WineCategoryTable = () => {
                                     <TableCell>{category.description}</TableCell>
                                     <HasPermissions permission="EDIT_CATEGORY">
                                         <TableCell>
-                                            <Button variant='contained'>
+                                            <Button
+                                                variant='contained'
+                                                onClick={(_e) => handleChangeCategory(category)}
+                                            >
                                                 Editar
                                             </Button>
                                         </TableCell>

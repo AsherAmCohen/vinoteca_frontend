@@ -180,7 +180,7 @@ export const vinotecaApi = createApi({
 
         allCategorys: builder.query({
             query: () => ({
-                url: `category/all`,
+                url: `/category/all`,
                 method: 'GET'
             }),
             providesTags: ['categoryList']
@@ -188,10 +188,19 @@ export const vinotecaApi = createApi({
 
         categorys: builder.query({
             query: ({ rowsPerPage, page }) => ({
-                url: `category/categorys?rowsPerPage=${rowsPerPage}&page=${page}`,
+                url: `/category/categorys?rowsPerPage=${rowsPerPage}&page=${page}`,
                 method: 'GET'
             }),
             providesTags: ['categoryList']
+        }),
+
+        updateCategory: builder.mutation({
+            query: (data) => ({
+                url: '/category/update',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['categoryList']
         }),
 
         // Carrito de compras
@@ -248,6 +257,7 @@ export const {
     useCreateCategoryMutation,
     useAllCategorysQuery,
     useCategorysQuery,
+    useUpdateCategoryMutation,
     // Carrito de compras
     useAmountProductQuery,
     useUpdateAmountProductMutation,

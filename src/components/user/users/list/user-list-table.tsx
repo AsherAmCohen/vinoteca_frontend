@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, ButtonGroup, Card, Divider, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
+import { Avatar, Box, Button, Card, Divider, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { setUserListActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
@@ -123,7 +123,7 @@ export const UserListTable = () => {
                                     <TableCell>{user.deletedAt}</TableCell>
                                     <TableCell>
                                         {!user.deletedAt &&
-                                            <ButtonGroup>
+                                            <>
                                                 <HasPermissions permission="EDIT_USER">
                                                     <Button
                                                         variant='contained'
@@ -141,7 +141,7 @@ export const UserListTable = () => {
                                                         Eliminar
                                                     </Button>
                                                 </HasPermissions>
-                                            </ButtonGroup>
+                                            </>
                                         }
                                     </TableCell>
                                 </TableRow>

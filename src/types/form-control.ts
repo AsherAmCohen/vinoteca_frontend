@@ -8,4 +8,5 @@ export interface FormControlProps {
     error?: boolean;
     helperText?: string;
     inputComponent?: any;
+    defaultValue?: any
 }
