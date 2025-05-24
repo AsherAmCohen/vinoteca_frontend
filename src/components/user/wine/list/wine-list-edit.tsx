@@ -1,27 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { closeModalAction } from "../../../../store/slice/UI/slice";
-import { Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material";
+import { Alert, Box, Button, DialogActions, DialogContent, FormLabel, Grid, TextField } from "@mui/material";
 import { FormControl } from "../../../../helpers/components/form-control";
 import { AutocompleteCatalog } from "../../../../helpers/components/autocomplete-catalog";
 import { NumericFormat } from "react-number-format";
 import { useAllCategorysQuery, useAllMarksQuery, useUpdateWineMutation } from "../../../../store/api/api";
 import { StockMask } from "../../../../helpers/mask/mask";
-import { validateWineAdd } from "../../../../helpers/validate/validate-wine-add";
 import { validateWineEdit } from "../../../../helpers/validate/validate-wine-edit";
 
 interface Props {
-    id: number;
-    name: string;
-    description: string;
-    category: string;
-    mark: string;
-    price: string;
-    stock: string;
+    args: {
+        id: any;
+        name: string;
+        description: string;
+        category: string;
+        mark: string;
+        price: string;
+        stock: string;
+    }
 }
 
 export const WineListEdit = (props: Props) => {
-    const { id, name, description, category, mark, price, stock, image } = props.args
+    const { id, name, description, category, mark, price, stock } = props.args
     const dispatch = useDispatch()
 
     // Manejo de errores
@@ -50,6 +51,10 @@ export const WineListEdit = (props: Props) => {
     const handleClose = () => {
         dispatch(closeModalAction())
     }
+
+    useEffect(() => {
+        if (isSuccess) setTimeout(() => handleClose(), 1000)
+    }, [isSuccess])
 
     const handleSubmit = () => {
         // Evita que se recarge la pagina
@@ -93,6 +98,16 @@ export const WineListEdit = (props: Props) => {
             component='form'
             onSubmit={handleSubmit}
         >
+            {isSuccess &&
+                <Alert severity='success'>
+                    Vino modificado
+                </Alert>
+            }
+            {error &&
+                <Alert severity='error'>
+                    Error al modificar el vino
+                </Alert>
+            }
             <DialogContent>
                 <Grid container spacing={2}>
                     <Grid size={{ xs: 12, md: 6 }}>
@@ -229,6 +244,8 @@ export const WineListEdit = (props: Props) => {
             </DialogContent>
             <DialogActions>
                 <Button
+                    disabled={isSuccess}
+                    loading={isLoading}
                     variant='contained'
                     type="submit"
                 >
