@@ -1,16 +1,14 @@
 import { useUserInformationQuery } from "../../../store/api/api"
-import { SummaryData } from "../../../components/user/information/summary_data"
+import { SummaryData } from "../../../components/user/information/summary-data"
 import { Alert, Grid, Stack, Typography } from "@mui/material";
-import { PersonalData } from "../../../components/user/information/personal_data";
+import { PersonalData } from "../../../components/user/information/personal-data";
 import { useSelector } from "react-redux";
 
 export const UserInformation = () => {
-
     const { email } = useSelector((state: any) => state.Auth.user)
 
     const { data, isLoading } = useUserInformationQuery(email)
     const userData = data ? data.data : null;
-    console.log(data)
 
     if (isLoading) {
         return (

@@ -43,7 +43,6 @@ export const AuthProvider = ({ children }: Props) => {
         if (!userData?.shoppingCart || !localCart?.length) return;
 
         try {
-            console.log(localCart)
             for (const item of localCart) {
                 await addToCart({
                     wineId: item.id,
@@ -61,7 +60,6 @@ export const AuthProvider = ({ children }: Props) => {
         if (token) {
             try {
                 const decoded: any = jwtDecode(token);
-                console.log(decoded)
                 if (decoded.exp * 1000 > Date.now()) {
                     setUser(decoded)
                     dispatch(loginRedux({ user: decoded, token }))

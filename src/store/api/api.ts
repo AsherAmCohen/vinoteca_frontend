@@ -83,6 +83,14 @@ export const vinotecaApi = createApi({
             })
         }),
 
+        changePassword: builder.mutation({
+            query: (data) => ({
+                url: '/user/password',
+                method: 'PUT',
+                body: data
+            })
+        }),
+
         // Roles y permisos
         Roles: builder.query({
             query: ({ page, rowsPerPage }) => ({
@@ -258,6 +266,7 @@ export const {
     useUpdateUserRoleMutation,
     useDeleteUserMutation,
     useVerifyUserMutation,
+    useChangePasswordMutation,
     // Roles y Permisos
     useRolesQuery,
     usePermissionsQuery,

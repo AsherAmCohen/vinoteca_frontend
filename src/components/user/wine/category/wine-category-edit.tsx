@@ -14,7 +14,7 @@ export const WineCategoryEdit = (props: any) => {
     const [categoryErrors, setCategoryErrors] = useState<any>('')
 
     // Api
-    const [UpdateCategory, { isLoading, isSuccess, error }] = useUpdateCategoryMutation()
+    const [UpdateCategory, { isLoading, isSuccess, error }]: any = useUpdateCategoryMutation()
 
     // Referencias para obtener los datos
     const nameRef = useRef<HTMLInputElement>(null)
@@ -41,6 +41,7 @@ export const WineCategoryEdit = (props: any) => {
             description: descriptionRef.current?.value || '',
         }
 
+        // Validar si los datos son correctos
         const { isOk, errors } = validateCategoryAdd(categoryData)
 
         setCategoryErrors(errors)
@@ -62,7 +63,7 @@ export const WineCategoryEdit = (props: any) => {
             }
             {error &&
                 <Alert severity='error'>
-                    Error al modificar la categoria
+                    {error.data.msg || 'Error al modificar la categoria'}
                 </Alert>
             }
             <DialogContent>

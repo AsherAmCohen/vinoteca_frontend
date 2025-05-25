@@ -1,8 +1,21 @@
 import { Avatar, Button, Card, CardActions, CardContent, Divider, Stack, Typography } from "@mui/material"
 import { Password as PasswordIcon, UserCircle as UserIcon } from "@phosphor-icons/react"
+import { useDispatch } from "react-redux";
+import { SummaryDataEditPassword } from "./summary-data-edit-password";
+import { openModalAction } from "../../../store/slice/UI/slice";
 
 export const SummaryData = (props: any) => {
     const { name, lastname, email, phone } = props.props;
+    const dispatch = useDispatch()
+
+    const handleChangePassword = () => {
+        const payload = {
+            title: `Cambiar contraseña`,
+            component: SummaryDataEditPassword,
+            args: email
+        }
+        dispatch(openModalAction(payload))
+    }
 
     return (
         <Card>
@@ -36,7 +49,14 @@ export const SummaryData = (props: any) => {
             </CardContent>
             <Divider />
             <CardActions>
-                <Button startIcon={<PasswordIcon/>} fullWidth variant='contained'>Cambiar contraseña</Button>
+                <Button
+                    startIcon={<PasswordIcon />}
+                    fullWidth
+                    variant='contained'
+                    onClick={handleChangePassword}
+                >
+                    Cambiar contraseña
+                </Button>
             </CardActions>
         </Card>
     )

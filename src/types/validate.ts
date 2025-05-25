@@ -99,3 +99,13 @@ export interface validateUserRoleEditProps {
 export type UserRoleEditErrorsProps = {
     [K in keyof validateUserRoleEditProps]: FieldErrorProps
 }
+
+export interface validateUserEditPasswordProps {
+    password: string;
+    newPassword: string;
+    confirmNewPassword: string;
+}
+
+export type UserEditPasswordErrorsProps = {
+    [K in keyof validateUserEditPasswordProps]: FieldErrorProps
+}

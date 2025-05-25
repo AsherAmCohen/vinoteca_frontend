@@ -29,7 +29,7 @@ export const WineListEdit = (props: Props) => {
     const [wineErrors, setWineErrors] = useState<any>('')
 
     // Api
-    const [updateWine, { isLoading, isSuccess, error }] = useUpdateWineMutation()
+    const [updateWine, { isLoading, isSuccess, error }]: any = useUpdateWineMutation()
 
     // Manejo de autocomplete
     const [newMark, setNewMark] = useState<any>()
@@ -105,7 +105,7 @@ export const WineListEdit = (props: Props) => {
             }
             {error &&
                 <Alert severity='error'>
-                    Error al modificar el vino
+                    {error.data.msg || 'Error al modificar el vino'}
                 </Alert>
             }
             <DialogContent>
