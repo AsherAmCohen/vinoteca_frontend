@@ -18,7 +18,6 @@ export const SummaryDataEditPassword = (props: any) => {
     // api
     const [changePassword, { isLoading, isSuccess, error }]: any = useChangePasswordMutation()
 
-    console.log(error)
     // Referencias para obtener los datos
     const passwordRef = useRef<HTMLInputElement>(null)
     const newPasswordRef = useRef<HTMLInputElement>(null)

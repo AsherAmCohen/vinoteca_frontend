@@ -21,7 +21,7 @@ export const vinotecaApi = createApi({
             return headers
         }
     }),
-    tagTypes: ['userList', 'roleList', 'wineList', 'markList', 'categoryList', 'amountProduct'],
+    tagTypes: ['userInfo', 'userList', 'roleList', 'wineList', 'markList', 'categoryList', 'amountProduct'],
 
     endpoints: (builder) => ({
         // Manejo de usuarios
@@ -46,7 +46,8 @@ export const vinotecaApi = createApi({
             query: (email: string) => ({
                 url: `/user/Information?email=${email}`,
                 method: 'GET'
-            })
+            }),
+            providesTags: ['userInfo']
         }),
 
         Users: builder.query({
@@ -89,6 +90,15 @@ export const vinotecaApi = createApi({
                 method: 'PUT',
                 body: data
             })
+        }),
+
+        changeData: builder.mutation({
+            query: (data) => ({
+                url: '/user/update',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['userInfo']
         }),
 
         // Roles y permisos
@@ -267,6 +277,7 @@ export const {
     useDeleteUserMutation,
     useVerifyUserMutation,
     useChangePasswordMutation,
+    useChangeDataMutation,
     // Roles y Permisos
     useRolesQuery,
     usePermissionsQuery,

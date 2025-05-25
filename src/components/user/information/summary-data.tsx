@@ -8,6 +8,7 @@ export const SummaryData = (props: any) => {
     const { name, lastname, email, phone } = props.props;
     const dispatch = useDispatch()
 
+    // Abrir modal para cambiar la contraseña
     const handleChangePassword = () => {
         const payload = {
             title: `Cambiar contraseña`,

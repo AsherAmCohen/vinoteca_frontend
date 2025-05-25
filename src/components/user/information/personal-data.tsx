@@ -1,9 +1,23 @@
 import { Button, Card, CardActions, CardContent, Divider, Stack, Typography } from "@mui/material"
 import { PencilLine as EditIcon } from "@phosphor-icons/react";
+import { PersonalDataEdit } from "./personal-data-edit";
+import { useDispatch } from "react-redux";
+import { openModalAction } from "../../../store/slice/UI/slice";
 
 export const PersonalData = (props: any) => {
-    const {name, lastname, gender, email, address, phone, birthdate} = props.props
-    
+    const { name, lastname, gender, email, address, phone, birthdate } = props.props
+    const dispatch = useDispatch()
+
+    // Abrir modal para cambiar la información del usuario
+    const handleChangeUserData = () => {
+        const payload = {
+            title: `Cambiar información`,
+            component: PersonalDataEdit,
+            args: { name, lastname, address, phone, email }
+        }
+        dispatch(openModalAction(payload))
+    }
+
     return (
         <Card
             sx={{
@@ -31,32 +45,32 @@ export const PersonalData = (props: any) => {
                             {/* Apellidos */}
                             <Typography variant='overline'>Apellidos</Typography>
                             <Typography>{lastname}</Typography>
-                            <Divider/>
+                            <Divider />
 
                             {/* Genero */}
                             <Typography variant='overline'>Genero</Typography>
                             <Typography>{gender}</Typography>
-                            <Divider/>
+                            <Divider />
 
                             {/* Telefono */}
                             <Typography variant='overline'>Número Telefonico</Typography>
                             <Typography>{phone}</Typography>
-                            <Divider/>
+                            <Divider />
 
                             {/* Correo electronico */}
                             <Typography variant='overline'>Correo electronico</Typography>
                             <Typography>{email}</Typography>
-                            <Divider/>
+                            <Divider />
 
                             {/* Domicilio */}
                             <Typography variant='overline'>Domicilio</Typography>
                             <Typography>{address}</Typography>
-                            <Divider/>
+                            <Divider />
 
                             {/* Fecha de nacimiendo */}
                             <Typography variant='overline'>Fecha de nacimiento</Typography>
                             <Typography>{birthdate}</Typography>
-                            <Divider/>
+                            <Divider />
 
                         </Stack>
                     </Stack>
@@ -64,7 +78,14 @@ export const PersonalData = (props: any) => {
             </CardContent>
             <Divider />
             <CardActions>
-                <Button startIcon={<EditIcon/>} fullWidth variant='contained'>Editar datos</Button>
+                <Button
+                    startIcon={<EditIcon />}
+                    fullWidth
+                    variant='contained'
+                    onClick={handleChangeUserData}
+                >
+                    Editar datos
+                </Button>
             </CardActions>
         </Card>
     )

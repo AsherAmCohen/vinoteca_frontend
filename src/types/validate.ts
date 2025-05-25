@@ -109,3 +109,15 @@ export interface validateUserEditPasswordProps {
 export type UserEditPasswordErrorsProps = {
     [K in keyof validateUserEditPasswordProps]: FieldErrorProps
 }
+
+
+export interface validateUserDataChangeProps {
+    name: string;
+    lastname: string;
+    phone: string;
+    address: string;
+}
+
+export type UserDataChangeErrorsProps = {
+    [K in keyof validateUserDataChangeProps]: FieldErrorProps;
+};

@@ -22,7 +22,6 @@ export const SignUp = () => {
     // Api
     const [SignUp, { isSuccess, isLoading, error }]: any = useSignUpMutation()
 
-    console.log(isSuccess)
     // Referencias para obtener los datos
     const nameRef = useRef<HTMLInputElement>(null);
     const lastnameRef = useRef<HTMLInputElement>(null);

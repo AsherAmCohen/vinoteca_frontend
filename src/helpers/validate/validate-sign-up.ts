@@ -71,7 +71,6 @@ const validateSignUpErrors: SignUpErrorsProps = {
 }
 
 export const validateSignUp = (values: validateSignUpProps) => {
-
     let errors: SignUpErrorsProps = validateSignUpErrors;
     let isOk: boolean = true;
 
