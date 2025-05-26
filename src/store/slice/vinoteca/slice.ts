@@ -15,7 +15,7 @@ const initialState: VinotecaSliceProps = {
         page: 0
     },
     Wine: {
-        rowsPerPage: 40,
+        rowsPerPage: 20,
         page: 0
     },
     UserList: {

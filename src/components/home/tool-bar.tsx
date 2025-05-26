@@ -1,4 +1,4 @@
-import { AppBar, Badge, Box, Container, Drawer, IconButton, MenuItem, styled, Tooltip } from "@mui/material"
+import { AppBar, Badge, Box, Container, Drawer, IconButton, styled, Tooltip } from "@mui/material"
 import { MyToolBar } from "../../styles/theme/components/my-tool-bar"
 import { ScrollButton } from "./scroll-button"
 import { ToolBarProps } from "../../types/tool-bar"
@@ -57,7 +57,7 @@ export const ToolBar = (props: ToolBarProps) => {
     // Comprobar si existe un usuario iniciado
     const { isAuthenticated } = useAuth()
 
-    // Datos del usuario
+    // Datos del carrito
     const { shoppingCart } = useSelector((state: any) => state.Auth.user || {})
 
     // Si el usuario está autenticado, obtener conteo desde API
@@ -139,16 +139,19 @@ export const ToolBar = (props: ToolBarProps) => {
                                 <ScrollButton
                                     label='Inicio'
                                     section={homeRef}
+                                    isActive={props.currentIndex === 0}
                                 />
 
                                 <ScrollButton
                                     label='Historia'
                                     section={historyRef}
+                                    isActive={props.currentIndex === 1}
                                 />
 
                                 <ScrollButton
                                     label='Vinos'
                                     section={winelistRef}
+                                    isActive={props.currentIndex === 2}
                                 />
                             </Box>
                         </Box>

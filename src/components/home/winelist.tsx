@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Divider, Grid, TablePagination, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Divider, Grid, Pagination, TablePagination, Typography } from "@mui/material";
 import { useWinesQuery } from "../../store/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { openModalAction } from "../../store/slice/UI/slice";
@@ -8,12 +8,15 @@ export const WineList = () => {
     const dispatch = useDispatch();
 
     // Datos filtrados
-    const Filters = useSelector((state: any) => state.Vinoteca.WineList)
+    const Filters = useSelector((state: any) => state.Vinoteca.Wine)
 
     const { page, rowsPerPage } = Filters
 
     const { data } = useWinesQuery(Filters)
     const { wines, count } = data ? data.data : [];
+
+    // Total de paginas
+    const totalPages = Math.ceil(count / rowsPerPage);
 
     // Obtener imagen
     const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
@@ -22,9 +25,7 @@ export const WineList = () => {
         const payload: any = {
             title: wine.name,
             component: WineInfo,
-            args: {
-                wine: wine
-            }
+            args: wine
         }
         dispatch(openModalAction(payload))
     }
@@ -37,14 +38,13 @@ export const WineList = () => {
                     alignItems: "center",
                     height: '100vh',
                     width: '100vw',
-                    pt: '150px'
+                    pt: '150px',
                 }}
             >
                 <Card
                     sx={{
                         width: '100%',
                         borderRadius: 3,
-                        border: "2px solid #d4af37",
                         overflow: 'hidden',
                         mb: 2
                     }}
@@ -74,11 +74,10 @@ export const WineList = () => {
                                         flexDirection: 'column',
                                         justifyContent: 'space-between',
                                         borderRadius: 3,
-                                        border: "2px solid #d4af37",
                                         overflow: 'hidden',
                                         "&:hover": {
                                             transform: "scale(1.03)",
-                                            boxShadow: "0px 0px 10px 5px rgba(212, 175, 55, 0.6)", // Resplandor dorado
+                                            boxShadow: "0px 0px 10px 5px var(--vinoteca-palette-neutral-950)", // Resplandor dorado
                                         },
                                         transition: "transform 0.3s ease, box-shadow 0.3s ease",
                                     }}
@@ -117,6 +116,16 @@ export const WineList = () => {
                         )) : 'Por el momento no tenemos vinos'
                     }
                 </Grid>
+                <Box display="flex" justifyContent="center">
+                    <Pagination
+                        sx={{
+                            mt: 5,
+                            mb: 10
+                        }}
+                        color='primary'
+                        count={totalPages}
+                    />
+                </Box>
             </Container>
         </Box>
     );

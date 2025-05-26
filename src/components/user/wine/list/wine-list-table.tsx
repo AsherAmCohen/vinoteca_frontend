@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Card, Divider, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material"
 import { useWinesQuery } from "../../../../store/api/api"
 import { useDispatch, useSelector } from "react-redux"
-import { setWineActions } from "../../../../store/slice/vinoteca/slice"
+import { setWineListActions } from "../../../../store/slice/vinoteca/slice"
 import { useEffect } from "react"
 import { HasPermissions } from "../../../../helpers/components/has-permission"
 import { WineListEdit } from "./wine-list-edit"
@@ -37,7 +37,7 @@ export const WineListTable = () => {
             value: value,
             key: 'rowsPerPage'
         }
-        dispatch(setWineActions(payload))
+        dispatch(setWineListActions(payload))
     }
 
     // Cambiar pagina
@@ -46,7 +46,7 @@ export const WineListTable = () => {
             value: value,
             key: 'page'
         }
-        dispatch(setWineActions(payload))
+        dispatch(setWineListActions(payload))
     }
 
     // Reiniciar pagina a 0 cuando se cambie el rowsPerPage
@@ -55,7 +55,7 @@ export const WineListTable = () => {
             value: 0,
             key: 'page'
         }
-        dispatch(setWineActions(payload))
+        dispatch(setWineListActions(payload))
     }, [rowsPerPage])
 
 

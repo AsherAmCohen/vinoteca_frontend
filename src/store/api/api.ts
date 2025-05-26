@@ -263,6 +263,14 @@ export const vinotecaApi = createApi({
                 method: 'GET'
             }),
             providesTags: ['amountProduct']
+        }),
+
+        winesShoppingCart: builder.query({
+            query: ({shoppingCartId}) => ({
+                url: `/shoppingCart/wines?shoppingCartId=${shoppingCartId}`,
+                method: 'GET'
+            }),
+            providesTags: ['amountProduct']
         })
     })
 })
@@ -301,5 +309,6 @@ export const {
     // Carrito de compras
     useAmountProductQuery,
     useUpdateAmountProductMutation,
-    useCountProductsQuery
+    useCountProductsQuery,
+    useWinesShoppingCartQuery,
 } = vinotecaApi

@@ -14,9 +14,12 @@ import { useAuth } from "../../../auth-context";
 import { useEffect, useState } from "react";
 import { DeleteToCart, ToCart } from "../../../store/slice/shop/slice";
 
+// Obtener imagen
+const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
+
 export const WineInfo = (props: any) => {
     const dispatch = useDispatch()
-    const { category, description, id, image, mark, name, price, sale, stock } = props.args.wine;
+    const { category, description, id, image, mark, name, price, sale, stock } = props.args;
 
     // Comprobar si existe un usuario iniciado
     const { isAuthenticated } = useAuth();
@@ -26,9 +29,6 @@ export const WineInfo = (props: any) => {
 
     // Cantidad del producto agregado al carrito
     const [amountShopping, setAmountShopping] = useState<number>(0)
-
-    // Obtener imagen
-    const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
 
     // Objeto para RTK Query solo si está autenticado
     const dataWine = isAuthenticated
@@ -57,22 +57,7 @@ export const WineInfo = (props: any) => {
 
     const [updateAmount] = useUpdateAmountProductMutation();
 
-    // const handleAddShoppingCart = () => {
-    //     // Comprobación de usuario iniciado
-    //     if (isAuthenticated) {
-    //         updateAmount(dataWine)
-    //     } else {
-    //         const payload = {
-    //             id: id,
-    //             amount: 1
-    //         }
-
-    //         dispatch(ToCart(payload))
-    //     }
-    // }
-
     const handleAddProduct = () => {
-        console.log(isAuthenticated)
         if (amountShopping >= stock) return; // evitar que sobrepase el stock
 
         if (isAuthenticated) {
@@ -102,7 +87,6 @@ export const WineInfo = (props: any) => {
 
         // Si sigue siendo mayor a 0, solo actualiza la cantidad
         if (isAuthenticated) {
-            console.log('aqui')
             updateAmount({ ...dataWine, amount: newAmount });
         } else {
             dispatch(ToCart({ id, amount: -1 }));
@@ -110,8 +94,6 @@ export const WineInfo = (props: any) => {
 
         setAmountShopping(newAmount);
     };
-
-
 
     return (
         <>
@@ -153,7 +135,7 @@ export const WineInfo = (props: any) => {
                                             <strong>Marca</strong>
                                         </Box>
                                     </TableCell>
-                                    <TableCell>{mark}</TableCell>
+                                    <TableCell>{mark.name}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>
@@ -162,7 +144,7 @@ export const WineInfo = (props: any) => {
                                             <strong>Categoría</strong>
                                         </Box>
                                     </TableCell>
-                                    <TableCell>{category}</TableCell>
+                                    <TableCell>{category.name}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>
@@ -223,8 +205,8 @@ export const WineInfo = (props: any) => {
                             px: 1.5,
                             py: 0.5,
                             '.MuiChip-label': { display: 'flex', alignItems: 'center', gap: 1 },
-                            background: 'var(--Vinoteca-Background-Dark)',
-                            color: 'var(--Vinoteca-Background-Light)',
+                            background: 'var(--vinoteca-palette-neutral-950)',
+                            color: 'var(--vinoteca-palette-common-white)',
                         }}
                     />
                     :
@@ -238,7 +220,7 @@ export const WineInfo = (props: any) => {
                                         e.stopPropagation(); // para evitar cerrar el chip si se hace clic
                                         handleDeleteProduct();
                                     }}
-                                    sx={{ p: 0.5, color: 'var(--Vinoteca-Background-Light)' }}
+                                    sx={{ p: 0.5, color: 'var(--vinoteca-palette-common-white)' }}
                                 >
                                     <Remove fontSize="small" />
                                 </IconButton>
@@ -251,7 +233,7 @@ export const WineInfo = (props: any) => {
                                         e.stopPropagation();
                                         handleAddProduct();
                                     }}
-                                    sx={{ p: 0.5, color: 'var(--Vinoteca-Background-Light)' }}
+                                    sx={{ p: 0.5, color: 'var(--vinoteca-palette-common-white)' }}
                                 >
                                     <Add fontSize="small" />
                                 </IconButton>
@@ -261,8 +243,8 @@ export const WineInfo = (props: any) => {
                             px: 1.5,
                             py: 0.5,
                             '.MuiChip-label': { display: 'flex', alignItems: 'center', gap: 1 },
-                            background: 'var(--Vinoteca-Background-Dark)',
-                            color: 'var(--Vinoteca-Background-Light)'
+                            background: 'var(--vinoteca-palette-neutral-950)',
+                            color: 'var(--vinoteca-palette-common-white)'
                         }}
                     />
                 }
