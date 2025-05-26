@@ -12,7 +12,7 @@ import { Plus as Add } from "@phosphor-icons/react";
 import { Minus as Remove } from "@phosphor-icons/react";
 import { useAuth } from "../../../auth-context";
 import { useEffect, useState } from "react";
-import { DeleteToCart, ToCart } from "../../../store/slice/shop/slice";
+import { DeleteToCart, ToCart } from "../../../store/slice/shopping-cart/slice";
 
 // Obtener imagen
 const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
@@ -57,6 +57,7 @@ export const WineInfo = (props: any) => {
 
     const [updateAmount] = useUpdateAmountProductMutation();
 
+    // Agregar productos al carrito
     const handleAddProduct = () => {
         if (amountShopping >= stock) return; // evitar que sobrepase el stock
 
@@ -74,6 +75,7 @@ export const WineInfo = (props: any) => {
     const handleDeleteProduct = () => {
         const newAmount = amountShopping - 1;
 
+        console.log(newAmount)
         // Si el nuevo valor es 0 o menor, elimina el producto
         if (newAmount <= 0) {
             if (isAuthenticated) {

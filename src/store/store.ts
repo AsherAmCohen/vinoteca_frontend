@@ -3,7 +3,7 @@ import { vinotecaApi } from "./api/api";
 import { UISlice } from "./slice/UI/slice";
 import { VinotecaSlice } from "./slice/vinoteca/slice";
 import { AuthSlice } from "./slice/auth/slice";
-import { ShoppingCartSlice } from "./slice/shop/slice";
+import { ShoppingCartSlice } from "./slice/shopping-cart/slice";
 
 // Persistencia
 import { persistStore, persistReducer } from 'redux-persist'

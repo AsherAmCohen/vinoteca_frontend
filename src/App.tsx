@@ -18,6 +18,7 @@ import { User } from "./pages/user/user/user.tsx";
 import { UserList } from "./pages/user/user/list/user-list.tsx";
 import { UserRole } from "./pages/user/user/role/user-role.tsx";
 import { VerifyEmail } from "./pages/token/verify-token.tsx";
+import { Payment } from "./pages/payment/payment.tsx";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           
           <Route element={<HomeRoute />}>
             <Route path="/" element={<Vinoteca />} />
+            <Route path='/payment' element={<Payment/>}/>
           </Route>
 
           {/* Rutas que comprueban el estado de inicio de sesión */}

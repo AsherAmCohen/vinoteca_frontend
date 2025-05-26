@@ -2,7 +2,7 @@ import { jwtDecode } from "jwt-decode"
 import { createContext, useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { login as loginRedux, logout as logoutRedux } from "./store/slice/auth/slice";
-import { ClearCart } from "./store/slice/shop/slice";
+import { ClearCart } from "./store/slice/shopping-cart/slice";
 
 import { useUpdateAmountProductMutation } from "./store/api/api";
 
