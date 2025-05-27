@@ -2,12 +2,15 @@ import { Box, Button, Divider, TableCell, TableRow, Typography } from "@mui/mate
 import { useAuth } from "../../auth-context"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { useWinesShoppingCartQuery } from "../../store/api/api"
+import { usePaymentShoppingCartMutation, useWinesShoppingCartQuery } from "../../store/api/api"
 import { PaymentWine } from "../../components/payment/payment-wine"
 import { formatEuro } from "../../components/home/shopping-cart-popover"
 import { CurrencyDollar as AttachMoney } from "@phosphor-icons/react";
 
 export const Payment = () => {
+    // Api
+    const [PaymentShoppingCart] = usePaymentShoppingCartMutation()
+
     // Todos los vinos
     const [wines, setWines] = useState<[]>([])
 
@@ -40,6 +43,15 @@ export const Payment = () => {
 
     // Calcular total
     const totalPrice = wines.length ? Object.values(priceShoppingCart).reduce((acc, price) => acc + price, 0) : 0;
+
+    // Realizar el pago
+    const handlePayment = () => {
+        const paymentData = {
+            shoppingCart: shoppingCart
+        }
+
+        PaymentShoppingCart(paymentData)
+    }
 
     return (
         <Box
@@ -89,6 +101,7 @@ export const Payment = () => {
                         <Button
                             variant='contained'
                             fullWidth
+                            onClick={handlePayment}
                         >
                             Pagar
                         </Button>

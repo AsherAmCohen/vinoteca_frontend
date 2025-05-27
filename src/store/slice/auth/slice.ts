@@ -4,19 +4,20 @@ interface User {
     name: string;
     email: string;
     phone: string;
-    shoppingCart: string;
 }
 
 interface AuthState {
     user: User | null;
     token: string | null;
     isAuthenticated: boolean;
+    shoppingCartId: number | null;
 }
 
 const initialState: AuthState = {
     user: null,
     token: null,
     isAuthenticated: false,
+    shoppingCartId: null
 }
  
 export const AuthSlice = createSlice({
@@ -29,12 +30,16 @@ export const AuthSlice = createSlice({
             state.isAuthenticated = true;
         },
         logout: (state) => {
-            state = initialState
+            Object.assign(state, initialState)
+        },
+        setShoppingCartId: (state, action: PayloadAction<number>) => {
+            state.shoppingCartId = action.payload
         }
     }
 })
 
 export const {
     login,
-    logout
+    logout,
+    setShoppingCartId
 } = AuthSlice.actions

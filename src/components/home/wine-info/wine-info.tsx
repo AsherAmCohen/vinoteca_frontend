@@ -24,7 +24,7 @@ export const WineInfo = (props: any) => {
     // Comprobar si existe un usuario iniciado
     const { isAuthenticated } = useAuth();
 
-    const user = useSelector((state: any) => state.Auth.user);
+    const shoppingCartId = useSelector((state: any) => state.Auth.shoppingCartId);
     const localCart = useSelector((state: any) => state.ShoppingCart);
 
     // Cantidad del producto agregado al carrito
@@ -34,13 +34,13 @@ export const WineInfo = (props: any) => {
     const dataWine = isAuthenticated
         ? {
             wineId: id,
-            shoppingCartId: user?.shoppingCart,
+            shoppingCartId,
             amount: 0,
         }
         : null;
 
     const { data } = useAmountProductQuery(dataWine!, {
-        skip: !isAuthenticated,
+        skip: !isAuthenticated || !shoppingCartId,
     });
 
     // Sincronizar cantidad con query

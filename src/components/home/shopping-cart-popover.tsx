@@ -1,10 +1,11 @@
-import { Box, Button, Divider, Popover, TableCell, TableRow, Typography } from "@mui/material"
+import { Box, Button, Divider, Popover, Table, TableCell, TableRow, Typography } from "@mui/material"
 import { useAuth } from "../../auth-context";
 import { useSelector } from "react-redux";
 import { useWinesShoppingCartQuery } from "../../store/api/api";
 import { useEffect, useState } from "react";
 import { CurrencyDollar as AttachMoney } from "@phosphor-icons/react";
 import { ShoppingCartWine } from "./shopping-cart/shopping-cart-wine";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     anchorEl: Element | null;
@@ -21,11 +22,14 @@ export const formatEuro = (value: any) => {
 }
 
 export const ShoppingCartPopover = (props: Props) => {
+    // redirect
+    const navidate = useNavigate()
+
     // Abrir o cerrar el menu
     const { anchorEl, open, onClose } = props
 
     // Todos los vinos
-    const [wines, setWines] = useState<[]>([])
+    const [wines, setWines] = useState<any[]>([])
 
     // Precio total del carrito
     const [priceShoppingCart, setPriceShoppingCart] = useState<number>(0)
@@ -34,12 +38,12 @@ export const ShoppingCartPopover = (props: Props) => {
     const { isAuthenticated } = useAuth()
 
     // Datos del carrito
-    const { shoppingCart } = useSelector((state: any) => state.Auth.user || {})
+    const shoppingCartId = useSelector((state: any) => state.Auth.shoppingCartId);
     const localCart = useSelector((state: any) => state.ShoppingCart);
 
     // Si el usuario esta autenticado, obtener los productos desde API
     const { data } = useWinesShoppingCartQuery(
-        { shoppingCartId: shoppingCart },
+        { shoppingCartId },
         { skip: !isAuthenticated }
     )
 
@@ -56,6 +60,10 @@ export const ShoppingCartPopover = (props: Props) => {
 
     // Calcular total
     const totalPrice = wines.length ? Object.values(priceShoppingCart).reduce((acc, price) => acc + price, 0) : 0;
+
+    const handlePayment = () => {
+        navidate('/payment')
+    }
 
     return (
         <Popover
@@ -85,21 +93,20 @@ export const ShoppingCartPopover = (props: Props) => {
                 <>
                     <Divider />
 
-                    <TableRow>
-                        <TableCell>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <AttachMoney fontSize="small" />
-                                <strong>Precio de todo el carrito</strong>
-                            </Box>
-                        </TableCell>
-                        <TableCell>{formatEuro(parseInt(totalPrice))}</TableCell>
-                    </TableRow>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: '16px 20px' }}>
+                        <AttachMoney fontSize="small" />
+                        <strong>Precio de todo el carrito</strong>{formatEuro(parseInt(totalPrice))}
+                    </Box>
 
                     <Divider />
 
                     <Button
                         variant='contained'
                         fullWidth
+                        onClick={handlePayment}
+                        sx={{
+                            borderRadius: 0
+                        }}
                     >
                         Pagar
                     </Button>

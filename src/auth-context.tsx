@@ -1,10 +1,10 @@
 import { jwtDecode } from "jwt-decode"
 import { createContext, useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { login as loginRedux, logout as logoutRedux } from "./store/slice/auth/slice";
+import { login as loginRedux, logout as logoutRedux, setShoppingCartId } from "./store/slice/auth/slice";
 import { ClearCart } from "./store/slice/shopping-cart/slice";
 
-import { useUpdateAmountProductMutation } from "./store/api/api";
+import { useLazyShoppingCartUserQuery, useUpdateAmountProductMutation } from "./store/api/api";
 
 interface AuthContextType {
     user: any;
@@ -35,51 +35,85 @@ export const AuthProvider = ({ children }: Props) => {
     const [user, setUser] = useState<any>(null)
     const [loading, setLoading] = useState(true);
 
+    // Api para obtener carrito del usuario
+    const [getCartUser] = useLazyShoppingCartUserQuery();
+
     // Sincronizar carritos
     const localCart = useSelector((state: any) => state.ShoppingCart.wines);
+
+    // Api para agregar los productos al carrito
     const [addToCart] = useUpdateAmountProductMutation();
 
-    const syncCartWithAPI = async (userData: any) => {
-        if (!userData?.shoppingCart || !localCart?.length) return;
+    // Funcion para cargar el carrito a Redux
+    const fetchAndSetCartId = async (email: string): Promise<string | null> => {
+        try {
+            const { data } = await getCartUser({ email }).unwrap();
+            if (data) {
+                dispatch(setShoppingCartId(data))
+                return data
+            }
+        } catch { }
+        return null
+    }
+
+    // Sincronizar el carrito cuando se inicie sesión
+    const syncCartWithAPI = async (shoppingCartId: string) => {
+        if (!shoppingCartId || !localCart?.length) return;
 
         try {
             for (const item of localCart) {
                 await addToCart({
                     wineId: item.id,
-                    shoppingCartId: userData.shoppingCart,
+                    shoppingCartId,
                     amount: item.amount
                 }).unwrap();
             }
             dispatch(ClearCart());
-        } catch (error) {}
+        } catch (error) {
+            console.error("Error sincronizando carrito:", error);
+        }
     };
 
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                const decoded: any = jwtDecode(token);
-                if (decoded.exp * 1000 > Date.now()) {
-                    setUser(decoded)
-                    dispatch(loginRedux({ user: decoded, token }))
-                    syncCartWithAPI(decoded); // sincronizar si hay token válido
-                } else {
+        const initialize = async () => {
+            // Obtiene el token de las cookies
+            const token = localStorage.getItem('token')
+
+            if (token) {
+                try {
+                    // Decodifica el token
+                    const decoded: any = jwtDecode(token)
+                    // Comprueba si el token no esta expirado
+                    if (decoded.exp * 1000 > Date.now()) {
+                        setUser(decoded)
+                        dispatch(loginRedux({ user: decoded, token }))
+
+                        // Obtiene el ID del carrito
+                        const cartId = await fetchAndSetCartId(decoded.email)
+                        if (cartId) await syncCartWithAPI(cartId)
+                    }
+                    else {
+                        localStorage.removeItem('token')
+                    }
+                } catch (error) {
                     localStorage.removeItem('token')
                 }
-            } catch (error) {
-                localStorage.removeItem('token')
             }
+            setLoading(false)
         }
-        setLoading(false)
+
+        initialize();
     }, [])
 
-    const login = (token: string) => {
+    const login = async (token: string) => {
         localStorage.setItem('token', token)
         const decoded: any = jwtDecode(token)
         setUser(decoded)
         dispatch(loginRedux({ user: decoded, token }))
-        syncCartWithAPI(decoded); // sincronizar al iniar sesión
+
+        const cartId = await fetchAndSetCartId(decoded.email)
+        if (cartId) await syncCartWithAPI(cartId)
     }
 
     const logout = () => {

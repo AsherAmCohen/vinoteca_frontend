@@ -279,6 +279,28 @@ export const vinotecaApi = createApi({
                 method: 'GET'
             }),
             providesTags: ['amountProduct']
+        }),
+
+        paymentShoppingCart: builder.mutation({
+            query: (data) => ({
+                url: '/shoppingCart/payment',
+                method: 'PUT',
+                body: data
+            })
+        }),
+
+        shoppingPayment: builder.query({
+            query: ({email}) => ({
+                url: `/shoppingCart/shopping?email=${email}`,
+                method: 'GET'
+            })
+        }),
+
+        shoppingCartUser: builder.query({
+            query: ({email}) => ({
+                url: `/shoppingCart/user?email=${email}`,
+                method: 'GET'
+            })
         })
     })
 })
@@ -320,4 +342,7 @@ export const {
     useUpdateAmountProductMutation,
     useCountProductsQuery,
     useWinesShoppingCartQuery,
+    usePaymentShoppingCartMutation,
+    useShoppingPaymentQuery,
+    useLazyShoppingCartUserQuery
 } = vinotecaApi

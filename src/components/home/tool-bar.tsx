@@ -58,11 +58,11 @@ export const ToolBar = (props: ToolBarProps) => {
     const { isAuthenticated } = useAuth()
 
     // Datos del carrito
-    const { shoppingCart } = useSelector((state: any) => state.Auth.user || {})
+    const shoppingCartId = useSelector((state: any) => state.Auth.shoppingCartId);
 
     // Si el usuario está autenticado, obtener conteo desde API
     const { data } = useCountProductsQuery(
-        { shoppingCartId: shoppingCart },
+        { shoppingCartId },
         { skip: !isAuthenticated }
     )
 

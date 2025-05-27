@@ -29,7 +29,7 @@ export const ShoppingCartWine = (props: Props) => {
     const { isAuthenticated } = useAuth();
 
     // Información del carrito y del vino
-    const user = useSelector((state: any) => state.Auth.user);
+    const shoppingCartId = useSelector((state: any) => state.Auth.shoppingCartId);
     const localCart = useSelector((state: any) => state.ShoppingCart);
 
     // Cantidad de producto agregado al carrito
@@ -39,7 +39,7 @@ export const ShoppingCartWine = (props: Props) => {
     const dataWine = isAuthenticated
         ? {
             wineId: id,
-            shoppingCartId: user?.shoppingCart,
+            shoppingCartId,
             amount: 0,
         }
         : null;

@@ -1,7 +1,7 @@
 import { Avatar, Box, Card, CardContent, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material"
 import { useEffect, useState } from "react";
 import { useInfoWineQuery } from "../../store/api/api";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useAuth } from "../../auth-context";
 import { formatEuro } from "../home/shopping-cart-popover";
 import { TagSimple as LabelOutlined } from "@phosphor-icons/react";
@@ -19,29 +19,16 @@ interface Props {
 
 export const PaymentWine = (props: Props) => {
 
-    const dispatch = useDispatch()
-
     const { id, amount, setPriceShoppingCart } = props;
 
     // Comprobar si existe un usuario iniciado
     const { isAuthenticated } = useAuth();
 
     // Información del carrito y del vino
-    const user = useSelector((state: any) => state.Auth.user);
     const localCart = useSelector((state: any) => state.ShoppingCart);
 
     // Cantidad de producto agregado al carrito
     const [amountShopping, setAmountShopping] = useState<number>(amount)
-
-    // Objeto para RTK Query solo si está autenticado
-    const dataWine = isAuthenticated
-        ? {
-            wineId: id,
-            shoppingCartId: user?.shoppingCart,
-            amount: 0,
-        }
-        : null;
-
 
     // Api
     const { data } = useInfoWineQuery({ id: id, amount: amountShopping })
@@ -67,9 +54,8 @@ export const PaymentWine = (props: Props) => {
                 [wine.id]: wine.totalPrice, // Actualizamos el precio total
             }));
         }
-    }, [wine, amount]);
-
-
+    }, [wine, amount])
+    
     return (
         <Card
             sx={{ width: '100%' }}
