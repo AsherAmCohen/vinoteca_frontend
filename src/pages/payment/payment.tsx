@@ -1,13 +1,20 @@
-import { Box, Button, Divider, TableCell, TableRow, Typography } from "@mui/material"
+import { Box, Button, Divider, Typography } from "@mui/material"
 import { useAuth } from "../../auth-context"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { usePaymentShoppingCartMutation, useWinesShoppingCartQuery } from "../../store/api/api"
 import { PaymentWine } from "../../components/payment/payment-wine"
 import { formatEuro } from "../../components/home/shopping-cart-popover"
 import { CurrencyDollar as AttachMoney } from "@phosphor-icons/react";
+import { useNavigate } from "react-router-dom"
+import { setShoppingCartId } from "../../store/slice/auth/slice"
 
 export const Payment = () => {
+    const diapatch = useDispatch()
+
+    // Navigate
+    const navigate = useNavigate()
+
     // Api
     const [PaymentShoppingCart] = usePaymentShoppingCartMutation()
 
@@ -21,12 +28,12 @@ export const Payment = () => {
     const { isAuthenticated } = useAuth()
 
     // Datos del carrito
-    const { shoppingCart } = useSelector((state: any) => state.Auth.user || {})
+    const shoppingCartId = useSelector((state: any) => state.Auth.shoppingCartId);
     const localCart = useSelector((state: any) => state.ShoppingCart);
 
     // Si el usuario esta autenticado, obtener los productos desde API
     const { data } = useWinesShoppingCartQuery(
-        { shoppingCartId: shoppingCart },
+        { shoppingCartId },
         { skip: !isAuthenticated }
     )
 
@@ -45,20 +52,26 @@ export const Payment = () => {
     const totalPrice = wines.length ? Object.values(priceShoppingCart).reduce((acc, price) => acc + price, 0) : 0;
 
     // Realizar el pago
-    const handlePayment = () => {
+    const handlePayment = async () => {
         const paymentData = {
-            shoppingCart: shoppingCart
+            shoppingCartId
         }
 
-        PaymentShoppingCart(paymentData)
+        const newCart = await PaymentShoppingCart(paymentData).unwrap()
+
+        await diapatch(setShoppingCartId(newCart))
+
+        navigate('/')
     }
 
     return (
         <Box
             sx={{
                 display: 'flex',
-                justifyContent: 'center',  // centra vertical y horizontalmente
+                justifyContent: 'center',
                 alignItems: 'center',
+                minHeight: '100vh', // ⬅️ esto es clave para centrar verticalmente
+                p: 2, // padding opcional para que no quede pegado a los bordes en pantallas pequeñas
             }}
         >
             <Box
@@ -86,15 +99,10 @@ export const Payment = () => {
                     >
                         <Divider />
 
-                        <TableRow>
-                            <TableCell>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <AttachMoney fontSize="small" />
-                                    <strong>Precio de todo el carrito</strong>
-                                </Box>
-                            </TableCell>
-                            <TableCell>{formatEuro(parseInt(totalPrice))}</TableCell>
-                        </TableRow>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                            <AttachMoney fontSize="small" />
+                            <strong>Precio de todo el carrito</strong>{formatEuro(parseInt(totalPrice))}
+                        </Box>
 
                         <Divider />
 

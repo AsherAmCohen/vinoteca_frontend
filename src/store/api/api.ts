@@ -286,14 +286,15 @@ export const vinotecaApi = createApi({
                 url: '/shoppingCart/payment',
                 method: 'PUT',
                 body: data
-            })
+            }),
+            invalidatesTags: ['wineList']
         }),
 
         shoppingPayment: builder.query({
             query: ({email}) => ({
                 url: `/shoppingCart/shopping?email=${email}`,
                 method: 'GET'
-            })
+            }),
         }),
 
         shoppingCartUser: builder.query({

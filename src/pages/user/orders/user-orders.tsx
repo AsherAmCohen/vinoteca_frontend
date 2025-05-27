@@ -1,15 +1,25 @@
-import { useSelector } from "react-redux";
-import { useShoppingPaymentQuery } from "../../../store/api/api";
+import { Stack, Typography } from "@mui/material";
+import { OrderListTable } from "../../../components/user/order/list/order-list-table";
 
 export const UserOrders = () => {
-    const user = useSelector((state: any) => state.Auth.user);
-
-    const {data} = useShoppingPaymentQuery({email: user.email})
-
-    console.log(data)
     return (
-        <>
-            Pedidos
-        </>
+        <Stack spacing={3}>
+            <Stack
+                direction='row'
+                spacing={3}
+            >
+                <Stack
+                    spacing={1}
+                    sx={{
+                        flex: '1 1 auto'
+                    }}
+                >
+                    <Typography variant='h4'>
+                        Pedidos
+                    </Typography>
+                </Stack>
+            </Stack>
+            <OrderListTable/>
+        </Stack>
     )
 }

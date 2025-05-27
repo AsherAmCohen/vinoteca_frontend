@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Popover, Table, TableCell, TableRow, Typography } from "@mui/material"
+import { Box, Button, Divider, Popover, Typography } from "@mui/material"
 import { useAuth } from "../../auth-context";
 import { useSelector } from "react-redux";
 import { useWinesShoppingCartQuery } from "../../store/api/api";
