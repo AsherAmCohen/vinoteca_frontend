@@ -1,5 +1,5 @@
 import type { Components } from '@mui/material/styles';
 
-import type { Theme } from '../../types/theme';
+import type { Theme } from '../../../types/theme';
 
 export const MuiLink = { defaultProps: { underline: 'hover' } } satisfies Components<Theme>['MuiLink'];

@@ -62,20 +62,22 @@ export const MainNav = () => {
                         direction='row'
                     >
                         <Tooltip title='Usuario'>
-
-                            <IconButton
-                                sx={{
-                                    color: 'var(--vinoteca-palette-neutral-950)',
-                                    '&:hover': {
-                                        color: 'var(--vinoteca-palette-common-white)',
-                                        background: 'var(--vinoteca-palette-neutral-950)'
-                                    }
-                                }}
-                                onClick={userPopover.handleOpen}
+                            <div
                                 ref={userPopover.anchorRef}
                             >
-                                <UserIcon />
-                            </IconButton>
+                                <IconButton
+                                    sx={{
+                                        color: 'var(--vinoteca-palette-neutral-950)',
+                                        '&:hover': {
+                                            color: 'var(--vinoteca-palette-common-white)',
+                                            background: 'var(--vinoteca-palette-neutral-950)'
+                                        }
+                                    }}
+                                    onClick={userPopover.handleOpen}
+                                >
+                                    <UserIcon />
+                                </IconButton>
+                            </div>
                         </Tooltip>
 
                         <Tooltip title='Carrito'>

@@ -6,7 +6,7 @@ export const vinotecaApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl,
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers, {}) => {
             const token = localStorage.getItem('token')
             const apiKey = import.meta.env.VITE_INTERNAL_API_KEY
 

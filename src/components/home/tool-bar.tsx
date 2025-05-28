@@ -156,13 +156,35 @@ export const ToolBar = (props: ToolBarProps) => {
                             </Box>
                         </Box>
 
-                        <Box>
+                        <Box sx={{ display: 'flex' }}>
                             <StyledBadge
                                 overlap="circular"
                                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                                 variant={isAuthenticated ? 'dot' : 'standard'}
                             >
                                 <Tooltip title='Usuario'>
+                                    <div ref={userPopover.anchorRef}>
+                                        <IconButton
+                                            sx={{
+                                                color: 'var(--vinoteca-palette-common-white)',
+                                                '&:hover': {
+                                                    color: 'var(--vinoteca-palette-neutral-950)',
+                                                    background: 'var(--vinoteca-palette-common-white)'
+                                                }
+                                            }}
+                                            onClick={isAuthenticated ? userPopover.handleOpen : handleUser}
+                                        >
+                                            <UserCircleIcon />
+                                        </IconButton>
+                                    </div>
+                                </Tooltip>
+                            </StyledBadge>
+
+                            <Tooltip title='Carrito'>
+                                <div
+                                    ref={shoppingCartPopover.anchorRef}
+
+                                >
                                     <IconButton
                                         sx={{
                                             color: 'var(--vinoteca-palette-common-white)',
@@ -171,33 +193,16 @@ export const ToolBar = (props: ToolBarProps) => {
                                                 background: 'var(--vinoteca-palette-common-white)'
                                             }
                                         }}
-                                        onClick={isAuthenticated ? userPopover.handleOpen : handleUser}
-                                        ref={userPopover.anchorRef}
+                                        onClick={shoppingCartPopover.handleOpen}
                                     >
-                                        <UserCircleIcon />
+                                        <Badge
+                                            badgeContent={countShopping > 0 ? countShopping : null}
+                                            color='warning'
+                                        >
+                                            <ShoppingCartIcon />
+                                        </Badge>
                                     </IconButton>
-                                </Tooltip>
-                            </StyledBadge>
-
-                            <Tooltip title='Carrito'>
-                                <IconButton
-                                    sx={{
-                                        color: 'var(--vinoteca-palette-common-white)',
-                                        '&:hover': {
-                                            color: 'var(--vinoteca-palette-neutral-950)',
-                                            background: 'var(--vinoteca-palette-common-white)'
-                                        }
-                                    }}
-                                    onClick={shoppingCartPopover.handleOpen}
-                                    ref={shoppingCartPopover.anchorRef}
-                                >
-                                    <Badge
-                                        badgeContent={countShopping > 0 ? countShopping : null}
-                                        color='warning'
-                                    >
-                                        <ShoppingCartIcon />
-                                    </Badge>
-                                </IconButton>
+                                </div>
                             </Tooltip>
                         </Box>
 
