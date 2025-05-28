@@ -36,8 +36,32 @@ export const SideNav = () => {
                 '&::-webkit-scrollbar': { display: 'none' }
             }}
         >
-            <Stack>
-                Logo
+            <Stack
+                sx={{
+                    width: '100%',
+                    alignItems: 'center'
+                }}
+            >
+                <Box component={RouterLink} to='/' sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, textDecoration: 'none' }}>
+                    <img
+                        src='/logo.png'
+                        height={40}
+                        width={40}
+                        alt='Logo'
+                    />
+                    <Typography variant="h6" color="white"
+
+                        sx={{
+                            fontSize: '2rem',
+                            fontWeight: 'bold',
+                            fontFamily: '"Playfair Display", serif',
+                            color: 'white',
+                            textAlign: 'center',
+                            zIndex: 3,
+                        }}>
+                        Vinoteca
+                    </Typography>
+                </Box>
             </Stack>
             <Divider
                 sx={{ bgcolor: 'var(--vinoteca-palette-common-white)' }}
@@ -61,7 +85,7 @@ export const renderNavItems = ({ items = [], pathname, userPermissions = [] }: R
 
         // Verificar permisos
         const hasPermission = permissions.some((p: any) => userPermissions.includes(p))
-        if(!hasPermission) return acc;
+        if (!hasPermission) return acc;
 
         acc.push(
             <NavItem key={key} pathname={pathname} {...item} />

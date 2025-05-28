@@ -1,25 +1,28 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Divider, Grid, Pagination, TablePagination, Typography } from "@mui/material";
-import { useWinesQuery } from "../../store/api/api";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Divider, Grid, Pagination, Typography } from "@mui/material";
+import { useWinesInStockQuery } from "../../store/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { openModalAction } from "../../store/slice/UI/slice";
 import { WineInfo } from "./wine-info/wine-info";
+import { setWineInStockActions } from "../../store/slice/vinoteca/slice";
+
+// Obtener imagen
+const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
 
 export const WineList = () => {
     const dispatch = useDispatch();
 
     // Datos filtrados
-    const Filters = useSelector((state: any) => state.Vinoteca.Wine)
+    const Filters = useSelector((state: any) => state.Vinoteca.WineInStock)
 
-    const { page, rowsPerPage } = Filters
+    const { rowsPerPage } = Filters
 
-    const { data } = useWinesQuery(Filters)
+    const { data } = useWinesInStockQuery(Filters)
     const { wines, count } = data ? data.data : [];
 
     // Total de paginas
     const totalPages = Math.ceil(count / rowsPerPage);
 
-    // Obtener imagen
-    const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/wine/image?image=`;
+
 
     const handleWineOpen = (wine: any) => {
         const payload: any = {
@@ -28,6 +31,15 @@ export const WineList = () => {
             args: wine
         }
         dispatch(openModalAction(payload))
+    }
+
+    // Cambiar de pagina
+    const handleOnPageChange = (_e: any, value: any) => {
+        const payload: any = {
+            value: value,
+            key: 'page'
+        }
+        dispatch(setWineInStockActions(payload))
     }
 
     return (
@@ -41,19 +53,6 @@ export const WineList = () => {
                     pt: '150px',
                 }}
             >
-                <Card
-                    sx={{
-                        width: '100%',
-                        borderRadius: 3,
-                        overflow: 'hidden',
-                        mb: 2
-                    }}
-                >
-                    <CardContent>
-                        Filtros
-                    </CardContent>
-                </Card>
-
                 <Grid
                     container
                     spacing={2}
@@ -124,6 +123,7 @@ export const WineList = () => {
                         }}
                         color='primary'
                         count={totalPages}
+                        onChange={handleOnPageChange}
                     />
                 </Box>
             </Container>

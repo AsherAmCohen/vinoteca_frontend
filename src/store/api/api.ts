@@ -160,6 +160,14 @@ export const vinotecaApi = createApi({
             providesTags: ['wineList']
         }),
 
+        WinesInStock: builder.query({
+            query: ({page, rowsPerPage}) => ({
+                url: `/wine/inStock?page=${page}&rowsPerPage=${rowsPerPage}`,
+                method: 'GET'
+            }),
+            providesTags: ['wineList']
+        }),
+
         UpdateWine: builder.mutation({
             query: (data) => ({
                 url: '/wine/update',
@@ -291,8 +299,8 @@ export const vinotecaApi = createApi({
         }),
 
         shoppingPayment: builder.query({
-            query: ({email}) => ({
-                url: `/shoppingCart/shopping?email=${email}`,
+            query: ({email, page, rowsPerPage}) => ({
+                url: `/shoppingCart/shopping?email=${email}&page=${page}&rowsPerPage=${rowsPerPage}`,
                 method: 'GET'
             }),
         }),
@@ -328,6 +336,7 @@ export const {
     useWinesQuery,
     useUpdateWineMutation,
     useInfoWineQuery,
+    useWinesInStockQuery,
     // Marcas
     useCreateMarkMutation,
     useAllMarksQuery,

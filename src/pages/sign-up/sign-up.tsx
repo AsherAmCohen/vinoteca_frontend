@@ -75,7 +75,6 @@ export const SignUp = () => {
             setServerErrors(error?.data?.msg || 'Error al crear la cuenta, intentalo más tarde')
         } else if (isSuccess) {
             localStorage.setItem('createCount', 'true')
-            console.log('Si')
             navigate('/SignIn')
         }
     }, [isSuccess, error])

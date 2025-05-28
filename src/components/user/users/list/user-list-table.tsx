@@ -167,6 +167,7 @@ export const UserListTable = () => {
                 rowsPerPage={rowsPerPage}
                 rowsPerPageOptions={[5, 10, 25, 50]}
                 labelRowsPerPage='Elementos por pagina'
+                
             />
         </Card>
     )

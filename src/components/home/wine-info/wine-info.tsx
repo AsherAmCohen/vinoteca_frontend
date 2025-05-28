@@ -25,6 +25,7 @@ export const WineInfo = (props: any) => {
     const { isAuthenticated } = useAuth();
 
     const shoppingCartId = useSelector((state: any) => state.Auth.shoppingCartId);
+    
     const localCart = useSelector((state: any) => state.ShoppingCart);
 
     // Cantidad del producto agregado al carrito
@@ -75,7 +76,6 @@ export const WineInfo = (props: any) => {
     const handleDeleteProduct = () => {
         const newAmount = amountShopping - 1;
 
-        console.log(newAmount)
         // Si el nuevo valor es 0 o menor, elimina el producto
         if (newAmount <= 0) {
             if (isAuthenticated) {

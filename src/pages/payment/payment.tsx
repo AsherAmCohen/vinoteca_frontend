@@ -8,12 +8,23 @@ import { formatEuro } from "../../components/home/shopping-cart-popover"
 import { CurrencyDollar as AttachMoney } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom"
 import { setShoppingCartId } from "../../store/slice/auth/slice"
+import { ProtectedByPermission } from "../../components/protected-by-permission"
 
 export const Payment = () => {
     const diapatch = useDispatch()
 
     // Navigate
     const navigate = useNavigate()
+
+    // Comprobar si existe un usuario iniciado
+    const { isAuthenticated } = useAuth()
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/SignIn')
+        }
+    }, [isAuthenticated])
+
 
     // Api
     const [PaymentShoppingCart] = usePaymentShoppingCartMutation()
@@ -23,9 +34,6 @@ export const Payment = () => {
 
     // Precio total del carrito
     const [priceShoppingCart, setPriceShoppingCart] = useState<number>(0)
-
-    // Comprobar si existe un usuario iniciado
-    const { isAuthenticated } = useAuth()
 
     // Datos del carrito
     const shoppingCartId = useSelector((state: any) => state.Auth.shoppingCartId);
@@ -59,66 +67,68 @@ export const Payment = () => {
 
         const newCart = await PaymentShoppingCart(paymentData).unwrap()
 
-        await diapatch(setShoppingCartId(newCart))
+        await diapatch(setShoppingCartId(newCart.data))
 
-        navigate('/')
+        navigate('/user/orders')
     }
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '100vh', // ⬅️ esto es clave para centrar verticalmente
-                p: 2, // padding opcional para que no quede pegado a los bordes en pantallas pequeñas
-            }}
-        >
+        <ProtectedByPermission permission={['PAYMENT']}>
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column', // ✅ una columna: un elemento por fila
+                    justifyContent: 'center',
                     alignItems: 'center',
-                    gap: 2,
+                    minHeight: '100vh', // ⬅️ esto es clave para centrar verticalmente
+                    p: 2, // padding opcional para que no quede pegado a los bordes en pantallas pequeñas
                 }}
             >
-                <Typography variant="h4">Pagar productos</Typography>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column', // ✅ una columna: un elemento por fila
+                        alignItems: 'center',
+                        gap: 2,
+                    }}
+                >
+                    <Typography variant="h4">Pagar productos</Typography>
 
-                {wines.map((wine: any) => (
-                    <PaymentWine
-                        key={wine.id}
-                        id={wine.id}
-                        amount={wine.amount}
-                        setPriceShoppingCart={setPriceShoppingCart}
-                    />
-                ))}
+                    {wines.map((wine: any) => (
+                        <PaymentWine
+                            key={wine.id}
+                            id={wine.id}
+                            amount={wine.amount}
+                            setPriceShoppingCart={setPriceShoppingCart}
+                        />
+                    ))}
 
-                {totalPrice > 0 ?
-                    <Box
-                        sx={{ mb: 10 }}
-                    >
-                        <Divider />
-
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                            <AttachMoney fontSize="small" />
-                            <strong>Precio de todo el carrito</strong>{formatEuro(parseInt(totalPrice))}
-                        </Box>
-
-                        <Divider />
-
-                        <Button
-                            variant='contained'
-                            fullWidth
-                            onClick={handlePayment}
+                    {totalPrice > 0 ?
+                        <Box
+                            sx={{ mb: 10 }}
                         >
-                            Pagar
-                        </Button>
-                    </Box> :
-                    <Box sx={{ p: '16px 20px' }}>
-                        <Typography variant='subtitle2'>No hay vinos agregados</Typography>
-                    </Box>
-                }
+                            <Divider />
+
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                                <AttachMoney fontSize="small" />
+                                <strong>Precio de todo el carrito</strong>{formatEuro(parseInt(totalPrice))}
+                            </Box>
+
+                            <Divider />
+
+                            <Button
+                                variant='contained'
+                                fullWidth
+                                onClick={handlePayment}
+                            >
+                                Pagar
+                            </Button>
+                        </Box> :
+                        <Box sx={{ p: '16px 20px' }}>
+                            <Typography variant='subtitle2'>No hay vinos agregados</Typography>
+                        </Box>
+                    }
+                </Box>
             </Box>
-        </Box>
+        </ProtectedByPermission>
     );
 }

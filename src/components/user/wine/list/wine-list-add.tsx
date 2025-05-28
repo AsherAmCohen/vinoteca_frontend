@@ -8,7 +8,7 @@ import { useAllCategorysQuery, useAllMarksQuery, useStoreWineMutation } from "..
 import { AutocompleteCatalog } from "../../../../helpers/components/autocomplete-catalog";
 import { useDispatch } from "react-redux";
 import { closeModalAction } from "../../../../store/slice/UI/slice";
-import { setWineActions } from "../../../../store/slice/vinoteca/slice";
+import { setWineListActions } from "../../../../store/slice/vinoteca/slice";
 
 export const WineListAdd = () => {
     const dispatch = useDispatch()
@@ -35,7 +35,7 @@ export const WineListAdd = () => {
             value: 0,
             key: 'page'
         }
-        dispatch(setWineActions(payload))
+        dispatch(setWineListActions(payload))
 
         dispatch(closeModalAction())
     }

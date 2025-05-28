@@ -3,12 +3,19 @@ import { SummaryData } from "../../../components/user/information/summary-data"
 import { Alert, Grid, Stack, Typography } from "@mui/material";
 import { PersonalData } from "../../../components/user/information/personal-data";
 import { useSelector } from "react-redux";
+import { useAuth } from "../../../auth-context";
 
 export const UserInformation = () => {
     const { email } = useSelector((state: any) => state.Auth.user)
 
-    const { data, isLoading } = useUserInformationQuery(email)
+    const { data, isLoading, error } = useUserInformationQuery(email)
     const userData = data ? data.data : null;
+    const { logout } = useAuth()
+
+    // Si se produce un error al encontrar la información del usuario se cierra la sesión
+    if (error) {
+        logout()
+    }
 
     if (isLoading) {
         return (

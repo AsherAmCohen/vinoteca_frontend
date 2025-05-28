@@ -15,8 +15,9 @@ interface PageProps {
 export interface VinotecaSliceProps {
     Mark: PageProps
     Category: PageProps
-    Wine: PageProps
+    WineInStock: PageProps
     WineList: PageProps
     UserList: PageProps
     RoleList: PageProps
+    OrderList: PageProps
 }

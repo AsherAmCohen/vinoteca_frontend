@@ -6,11 +6,18 @@ import { UserPopover } from "./user-popover"
 import { useState } from "react"
 import { List as ListIcon } from "@phosphor-icons/react"
 import { MobileNav } from "./mobile-nav"
+import { useNavigate } from "react-router-dom"
 
 export const MainNav = () => {
     const [openNav, setOpenNav] = useState<boolean>(false)
 
     const userPopover = usePopover<HTMLDivElement>();
+
+    const navigate = useNavigate()
+
+    const handleShoppingCart = () => {
+        navigate('/payment')
+    }
 
     return (
         <>
@@ -80,6 +87,7 @@ export const MainNav = () => {
                                         background: 'var(--vinoteca-palette-neutral-950)'
                                     }
                                 }}
+                                onClick={handleShoppingCart}
                             >
                                 <ShoppingCartIcon />
                             </IconButton>

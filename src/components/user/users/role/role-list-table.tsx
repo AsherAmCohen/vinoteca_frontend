@@ -87,7 +87,7 @@ export const RoleListTable = () => {
                                     <TableCell>
                                         {role.permissions.map((permission: any) => (
                                             <li>
-                                                <strong>{permission.name}</strong> — <span style={{ color: '#888' }}>{permission.description}</span>
+                                                <strong>{permission.name}</strong> — <span>{permission.description}</span>
                                             </li>
                                         ))}
                                     </TableCell>

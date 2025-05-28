@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Vinoteca } from "./pages/home/vinoteca";
 import { SingIn } from "./pages/sign-in/sign-in";
 import { SignUp } from "./pages/sign-up/sign-up";
@@ -26,11 +26,11 @@ const App = () => {
       <Modal />
       <Router>
         <Routes>
-          <Route path='/verify-email' element={<VerifyEmail />}/>
-          
+          <Route path='/verify-email' element={<VerifyEmail />} />
+
           <Route element={<HomeRoute />}>
             <Route path="/" element={<Vinoteca />} />
-            <Route path='/payment' element={<Payment/>}/>
+            <Route path='/payment' element={<Payment />} />
           </Route>
 
           {/* Rutas que comprueban el estado de inicio de sesión */}
@@ -61,6 +61,9 @@ const App = () => {
             </Route>
 
           </Route>
+
+          {/* Pagina no encontrada */}
+          <Route path="*" element={<Navigate to='/' replace />} />
         </Routes>
       </Router>
     </AuthProvider>
