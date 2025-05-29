@@ -22,8 +22,6 @@ export const WineList = () => {
     // Total de paginas
     const totalPages = Math.ceil(count / rowsPerPage);
 
-
-
     const handleWineOpen = (wine: any) => {
         const payload: any = {
             title: wine.name,
@@ -116,15 +114,17 @@ export const WineList = () => {
                     }
                 </Grid>
                 <Box display="flex" justifyContent="center">
-                    <Pagination
-                        sx={{
-                            mt: 5,
-                            mb: 10
-                        }}
-                        color='primary'
-                        count={totalPages}
-                        onChange={handleOnPageChange}
-                    />
+                    {totalPages > 0 &&
+                        < Pagination
+                            sx={{
+                                mt: 5,
+                                mb: 10
+                            }}
+                            color='primary'
+                            count={totalPages}
+                            onChange={handleOnPageChange}
+                        />
+                    }
                 </Box>
             </Container>
         </Box>
