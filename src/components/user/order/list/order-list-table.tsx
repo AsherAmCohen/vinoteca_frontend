@@ -74,7 +74,7 @@ export const OrderListTable = () => {
                     </TableHead>
                     <TableBody>
                         {
-                            orders
+                            orders && orders.length > 0
                                 ? orders.map((order: any) => (
                                     <OrderListTableRow
                                         key={order.id}
